@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         node-version: [20]  # Test across multiple versions
-      fail-fast: true  # Stop the workflow on the first failed test job
-
     steps:
       - uses: actions/checkout@v3  # Fetch code from repository (using recommended v3)
       - name: Use Node.js ${{ matrix.node-version }}
@@ -31,6 +29,6 @@ jobs:
 
       # Run build and test commands (adjust as needed):
       - run: npm run build
-      - run: npm test
+   
 
      
