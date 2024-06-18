@@ -1,0 +1,22 @@
+.example-container{
+    height: 100%;
+}
+
+.back-btn{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    margin-top: 45px;
+    font-size: 17px;
+    padding: 5px 15px;
+    color: #272fb0 !important;
+    border-color: #272fb0 !important;
+    background: transparent;
+}
+
+::ng-deep .mat-drawer-inner-container{
+    overflow: hidden !important;
+}
+.menu-list{
+    cursor: pointer;
+}

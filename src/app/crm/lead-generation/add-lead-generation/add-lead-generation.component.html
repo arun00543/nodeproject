@@ -1,0 +1,216 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <!-- Add  Lead Generation -->
+    </div>
+  </div>
+  <div class="row d-flex justify-content-end clearfix mx-0">
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default">
+          <h4 class="card-title"> {{ dialogTitle }}</h4>
+        </div>
+   
+        <div class="body">
+          <form class="register-form m-4" [formGroup]="addLeadGeneration" (ngSubmit)="onRegister()">
+            <div class="row">
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="name" pattern="^[a-zA-Z0-9 .-]*$" required>
+                  <mat-icon matSuffix>person</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('name').hasError('required')">
+                    Name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$" 
+                  (input)="addLeadGeneration.patchValue({email: $event.target.value.toLowerCase()})"
+                  required>
+                  <mat-icon matSuffix>email</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('email').hasError('required')">
+                    Email is required
+                  </mat-error>
+                  <mat-error *ngIf="addLeadGeneration.get('email').hasError('pattern')">
+                    Email should like (e.g. abcd@gmail.com)
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput type="number" formControlName="phone" onmousewheel="return false;" pattern="[6-9]{1}[0-9]{9}" minlength="10" maxlength="10"
+                  oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                  required>
+                  <mat-icon matSuffix>phone</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('phone').hasError('required')">
+                    Phone Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addLeadGeneration.get('phone').hasError('pattern')">
+                    Phone Number should like (e.g. 6012238791)
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Location</mat-label>
+                  <input matInput formControlName="location" required>
+                  <mat-icon matSuffix>location_on</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('location').hasError('required')">
+                    Location is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+    
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Referral Source Type</mat-label>
+                  <mat-select formControlName="referralSourceType">
+                    <mat-option *ngFor="let option of referralSourceType" [value]="option">
+                      {{ option }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="addLeadGeneration.get('referralSourceType').hasError('required')">
+                    Referral Source Type is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <form *ngIf="addLeadGeneration.value.referralSourceType === 'OTHERS'" class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Other Referral Source Type</mat-label>
+                  <input matInput [(ngModel)]="otherReferralSourceType" [required]="addLeadGeneration.value.referralSourceType === 'OTHERS'">
+                  <mat-icon matSuffix>info</mat-icon>
+                </mat-form-field>
+            </form>
+  
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Referral Name</mat-label>
+                  <input matInput formControlName="referralName" required>
+                  <mat-icon matSuffix>person</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('referralName').hasError('required')">
+                    Referral Name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+              <div class="form-group col-xl-6 col-lg-6 ol-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Referral Phone</mat-label>
+                  <input matInput type="number" formControlName="referralPhone" onmousewheel="return false;" pattern="[6-9]{1}[0-9]{9}" minlength="10" maxlength="10"
+                  oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                  required>
+                  <mat-icon matSuffix>phone</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('referralPhone').hasError('required')">
+                    Refferal Phone Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addLeadGeneration.get('referralPhone').hasError('pattern')">
+                    Refferal Phone Number should like (e.g. 6012238791)
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-chip-list">
+                    <mat-label>Intrested In</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                    <mat-chip-list #chipGrid aria-label="IntrestedIn selection" multiple>
+                        <mat-chip *ngFor="let item of seletedInrestedField" (removed)="remove(item)">
+                            {{item.itemName}}
+                            <button matChipRemove [attr.aria-label]="'remove ' + item">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <input placeholder="Intrested In" [formControl]="ReferralControl"
+                        [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         required/>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelect($event)">
+                        <mat-option *ngFor="let option of filteredEmployeeOptions | async"
+                        [value]="option">
+                            {{option.itemName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Status</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option *ngFor="let item of status" [value]="item" >
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field>
+                  <mat-label>Follow Up Date </mat-label>
+                  <input matInput [matDatepicker]="picker1" formControlName="followupDate" 
+                  [min]="LeadGenerationId ? addLeadGeneration.value.followupDate : currentDate" required>
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <mat-error *ngIf="addLeadGeneration.get('followupDate').hasError('required')">
+                      Followup Date is required
+                  </mat-error>
+              </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>No of Follow Ups</mat-label>
+                  <input matInput type="number" onmousewheel="return false;" formControlName="noOfFollowups" min="1" required>
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('noOfFollowups').hasError('required')">
+                    No of Followup is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+  
+              <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Notes</mat-label>
+                  <textarea matInput formControlName="notes" maxlength="230"></textarea>
+                  <mat-icon matSuffix>note_add</mat-icon>
+                  <mat-error *ngIf="addLeadGeneration.get('notes').hasError('required')">
+                    Notes is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div draggable="true" class="upload-file">
+                  <h4 class="mx-2 mt-1">Reference Image</h4>
+                  <button class="file-btn" type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                  <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/png, image/jpeg">
+                  <span class="file-name">{{selectedFile?.name}} <img [src]="addLeadGeneration.value.referenceImageString ? addLeadGeneration.value.referenceImageString : referenceImage" alt="" 
+                    class="img-box"/></span>
+                </div>
+              </div>
+  
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <button type="button" class="btn btn-primary my-4" [disabled]="!addLeadGeneration.valid"
+                  (click)="onRegister()">
+                  {{ buttonTitle }}
+                </button>
+                <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                  {{cancelButton}}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #END# Add Machinery -->

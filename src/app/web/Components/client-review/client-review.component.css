@@ -1,0 +1,26 @@
+/* Overall carousel container */
+.container{
+    height: 300px;
+    
+}
+
+.body {
+    background-color: #383838;
+    padding: 20px;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.container h1{
+    font-weight: bold;
+    margin: 5%;
+}
+
+::ng-deep .review-container .ng-image-slider .ng-image-slider-container .main .main-inner .img-div .caption  {
+  bottom: 50% !important;
+}
+
+::ng-deep ng-image-slider{
+    font-family: 'Montserrat', sans-serif !important;
+}

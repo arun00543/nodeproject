@@ -1,0 +1,23 @@
+::ng-deep .request-details .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .request-details .mat-form-field-label {
+    color: white !important; 
+}
+
+::ng-deep .request-details .mat-form-field-outline {
+    color: white !important;
+}
+
+::ng-deep .request-details .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .request-details .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .request-details .mat-form-field-subscript-wrapper {
+    display: none !important;
+}

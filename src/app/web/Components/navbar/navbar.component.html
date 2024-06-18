@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-items">
+      <a class="web-nav-link" [ngClass]="currentUrl === '/web/home' ? 'red':'green'" routerLink="/web/home" [class.active]="currentUrl === '!isActive' ? isActive : ''" routerLinkActive="active"><span>HOME</span></a>
+      <a class="web-nav-link" [ngClass]="currentUrl === '/web/about-us' ? 'red':'green'" href="#" (click)="targetAbout()" [class.active]="currentUrl === '!isActive' ? isActive : ''" routerLinkActive="active"><span>ABOUT</span></a>
+      <a class="web-nav-link" [ngClass]="currentUrl === '/web/gallery' ? 'red':'green'" href="#" (click)="targetGallery()" [class.active]="currentUrl === '!isActive' ? isActive : ''" routerLinkActive="active"><span>GALLERY</span></a>
+      <a class="web-nav-link" [ngClass]="currentUrl === '/web/products' ? 'red':'green'" routerLink="/web/products" [class.active]="currentUrl === '!isActive' ? isActive : ''" routerLinkActive="active"><span>PRODUCTS</span></a>
+      <a class="web-nav-link" [ngClass]="currentUrl === '/web/contact' ? 'red':'green'" routerLink="/web/contact" [class.active]="currentUrl === '!isActive' ? isActive : ''" routerLinkActive="active"><span>CONTACT</span></a>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,308 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default  d-flex justify-content-end">
+          <div class="materialTableHeader">
+              <mat-form-field class="search-type mx-2" appearance="outline">
+                <mat-label>Select Search Type</mat-label>
+                <mat-select
+                [(ngModel)]="searchField"
+                  class="search-type"
+                >
+                  <mat-option
+                    *ngFor="let item of searchType"
+                    [value]="item.value"
+                  (click)="loadData()"
+                  >
+                    {{ item.key }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <input
+                class="form-control"
+                [type]="searchField == 'saleId'
+                      ? 'number'
+                      : 'text'
+                      "
+              onmousewheel="return false;"
+                pattern="check.value ? [0-9]"
+                [placeholder]="
+                searchField == 'saleId'
+                  ? 'Search by Sales Id'
+                  : 'Search by Customer Name'"
+                class="browser-default search-field mt-2"
+                #filter [(ngModel)]="searchTerm"
+                (ngModelChange)="search()"
+                aria-label="Search box"
+              />
+              <!-- <button
+              type="button"
+              class="btn btn-danger btn-sm my-3 m-2"
+              (click)="
+             loadData()
+            "
+            >
+              Search
+            </button> -->
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <mat-table
+              #table
+              matTableExporter
+              [dataSource]="dataSource"
+              matSort
+              (matSortChange)="sortData($event)"
+              class="mat-cell"
+            >
+              <!-- Checkbox Column -->
+              <ng-container
+                matColumnDef="select"
+                id="checkBox"
+                class="form-check"
+              >
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  [ngClass]="'tbl-col-width-per-6'"
+                >
+                  <input
+                    type="checkbox"
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [ngClass]="'tbl-checkbox'"
+                  />
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <input
+                    type="checkbox"
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [ngClass]="'tbl-checkbox'"
+                  />
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="index">
+                <mat-header-cell *matHeaderCellDef class="thead-light" style="justify-content: center;" mat-sort-header>S No. </mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index;" (contextmenu)="onContextMenu($event, row)" style="justify-content: center;">{{i+1 }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="customerId.name">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Customer Name</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                  disabled
+                >
+                  {{ row.customerId.name }}</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="order">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Order Id</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                  disabled
+                >
+                  {{ row.order }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="salesId">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Sales Id</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                  disabled
+                >
+                  {{ row.salesId }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="paymentAmount">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Payment Amount</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                  {{ row.paymentAmount | indCurrencyFormat }}</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="paymentNotes">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Payment Notes</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                  {{ row.paymentNotes }}</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="paymentDate">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Payment Date</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                  {{ row.paymentDate | date: 'dd-MM-yyyy' }}</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="paidAmount">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Paid Amount</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                  {{ row.paidAmount | indCurrencyFormat }}</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="balanceAmount">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Balance Amount</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                  {{ row.balanceAmount | indCurrencyFormat }}</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="paymentStatus">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Payment Status</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                <button
+                [ngClass]="
+                row.paymentStatus === 'PAID'
+                  ? 'btn btn-success px-3'
+                  : row.paymentStatus === 'PARTIAL'
+                  ? 'btn btn-warning px-2'
+                  : 'btn btn-danger px-1'
+              " style="font-weight: 600; padding: 5px">
+                  {{row.paymentStatus}}</button>
+                 </mat-cell
+                >
+              </ng-container>
+
+              <ng-container matColumnDef="paymentType">
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  mat-sort-header
+                  style="justify-content: center"
+                  >Payment Type</mat-header-cell
+                >
+                <mat-cell
+                  *matCellDef="let row"
+                  
+                  style="justify-content: center"
+                >
+                  {{ row.paymentType?.paymentType}}</mat-cell
+                >
+              </ng-container>
+
+              <mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></mat-header-row>
+
+              <mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                (click)="editCall(row)"
+                [style.cursor]="'pointer'"
+                matRipple
+              >
+              </mat-row>
+            </mat-table>
+
+            <div
+              *ngIf="dataSource?.length == 0"
+              class="no-results"
+            >
+              No results
+            </div>
+            <mat-paginator
+              #paginator
+              [length]="data?.totalElements"
+              [pageIndex]="0"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              (page)="getPage($event)"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

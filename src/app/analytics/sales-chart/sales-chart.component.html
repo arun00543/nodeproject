@@ -1,0 +1,29 @@
+<div class="main-content">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card card-chart">
+          <div class="card-header mb-0 d-flex flex-wrap justify-content-between">
+            <div>
+            <h4 class="card-title">{{due.value | titlecase}} Count</h4>
+            </div>
+            <div class="rows">
+              <mat-form-field class="chart-filter text-white" appearance="outline">
+                <mat-label>Select Duration</mat-label>
+                <mat-select #due [(ngModel)]="duration" class="chart-filter text-white">
+                  <mat-option *ngFor="let item of durations" (click)="onSelect()" [value]="item.value">
+                    {{item.key}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="chart1-area">
+              <canvas id="orderAndSalesCountChart"></canvas>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  

@@ -1,0 +1,352 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+</div>
+
+<div class="container-fluid mt--14">
+  <!-- Add  User -->
+  <div class="row d-flex justify-content-end clearfix">
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default">
+          <h4 class="card-title"> {{ dialogTitle }}</h4>
+        </div>
+        <div class="card-body">
+          <form class="register-form m-4" [formGroup]="addEmployee" (ngSubmit)="onRegister()">
+            <div class="row">
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input type="text" matInput formControlName="name" required>
+                  <mat-icon matSuffix>person</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('name').hasError('required')">
+                    Name is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('name').hasError('pattern')">
+                    Name should only contains alphabets
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label> Date Of Birth </mat-label>
+
+                  <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" [max]="today">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="addEmployee.get('dateOfBirth').hasError('required')">
+                    Please select date
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Department</mat-label>
+                  <input type="text" placeholder="Pick Department" aria-label="Number" [formControl]="departmentControl"
+                    matInput [matAutocomplete]="department" required />
+                  <mat-autocomplete #department="matAutocomplete" (optionSelected)="onSelect($event)"
+                    [displayWith]="displayPropertyDepartment">
+                    <mat-option *ngFor="let option of filteredDepartmentOptions | async" [value]="option">
+                      {{ option.departmentName }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <mat-icon matSuffix>flag</mat-icon>
+                </mat-form-field>
+
+              </div>
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field>
+                  <mat-label> Date Of Joining </mat-label>
+                  <input matInput [matDatepicker]="picker1" formControlName="dateOfJoining"
+                    [min]="addEmployee.value.dateOfBirth">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <mat-error *ngIf="addEmployee.get('dateOfJoining').hasError('required')">
+                    Please select date
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>UAN Number</mat-label>
+                  <input type="number" matInput formControlName="uanNumber" onmousewheel="return false;" maxlength="12"
+                    minlength="12"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value">
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('uanNumber').hasError('required')">
+                    UAN Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('uanNumber').hasError('pattern')">
+                    UAN Number should contain 12 digits
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>ESI Number</mat-label>
+                  <input matInput type="text" formControlName="esiNumber" onmousewheel="return false;"
+                    pattern="^[0-9]*$" minlength="17" maxlength="17" (input)="regexTest()">
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('esiNumber').hasError('required')">
+                    ESI Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('esiNumber').hasError('regexTest')">
+                    ESI Number should contain 17 digits
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>PF Number</mat-label>
+                  <input matInput formControlName="pfNumber" maxlength="22" (input)="onPfInput($event)"
+                    (input)="addEmployee.patchValue({pfNumber: $event.target.value.toUpperCase()})">
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-icon matSuffix>abc</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('pfNumber').hasError('required')">
+                    PF Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('pfNumber').hasError('pattern')">
+                    PF Number should like : (TNMAS12071991231234567)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>PAN Number</mat-label>
+                  <input matInput type="text" formControlName="panNumber" maxlength="10" minlength="10"
+                    (input)="onPanInput($event)"
+                    (input)="addEmployee.patchValue({panNumber: $event.target.value.toUpperCase()})"
+                    value="{this.state.value}" onChange="{(e) => this.setState({value: e.target.value})}">
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-icon matSuffix>abc</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('panNumber').hasError('required')">
+                    PAN Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('panNumber').hasError('pattern')">
+                    PAN Number in required format (e.g. ABCDE1234F)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>AADHAAR Number</mat-label>
+                  <input matInput type="number" formControlName="aadhaarNumber" onmousewheel="return false;"
+                    pattern="[0-9]{12}" minlength="12" maxlength="12"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    required>
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('aadhaarNumber').hasError('required')">
+                    AADHAAR Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('aadhaarNumber').hasError('pattern')">
+                    AADHAAR Number should contain 12 digits
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput type="number" formControlName="phoneNumber" onmousewheel="return false;"
+                    pattern="[6-9]{1}[0-9]{9}" minlength="10" maxlength="10"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    required>
+                  <mat-icon matSuffix>phone</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('phoneNumber').hasError('required')">
+                    Phone Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('phoneNumber').hasError('pattern')">
+                    Phone Number should like (e.g. 6012238791)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$"
+                    (input)="addEmployee.patchValue({email: $event.target.value.toLowerCase()})">
+                  <mat-icon matSuffix>email</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('email').hasError('required')">
+                    Email is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('email').hasError('pattern')">
+                    Email should like (e.g. abcd@gmail.com)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <h5><b>ADDRESS :</b></h5>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Door No/Street</mat-label>
+                  <input maxlength="200" matInput formControlName="addressLine1" required>
+                  <mat-icon matSuffix>description</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('addressLine1').hasError('required')">
+                    Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Locality</mat-label>
+                  <input maxlength="200" matInput formControlName="addressLine2" required>
+                  <mat-icon matSuffix>description</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('addressLine2').hasError('required')">
+                    Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Select a Country</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="countryControl"
+                    matInput [matAutocomplete]="country" required/>
+                  <mat-autocomplete #country="matAutocomplete" (optionSelected)="onSelectCountry($event.option.value)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredCountryOptions | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="addEmployee.get('city').hasError('required')">
+                    Country is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Select a State</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="stateControl" matInput
+                    [matAutocomplete]="state" required/>
+                  <mat-autocomplete #state="matAutocomplete" (optionSelected)="onSelectState($event.option.value)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="addEmployee.get('city').hasError('required')">
+                    State is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Select a City</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="cityControl" matInput
+                    [matAutocomplete]="city" required/>
+                  <mat-autocomplete #city="matAutocomplete" (optionSelected)="onSelectCity($event.option.value)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="addEmployee.get('city').hasError('required')">
+                    City is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Pincode</mat-label>
+                  <input type="number" matInput formControlName="pincode"
+                    onmousewheel="return false;" pattern="[0-9]{6}" maxlength="6"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    required>
+                  <mat-icon matSuffix>description</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('pincode').hasError('required')">
+                    Pincode is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Address Line 2</mat-label>
+                  <input matInput formControlName="address2" required>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('address2').hasError('required')">
+                    Address Line 2 is required
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>District</mat-label>
+                  <input matInput formControlName="district" required>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('district').hasError('required')">
+                    District is required
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>State</mat-label>
+                  <input matInput formControlName="state" required>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('state').hasError('required')">
+                    State is required
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Pincode</mat-label>
+                  <input matInput formControlName="pincode" pattern="[0-9]{6}" minlength="6" maxlength="6" required>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('pincode').hasError('required')">
+                    Pincode is required
+                  </mat-error>
+                  <mat-error *ngIf="addEmployee.get('pincode').hasError('pattern')">
+                    Pincode should in 6 digits (e.g. 643002)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Country</mat-label>
+                  <input matInput formControlName="country" required>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <mat-error *ngIf="addEmployee.get('country').hasError('required')">
+                    Country is required
+                  </mat-error>
+                </mat-form-field>
+              </div> -->
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <button type="button" class="btn btn-primary my-4" [disabled]="!addEmployee.valid"
+                  (click)="onRegister()">
+                  {{ buttonTitle }}
+                </button>
+                <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                  {{cancelButton}}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #END# Add User -->
+</div>

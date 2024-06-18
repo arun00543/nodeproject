@@ -1,0 +1,87 @@
+<div class="main-content mt-0">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="card card-chart">
+        <div class="card-header mb-0 d-flex flex-wrap justify-content-between">
+          <div>
+            <h5 class="card-category">Today Sales</h5>
+            <h4 class="card-title">Payment Chart</h4>
+          </div>
+
+          <div class="row">
+            <mat-form-field
+              class="chart-filter text-white mr-2"
+              appearance="outline"
+            >
+              <mat-label>Select Customer </mat-label>
+              <mat-select value="All" class="chart-filter text-white">
+                <mat-option (click)="onSelectCust('')" value="All">
+                  All
+                </mat-option>
+                <mat-option
+                  *ngFor="let item of customer"
+                  (click)="onSelectCust(item)"
+                  [value]="item"
+                >
+                  {{ item.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+              *ngIf="!custId"
+              class="chart-filter text-white mr-2"
+              appearance="outline"
+            >
+              <mat-label>Select Chart Type</mat-label>
+              <mat-select
+                [(ngModel)]="chartType"
+                class="chart-filter text-white"
+              >
+                <mat-option
+                  *ngFor="let item of chartTypes"
+                  (click)="onSelect()"
+                  [value]="item.value"
+                >
+                  {{ item.key }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div *ngIf="custId" class="chart1-area row">
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 row">
+            <div class="col-lg-12 col-md-12 col-sm-6 col-6">
+              <div class="card order-count px-4">
+                <h3>Order Count:</h3>
+                <h1
+                  class="text-center"
+                >
+                {{customerDetail[0]?.orderCount}}
+                </h1>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-6 col-6">
+            <div class="card sales-count px-4">
+              <h3>Sale Count:</h3>
+              <h1
+                class="text-center"
+              >
+               {{customerDetail[0]?.salesCount}}
+              </h1>
+            </div>
+          </div>
+          </div>
+          <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+            <canvas id="customerChart"></canvas>
+          </div>
+        </div>
+
+        <div *ngIf="!custId" class="chart2-area">
+          <canvas id="customersChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--14">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default">
+          <div class="materialTableHeader">
+            <div class=" d-flex flex-wrap justify-content-between align-items-center my-2">
+              <button routerLink="/employee/add-leave-request" class="table-header-btn tbl-action-btn mx-2 py-2">
+                <i class="fa fa-plus mr-2" aria-hidden="true"></i>Rise Request
+              </button>
+            </div>
+
+            <div class="row d-flex flex-wrap">
+              <div class="d-flex justify-content-end flex-wrap">
+                <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 pb-0">
+                  <mat-form-field class="example-full-width request-details" appearance="outline">
+                    <mat-label> Search by From Date </mat-label>
+                    <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" 
+                      (dateChange)="loadData()">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 pb-0">
+                  <mat-form-field class="example-full-width request-details" appearance="outline">
+                    <mat-label> Search by To Date </mat-label>
+                    <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" [min]="fromDate"
+                      (dateChange)="loadData()">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+
+            <mat-table #table matTableExporter style="min-width: 800px;" [dataSource]="dataSource" matSort
+              (matSortChange)="sortData($event)" class="mat-cell">
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select" id="checkBox" class="form-check">
+                <mat-header-cell *matHeaderCellDef class="thead-light" [ngClass]="'tbl-col-width-per-6'">
+                  <input type="checkbox" (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'" />
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <input type="checkbox" (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                    [ngClass]="'tbl-checkbox'" />
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="index">
+                <mat-header-cell *matHeaderCellDef class="thead-light" style="justify-content: center;" mat-sort-header>
+                  S No. </mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index;" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">{{i+1 }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="employee">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Employee</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.employee.name}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="startDate">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Start Date</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.startDate | date: 'dd-MM-yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="reason">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Reason</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.reason}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="endDate">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">End Date</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.endDate | date: 'dd-MM-yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="duration">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Duration</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.duration}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="leaveType">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Leave Type</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.leaveType}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="employeeLeaveStatus">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Employee Leave Status</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.employeeLeaveStatus}}</mat-cell>
+              </ng-container>
+              <!-- <ng-container matColumnDef="compensationDate">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Compensation Date</mat-header-cell>
+                <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)"
+                  style="justify-content: center;">
+                  {{row.compensationDate ? row.compensationDate : "-" }}</mat-cell>
+              </ng-container> -->
+
+
+              <!-- actions -->
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  style="justify-content: center;">Actions</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i=index;" class="pr-0" style="justify-content: center;">
+                  <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteCall(row)"
+                    [disabled]="row.employeeLeaveStatus != 'PENDING'" class="tbl-action-btn mx-2">
+                    <i class="material-icons"
+                      [style]="row.employeeLeaveStatus != 'PENDING' ? 'color: #ff00005c' : 'color: red'">delete_outline</i>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+              <mat-row *matRowDef="let row; columns: displayedColumns" [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+            </mat-table>
+
+            <div *ngIf="dataSource?.length == 0" class="no-results">
+              No results
+            </div>
+
+            <mat-paginator #paginator [length]="data?.totalElements" [pageIndex]="0" [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]" (page)="getPage($event)">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

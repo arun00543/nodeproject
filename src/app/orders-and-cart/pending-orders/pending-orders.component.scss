@@ -1,0 +1,62 @@
+::ng-deep .order-status .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+    font-size: 20px;
+}
+.modal.modal-vcenter {
+    padding: 15px !important;
+}
+.modal.modal-vcenter .modal-dialog {
+    /* overwrites bootstrap4 properties */
+    position: relative;
+    margin: auto;
+    max-width: 100%;
+
+    /* added properties */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (min-width: 576px){
+.modal.modal-vcenter .modal-dialog {
+    min-width: 546px; /* or whatever min-width you want */
+    max-width: 50%; /* width for most tablets and desktops */
+}
+}
+
+.modal .modal-body {
+  max-height: 40vh;
+overflow-y: auto;
+}
+@media screen and (min-height:460px){
+.modal .modal-body {
+    max-height: 65vh;
+}
+}
+::ng-deep .order-status .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .order-status .mat-form-field-label {
+    color: white !important; 
+}
+
+::ng-deep .order-status .mat-form-field-outline {
+    color: white !important;
+}
+
+::ng-deep .order-status .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .order-status .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .order-status .mat-form-field-subscript-wrapper {
+    display: none !important;
+}

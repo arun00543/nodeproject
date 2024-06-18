@@ -1,0 +1,76 @@
+<div class="card">
+  <div class="card-header card-header-default">
+    <h1>Enquiry</h1>
+  </div>
+
+  <div class="body">
+
+    <div *ngIf="isSubmit" class="sub-suc">
+      <mat-icon [style]="icon === 'thumb_up' ? 'color: green;' : 'color: yellow;'">{{icon}}</mat-icon>
+      <h2 class ="responseText">{{responseText}}</h2>
+    </div>
+
+    <div [style]="isSubmit ? 'display: none;' : ''">
+    <form class="register-form m-4" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+     
+      <div class="row">
+        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" pattern="^[a-zA-Z0-9 .-]*$" required>
+            <mat-icon matSuffix>person</mat-icon>
+           
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$"
+            (input)="contactForm.patchValue({email: $event.target.value.toLowerCase()})" required>
+            <mat-icon matSuffix>email</mat-icon>
+           
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="number" formControlName="phone" pattern="[6-9]{1}[0-9]{9}" minlength="10" maxlength="10"
+            oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+            required>
+            <mat-icon matSuffix>phone</mat-icon>
+           
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location" required>
+            <mat-icon matSuffix>location_on</mat-icon>
+          
+          </mat-form-field>
+        </div>
+       
+        <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Notes</mat-label>
+            <textarea matInput formControlName="notes" maxlength="280"></textarea>
+            <mat-icon matSuffix>note_add</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 my-4 d-flex justify-content-end">
+          <button class="btn btn-danger" type="reset" color="warn">
+            Reset
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="!contactForm.valid">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>

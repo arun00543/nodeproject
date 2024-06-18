@@ -1,0 +1,184 @@
+<div class="header bg-gradient-info pb-8 pt-5  pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+      </div>
+  
+      <div
+      *ngIf="hide"
+      class="d-flex gap-5 col-10 justify-content-center mx-auto"
+    >
+      <div class="card list-card">
+        <div class="d-flex justify-content-between">
+        <h4 class="text-bold">Item List of <strong>{{customerName}}</strong> </h4>
+        <div>
+          <button
+          class="btn btn-outline-primary back-btn mr-3"
+          (click)="$event.stopPropagation()"
+          (click)="downloadInvoice(saleId)"
+        >
+          <i class="material-icons icon_blue" style="color: blue"
+            > download</i> Download
+        </button>
+          <button mat-raised-button type="button" class="btn btn-link btn-just-icon">
+                  <i class="material-icons" (click)="hide = false">close</i>
+              </button>
+        </div>
+        </div>
+        <table class="order-list-table list mt-2" style="min-width: 400px;text-align: center;">
+            <thead class="text-primary border-bottom">
+              <th>Brand</th>
+              <th>Item</th>
+              <th>Bag Quantity</th>
+              <th>No. of Bags</th>
+              <th>Net Quantity</th>
+              <th>Rate/Kg</th>
+              <th>Amount (Rs)</th>
+            </thead>
+            <tbody>
+                <tr class="text-center border-bottom" *ngFor="let item of itemList">
+                  <td>{{item.itemMaster.brand.name}}</td>
+                  <td>{{item.itemMaster.itemName}}</td>
+                  <td>{{item.quantity}}Kg</td>
+                  <td>{{item.orderQuantity}}</td>
+                  <td>{{item.quantity * item.orderQuantity}}Kg</td>
+                  <td>{{item.unitPrice | indCurrencyFormat}}</td>
+                  <td>{{item.unitPrice * (item.quantity * item.orderQuantity)}}</td>
+                </tr>
+            </tbody>
+            <tfoot class="text-center" style="border-top: 1px solid #eee !important;">
+                <th colspan="5"></th>
+                <th>Total : </th>   
+                <th>Rs.{{total | indCurrencyFormat}}</th>
+            </tfoot>
+        </table>
+      </div>
+    </div>
+  
+    </div>
+  </div>
+  
+  <div class="container-fluid mt--14">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header card-header-default">
+                    <div class="materialTableHeader">
+                      <div></div>
+                          <div>
+                            <input
+                              class="form-control"
+                              placeholder="Search"
+                              type="text"
+                              #filter
+                              [(ngModel)]="searchTerm"
+                              (ngModelChange)="search()"
+                              class="browser-default search-field"
+                              aria-label="Search box"
+                            />
+              
+    <!-- <button
+                              type="button"
+                             class="btn btn-danger btn-sm mx-2"
+                              (click)="loadData()"
+                            >
+                              Search
+                            </button> -->
+                          </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+  
+                        <mat-table #table matTableExporter [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-cell">
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select" id="checkBox" class="form-check">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    [ngClass]="'tbl-col-width-per-6'">
+                                    <input type="checkbox" (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [ngClass]="'tbl-checkbox'" />
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <input type="checkbox" (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'" />
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="index">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                 style="justify-content: center;">S No.</mat-header-cell>
+                                <mat-cell *matCellDef="let row; let i=index;" (contextmenu)="onContextMenu($event, row)"
+                                    style="justify-content: center;">
+                                    {{i+1}}</mat-cell>
+                            </ng-container>
+  
+                            <ng-container matColumnDef="salesId">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                 style="justify-content: center;">Sales Id</mat-header-cell>
+                                <mat-cell *matCellDef="let row" 
+                                    style="justify-content: center;">
+                                    {{row.salesId}}</mat-cell>
+                            </ng-container>
+  
+                            <ng-container matColumnDef="customerName">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Customer
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" 
+                                    style="justify-content: center;">
+                                    {{row.customerId.name}}</mat-cell>
+                            </ng-container>
+  
+                            <ng-container matColumnDef="paymentStatus">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Payment Status
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" 
+                                    style="justify-content: center;">
+                                    {{row.paymentStatus}}</mat-cell>
+                            </ng-container>
+  
+                            <!-- actions -->
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Actions</mat-header-cell>
+                                <mat-cell *matCellDef="let row; let i=index;" class="pr-0"
+                                    style="justify-content: center;">
+                                    <button (click)="$event.stopPropagation()" (click)="viewCall(row)"
+                                        class="btn btn-outline-primary p-2 px-3">
+                                        view
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+  
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                          <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+              <mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                (click)="viewCall(row)"
+                [style.cursor]="'pointer'"
+                matRipple
+              >
+              </mat-row>
+                        </mat-table>
+  
+                        <div *ngIf="dataSource?.length == 0" class="no-results">
+                          No results
+                        </div>
+                        <mat-paginator
+                        #paginator
+                        [length]="data?.totalElements"
+                        [pageIndex]="0"
+                        [pageSize]="pageSize"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        (page)="getPage($event)"
+                      >
+                      </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

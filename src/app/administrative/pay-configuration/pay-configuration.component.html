@@ -1,0 +1,86 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+</div>
+
+<div class="container-fluid mt--14">
+    <!-- Add  User -->
+    <div class="row d-flex justify-content-end clearfix">
+        <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header card-header-default">
+                    <h4 class="card-title"> {{ dialogTitle }}</h4>
+                </div>
+                <div class="card-body">
+                    <form class="register-form m-4" [formGroup]=" addemployeepay" (ngSubmit)="onRegister()">
+                        <div class="row">
+
+                            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3" >
+                                    <mat-label>Monthly Leave Allowed</mat-label>
+                                    <mat-icon matSuffix>assistant</mat-icon>
+                                    <input type="number" min="0" matInput [readonly]="!update" formControlName="monthlyLeavesAllowed">
+                                    <mat-error *ngIf="addemployeepay.get('monthlyLeavesAllowed')hasError('required')">
+                                        Monthly Leave Allowed is required
+                                      </mat-error>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3" >
+                                    <mat-label>Overtime Rate</mat-label>
+                                    <mat-icon matSuffix>query_builder</mat-icon>
+                                    <input type="number" min="0" matInput [readonly]="!update" formControlName="overtimeRate">
+                                    <mat-error *ngIf="addemployeepay.get('overtimeRate')hasError('required')">
+                                      Overtime Rate is required
+                                      </mat-error>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3" >
+                                    <mat-label>Attendance Bonus</mat-label>
+                                    <mat-icon matSuffix>account_balance_wallet</mat-icon>
+                                    <input type="number" min="0" matInput [readonly]="!update" formControlName="attendanceBonus">
+                                    <mat-error *ngIf="addemployeepay.get('attendanceBonus')hasError('required')">
+                                        Attendance Bonus is required
+                                      </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Attendance Closing Date </mat-label>
+                                    <input matInput [matDatepicker]="picker2" [min]="today" [readonly]="!update" formControlName="attendanceClosingDate">
+                                        <mat-datepicker-toggle [disabled]="!update" matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                         <mat-datepicker #picker2></mat-datepicker>
+                                         <mat-error *ngIf="addemployeepay.get('attendanceClosingDate').hasError('required')">
+                                            Attendance Closing Date is  required
+                                          </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-flex justify-content-between">
+                               <div *ngIf="update">
+                                <button type="button" class="btn btn-primary my-4" [disabled]="!addemployeepay.valid"
+                                (click)="onRegister()">
+                                {{ buttonTitle }}
+                            </button>
+                            <button class="btn btn-danger my-4" type="reset" color="warn">
+                                Reset
+                            </button>
+                               </div>
+                               <div>
+                                <button type="button" *ngIf="!update" class="btn btn-success my-4"
+                                (click)="update = !update">
+                                Update
+                            </button>
+                            <button class="btn btn-warning my-4" *ngIf="update && !save" (click)="refresh()">
+                                Cancel
+                            </button>
+                               </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

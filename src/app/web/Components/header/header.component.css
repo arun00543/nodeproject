@@ -1,0 +1,124 @@
+.main {
+    display: flex;
+    margin: 10px 80px;
+    justify-content: space-between;
+}
+
+.logoImg {
+    width: 140px;
+}
+
+.links{
+    display: flex;
+    flex-direction: row;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.sub-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 50px;
+   
+}
+
+.title {
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.email {
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    color: black;
+    font-family: 'Montserrat', sans-serif !important;
+
+}
+
+.icon-groups {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.icon-groups a {
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    margin: -5px 2px;
+    color: black;
+    padding-top: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 150px;
+}
+
+.icon-groups a:hover {
+    color: rgb(0, 0, 107);
+}
+
+@media (max-width: 954px) {
+    .main {
+        display: flex;
+        margin: 0px 0px;
+        margin-right: -70px;
+        justify-content: space-between;
+        width: full;
+    }
+    .links{
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .main {
+        display: flex;
+        margin: 10px 100px;
+        justify-content: center;
+    }
+  
+    .logoImg {
+      width: 150px;
+    }
+    .main {
+        display: flex;
+        margin: 10px 20px;
+       
+    }
+    .sub-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 5px;
+       
+    }
+    .title {
+        font-size: 15px;
+        font-weight: normal;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .email {
+        font-size: 12px;
+        font-family: 'Poppins', sans-serif;
+        text-decoration: none;
+        color: black;
+    
+    }
+    .icon-groups a {
+        font-size: 20px;
+        font-family: 'Poppins', sans-serif;
+        text-decoration: none;
+        margin: -5px 2px;
+        color: black;
+        border: 0.5px solid rgb(230, 230, 230);
+        padding-top: 1px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 150px;
+    }
+  }

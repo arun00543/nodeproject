@@ -1,0 +1,207 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+
+<div *ngIf="hide" class="d-flex gap-2 col-11 justify-content-center mx-auto">
+  <div class="card detail-card">
+    <div class="d-flex justify-content-between">
+      <h4 class="text-bold"></h4>
+      <button mat-raised-button type="button"
+            class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+            <i class="material-icons" (click)="close()" style="margin-top: 0px !important">close</i>
+          </button>
+    </div>
+
+    <form class="register-form mx-4" [formGroup]="creditTracker">
+      <div class="row">
+        <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Sales Id</mat-label>
+            <input matInput readonly="true" [value]="rowDetails.salesId" />
+            <mat-icon matSuffix>face</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Customer Name</mat-label>
+            <input matInput readonly="true" [value]="rowDetails.customerId.name" />
+            <mat-icon matSuffix>flag</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Total Amount</mat-label>
+            <input matInput readonly="true" [value]="(rowDetails.totalOrderAmount) | indCurrencyFormat" />
+            <mat-icon matSuffix>flag</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Paid Amount</mat-label>
+            <input matInput readonly="true" [value]="(rowDetails.paidAmount) | indCurrencyFormat" />
+            <mat-icon matSuffix>flag</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Balance Amount</mat-label>
+            <input matInput readonly="true" [value]="(rowDetails.pendingAmount) | indCurrencyFormat" />
+            <mat-icon matSuffix>donut_large</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group d-flex justify-content-end col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="example-half-width col-xl-7 col-lg-7 col-md-12 col-sm-12">
+            <mat-label> Due Date </mat-label>
+            <input matInput [matDatepicker]="picker" [min]="today" formControlName="dueDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+        </div>
+
+        <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Description</mat-label>
+            <textarea maxlength="170" matInput formControlName="description"></textarea>
+            <mat-icon matSuffix>flag</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-end align-items-center">
+          <button class="btn btn-success p-2 px-3 mx-2" [disabled]="!creditTracker.valid" (click)="update()">
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default d-flex flex-wrap justify-content-between">
+          <div class="d-flex justify-content-between">
+            <h4 class="d-flex flex-wrap align-content-center card-title">Credit Tracker</h4>
+          </div>
+          <div>
+            <input class="form-control" placeholder="Search by Customer Name" type="text" #filter [(ngModel)]="searchTerm"
+              (ngModelChange)="search()" class="browser-default search-field" aria-label="Search box" />
+
+            <button  mat-fab color="primary" class="download-btn ml-2 mt-2" [matMenuTriggerFor]="aboveMenu">
+              <mat-icon>download</mat-icon>
+            </button>
+            <mat-menu class="export-option px-1" #aboveMenu="matMenu" yPosition="above">
+              <button mat-menu-item (click)="pdfExport()">
+                <mat-icon class="text-danger">picture_as_pdf</mat-icon>
+              </button>
+              <button mat-menu-item (click)="exelExport()">
+                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="table-responsive">
+            <mat-table #table id="table" matTableExporter style="min-width: 800px" [dataSource]="dataSource" matSort
+              #exporter="matTableExporter" [hiddenColumns]="[]" (matSortChange)="sortData($event)" class="mat-cell">
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select" id="checkBox" class="form-check">
+                <mat-header-cell *matHeaderCellDef class="thead-light" [ngClass]="'tbl-col-width-per-6'">
+                  <input type="checkbox" (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'" />
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <input type="checkbox" (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                    [ngClass]="'tbl-checkbox'" />
+                </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="paymentId">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Payment Id</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.paymentId}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="salesId">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Sales Id</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.salesId}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="customerId.name">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Customer</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.customerId.name}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="paidAmount">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Paid Amount</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.paidAmount | indCurrencyFormat}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="pendingAmount">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Pending Amount</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.pendingAmount | indCurrencyFormat}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="totalOrderAmount">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Total Order Amount</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.totalOrderAmount | indCurrencyFormat}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="orderDateTime">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Order Date Time</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.orderDateTime}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="notificationSendAt">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Notification</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.notificationSendAt}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center;">Description</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                  {{row.description ? row.description : '-'}}</mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewCall(row)"
+                [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+            </mat-table>
+
+            <div *ngIf="dataSource?.length == 0" class="no-results">
+              No results
+            </div>
+            <mat-paginator #paginator [length]="data?.totalElements" [pageIndex]="0" [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]" (page)="getPage($event)">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

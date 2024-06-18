@@ -1,0 +1,229 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+</div>
+
+<div class="container-fluid mt--14">
+  <!-- Add  Customer -->
+  <div class="row d-flex justify-content-end clearfix">
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default">
+          <h4 class="card-title"> {{ dialogTitle }}</h4>
+        </div>
+        <div class="card-body">
+          <form class="register-form m-4" [formGroup]="addCustomer" (ngSubmit)="onRegister()">
+            <div class="row">
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="name" pattern="^[a-zA-Z0-9 .-]*$" required>
+                  <mat-icon matSuffix>person</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('name').hasError('required')">
+                    Name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$"
+                    (input)="addCustomer.patchValue({email: $event.target.value.toLowerCase()})">
+                  <mat-icon matSuffix>email</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('email').hasError('pattern')">
+                    Email should like (e.g. abcd@gmail.com)
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput type="number" onmousewheel="return false;" formControlName="phoneNumber"
+                    pattern="[6-9]{1}[0-9]{9}" maxlength="10" minlength="10"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    required>
+                  <mat-icon matSuffix>settings_phone</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('phoneNumber').hasError('required')">
+                    Phone Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addCustomer.get('phoneNumber').hasError('pattern')">
+                    Please Enter VALID Phone Number
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Organization</mat-label>
+                  <input matInput formControlName="organization" required>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('organization').hasError('required')">
+                    Organization is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>GST Number</mat-label>
+                  <input matInput formControlName="gstNo" maxlength="15" minlength="15" (input)="onGstInput($event)"
+                    (input)="addCustomer.patchValue({gstNo: $event.target.value.toUpperCase()})">
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-icon matSuffix>abc</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('gstNo').hasError('required')">
+                    GST Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addCustomer.get('gstNo').hasError('pattern')">
+                    GST Number in required format (e.g. 33AABCU9603R1ZU)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>PAN Number</mat-label>
+                  <input matInput class="" formControlName="panNo" maxlength="10" minlength="10"
+                    (input)="onPanInput($event)"
+                    (input)="addCustomer.patchValue({panNo: $event.target.value.toUpperCase()})">
+                  <mat-icon matSuffix>123</mat-icon>
+                  <mat-icon matSuffix>abc</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('panNo').hasError('required')">
+                    PAN Number is required
+                  </mat-error>
+                  <mat-error *ngIf="addCustomer.get('panNo').hasError('pattern')">
+                    PAN Number in required format (e.g. ABCDE1234F)
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Customer Type</mat-label>
+                  <mat-select #unit formControlName="customerType">
+                    <mat-option *ngFor="let item of customerType" [value]="item">
+                      {{ item}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Follow Up Days</mat-label>
+                  <input matInput type="number" onmousewheel="return false;" formControlName="followUpDays" min="0"
+                    max="25" required>
+                  <mat-icon matSuffix>calendar_today</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('followUpDays').hasError('required')">
+                    Follow Up Days is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <h5><b>ADDRESS</b></h5>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Door No / Street</mat-label>
+                  <input maxlength="200" matInput formControlName="addressLine1" required>
+                  <mat-icon matSuffix>description</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('addressLine1').hasError('required')">
+                    Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Locality</mat-label>
+                  <input maxlength="200" matInput formControlName="addressLine2" required>
+                  <mat-icon matSuffix>description</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('addressLine2').hasError('required')">
+                    Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Select a Country</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="countryControl"
+                    matInput [matAutocomplete]="country" required/>
+                  <mat-autocomplete #country="matAutocomplete" (optionSelected)="onSelectCountry($event.option.value)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredCountryOptions | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="addCustomer.get('city').hasError('required')">
+                    Country is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Select a State</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="stateControl" matInput
+                    [matAutocomplete]="state" required/>
+                  <mat-autocomplete #state="matAutocomplete" (optionSelected)="onSelectState($event.option.value)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="addCustomer.get('city').hasError('required')">
+                    State is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3" appearance="outline">
+                  <mat-label>Select a City</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="cityControl" matInput
+                    [matAutocomplete]="city" required/>
+                  <mat-autocomplete #city="matAutocomplete" (optionSelected)="onSelectCity($event.option.value)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="addCustomer.get('city').hasError('required')">
+                    City is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Pincode</mat-label>
+                  <input type="number" matInput formControlName="pincode" onmousewheel="return false;"
+                    pattern="[0-9]{6}" maxlength="6"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    required required>
+                  <mat-icon matSuffix>description</mat-icon>
+                  <mat-error *ngIf="addCustomer.get('pincode').hasError('required')">
+                    Pincode is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <button type="button" class="btn btn-primary my-4" [disabled]="!addCustomer.valid"
+                  (click)="onRegister()">
+                  {{ buttonTitle }}
+                </button>
+                <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                  {{ cancelButton }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #END# Add User -->
+</div>

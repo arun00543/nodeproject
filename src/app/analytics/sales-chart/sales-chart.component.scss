@@ -1,0 +1,19 @@
+.rows {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -16px;
+    margin-left: 12px;
+}
+
+
+.chart1-area{
+    overflow-y: scroll;
+    position: relative; 
+    height:60vh; 
+    width:100%
+}
+
+#orderAndSalesCountChart{
+    min-width: 400px !important;
+}
+

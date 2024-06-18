@@ -1,0 +1,70 @@
+<div class="main-content">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div
+        class="card card-chart d-flex flex-row flex-wrap justify-content-between mx-2 my-3"
+      >
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <h3 class="d-flex justify-content-center text-uppercase">States</h3>
+          <div class="listed-card">
+            <table class="state-list text-center">
+              <thead class="state-table text-primary">
+                <th class="text-uppercase">States</th>
+                <th class="text-uppercase">Count</th>
+              </thead>
+              <tr class="d-flex justify-content-center mt-3" *ngIf="stateData.length < 1">
+                  <h4 class="my-2">No State Found !!</h4>
+              </tr>
+              <tbody>
+                <tr class="text-center state-row" *ngFor="let item of stateData">
+                 <td class ="btn btn-warning "
+                 (click)="onSelect(item)">{{item?.statename}}</td> 
+                 <td class="btn btn-success">{{item?.sales}}</td> 
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <h3 class="d-flex justify-content-center text-uppercase">Location Map</h3>
+          <div class="map-chart">
+            <igx-geographic-map
+              #map
+              width="700px"
+              height="550px"
+              zoomable="true"
+            ></igx-geographic-map>
+
+            <ng-template let-series="series" let-item="item" #template>
+              <div>
+                <div *ngIf="item.org; then hasOrg; else notOrg"></div>
+                <h5 [style.color]="series.brush">{{ item?.city }} - {{ item?.sales }}</h5>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <h3 class="d-flex justify-content-center text-uppercase">Cities</h3>
+          <div class="listed-card-city mb-5">
+            <table class="state-list text-center">
+              <thead class="text-primary">
+                <th class="text-uppercase">Cities</th>
+                <th class="text-uppercase">Count</th>
+              </thead>
+              <tr class="d-flex justify-content-center mt-3" *ngIf="cityData.length < 1">
+                  <h4 class="my-2">No State Selected !</h4>
+              </tr>
+              <tbody>
+                <tr class="text-center" *ngFor="let item of cityData">
+                 <td class="city-label text-bold"
+                 >{{item?.city}}</td> 
+                 <td class="btn-success text-bold">{{item?.sales}}</td> 
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

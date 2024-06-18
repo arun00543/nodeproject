@@ -1,0 +1,128 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+    <button class="btn btn-outline-primary back-btn" (click)="back()">
+        <i class="fa fa-long-arrow-left mr-1" aria-hidden="true"></i>BACK
+    </button>
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header card-header-default">
+                    <div class="materialTableHeader">
+                        <div class="d-flex justify-content-between">
+                            <mat-form-field class="wallet-search-type mx-2" appearance="outline">
+                                <mat-label>Wallet Amount</mat-label>
+                                <input matInput readonly [value]="'Rs.'+ (dataSource.length != 0 ? dataSource[0].customerWallet?.balance : 0)">
+                            </mat-form-field>
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            <mat-form-field class="wallet-search-type mx-2" appearance="outline">
+                                <mat-label>Select Search Type</mat-label>
+                                <mat-select [(ngModel)]="selectType" class="search-type">
+                                    <mat-option *ngFor="let item of walletType" [value]="item.value"
+                                        (click)="refresh()">
+                                        {{ item.key }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field *ngIf="selectType === 'date'" class="example-full-width-date date"
+                                appearance="outline">
+                                <mat-label>Enter a date range</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate [(ngModel)]="fromDate" placeholder="Start date">
+                                    <input matEndDate [(ngModel)]="toDate" (dateChange)="loadData()"
+                                        placeholder="End date">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+
+                            <input *ngIf="selectType === 'amount'" class="form-control" placeholder="Search by Amount"
+                                type="number" #filter [(ngModel)]="searchTerm" (ngModelChange)="search()"
+                                class="browser-default search-field" aria-label="Search box" />
+
+                            <button mat-fab color="primary" class="download-btn ml-2 mt-2"
+                                [matMenuTriggerFor]="aboveMenu">
+                                <mat-icon>download</mat-icon>
+                            </button>
+                            <mat-menu class="export-option px-1" #aboveMenu="matMenu" yPosition="above">
+                                <button mat-menu-item (click)="pdfExport()">
+                                    <mat-icon class="text-danger">picture_as_pdf</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="exelExport()">
+                                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <mat-table #table matTableExporter style="min-width: 800px;" [dataSource]="dataSource"
+                            #exporter="matTableExporter" [hiddenColumns]="[4]" class="mat-cell">
+
+
+                            <ng-container matColumnDef="paymentDate">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Payment Date</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.updatedAt | date: 'dd-MM-yyyy'}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="paymentTime">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Payment Time</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.updatedAt | date: 'h:mm:ss a'}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Amount</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.amount | indCurrencyFormat}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="notes">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Notes</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.notes ? row.notes : '-'}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="transactionType">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Transaction Type
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    <button [ngClass]="
+                                    row.transactionType === 'DEBIT'
+                                      ? 'btn btn-danger px-3'
+                                      : row.transactionType === 'CREDIT'
+                                      ? 'btn btn-success px-2'
+                                      : 'btn btn-warning px-1'
+                                  " style="font-weight: 600; padding: 5px">
+                                        {{row.transactionType}}</button>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                            <mat-row *matRowDef="let row; columns: displayedColumns" matRipple>
+                            </mat-row>
+                        </mat-table>
+
+                        <div *ngIf="dataSource?.length == 0" class="no-results">
+                            No results
+                        </div>
+                        <mat-paginator #paginator [length]="data?.totalElements" [pageIndex]="0" [pageSize]="pageSize"
+                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="getPage($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

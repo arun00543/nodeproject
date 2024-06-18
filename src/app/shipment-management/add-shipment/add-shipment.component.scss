@@ -1,0 +1,36 @@
+::ng-deep .payment-status .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+    font-size: 20px;
+}
+
+::ng-deep .payment-status .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .payment-status .mat-form-field-label {
+    color: white !important;
+}
+
+::ng-deep .payment-status .mat-form-field-outline {
+    color: white !important;
+  }
+
+::ng-deep .payment-status .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .payment-status .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .payment-status .mat-form-field-subscript-wrapper {
+    display: none !important;
+}
+.status-label{
+    font-weight: 600; 
+    padding: 5px
+}

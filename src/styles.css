@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+    
+.card-shadow{
+    box-shadow: 0 1rem 2rem 0 !important;
+}
+  
+.delete-card{
+    position: fixed !important;
+    z-index: 100;
+    box-shadow: 0 0 2rem 0 !important;
+    padding: 15px;
+    width: auto;
+}
+  
+input.search-field {
+  font-weight: 500;
+  color: #0000008a;
+  border-radius: 25px;
+  border: 0;
+  height: 45px;
+  padding: 8px 8px 8px 50px;
+  width: 240px;
+  background: #ffffff;
+  transition: .2s,width .2s;
+}

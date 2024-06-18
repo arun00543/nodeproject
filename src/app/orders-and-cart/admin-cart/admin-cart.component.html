@@ -1,0 +1,226 @@
+<div class="main-content mt-0">
+  <div class="container-fluid">
+    <div class="row d-flex align-items-end clearfix">
+      <div class="card">
+        <!-- Order form -->
+        <div class="card-header card-header-grey">
+          <form [formGroup]="orderForm">
+            <div class="row">
+              <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Brand</mat-label>
+                  <input
+                    type="text"
+                    placeholder="Pick Brand"
+                    aria-label="Number"
+                    (input)="onBrandControlChange($event)"
+                    [formControl]="brandControl"
+                    matInput
+                    [matAutocomplete]="brand"
+                  required/>
+                  <mat-autocomplete #brand="matAutocomplete" (optionSelected)="onSelectBrand($event)"
+                  [displayWith]="displayProperty">
+                    <mat-option
+                      *ngFor="let option of filteredBrandOptions"
+                      [value]="option"
+                    >
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Item</mat-label>
+                  <input
+                  type="text"
+                  placeholder="Pick Item"
+                  aria-label="Number"
+                  [formControl]="itemControl"
+                  matInput
+                  [matAutocomplete]="item"
+                required/>
+                <mat-autocomplete #item="matAutocomplete" (optionSelected)="onSelectItem($event)"
+                [displayWith]="displayPropertyitem">
+                  <mat-option
+                    *ngFor="let option of filteredItemOptions | async"
+                    [value]="option"
+                  >
+                    {{ option.itemName }}
+                  </mat-option>
+                </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select Unit of Measure</mat-label>
+                  <mat-select #unit formControlName="unit">
+                    <mat-option
+                      *ngFor="let item of units"
+                      [value]="item"
+                    >
+                      {{ item.unitName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width">
+                  <mat-label>No of Items</mat-label>
+                  <input
+                    matInput
+                    type="number" onmousewheel="return false;"
+                    onmousewheel="return false;"
+                    pattern="[0-9]{1,7}"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    min="1"
+                    maxlength="7"
+                    formControlName="orderedQuantity"
+                  />
+                  <mat-icon matSuffix>number</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mt-2">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Customer</mat-label>
+                  <input
+                  type="text"
+                  placeholder="Pick Customer"
+                  aria-label="Number"
+                  (input)="onCustomerControlChange($event)"
+                  [formControl]="customerControl"
+                  matInput
+                  [matAutocomplete]="customer"
+                required/>  
+                <mat-autocomplete #customer="matAutocomplete" (optionSelected)="onSelectCustomer($event)"
+                [displayWith]="displayProperty">
+                  <mat-option
+                    *ngFor="let option of filteredCustomerOptions"
+                    [value]="option"
+                  >
+                    {{ option.name }} ({{option.phoneNumber}})
+                  </mat-option>
+                </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div
+                class="col-xl-12 col-lg-12 col-md-6 col-sm-12 d-flex justify-content-end"
+              >
+                <button
+                  class="btn btn-warning mx-2 bd-highlight"
+                  [disabled]="!orderForm.valid || !customerControl.valid || !brandControl.valid"
+                  (click)="addToList()" 
+                >
+                  <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Add to List
+                </button>
+
+                <button
+                  class="btn btn-light bd-highlight"
+                  type="reset"
+                  (click)="
+                  completeFormReset();
+                  "
+                  color="warn"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Order Detail table -->
+        <div class="card-body">
+          <div class="d-flex flex-wrap justify-content-between mb-4">
+            <h3 class="text-bold">Order Item Details</h3>
+            <div class="d-flex justify-content-end">
+             
+              <button
+                class="btn btn-success px-3 my-3"
+                [disabled]="itemList.length < 1"
+                (click)="
+                brand.value = '';
+                unit.value = '';
+                customer.value = '';
+                  placeOrder();
+                "
+              >
+                Place Order
+              </button>
+            </div>
+          </div>
+          <div class="item-table-body">
+            <table class="order-list-table list">
+              <thead
+                class="text-primary"
+                style="border-bottom: 1px solid black !important"
+              >
+                <th>Brand</th>
+                <th>Item</th>
+                <th>Pack Quantity</th>
+                <th>No. of Packs</th>
+                <th>Net Quantity</th>
+                <th>Rate/Kg</th>
+                <th>Amount (Rs)</th>
+              </thead>
+              <tr id="no-results" class="mt-3" *ngIf="itemList.length < 1">
+                <td colspan="7">
+                <h4 class="my-2">No Records Added !</h4>
+                </td>
+            </tr>
+              <tbody>
+                <tr
+                  class="text-center"
+                  *ngFor="let item of itemList"
+                  style="border-bottom: 1px solid #eee !important"
+                >
+                  <td>{{ item.itemMaster?.brand?.name }}</td>
+                  <td>{{ item.itemMaster?.itemName }}</td>
+                  <td>{{ item.unitOfMeasure?.unitName }}</td>
+                  <td>{{ item.orderedQuantity }}</td>
+                  <td>{{ item.unitOfMeasure?.unitWeight * item.orderedQuantity }}Kg</td>
+                  <td>{{ item.itemMaster?.fixedPrice | indCurrencyFormat }}</td>
+                  <td>
+                    {{
+                      (item.itemMaster?.fixedPrice *
+                        (item.unitOfMeasure?.unitWeight * item.orderedQuantity))  | indCurrencyFormat
+                    }}
+                  </td>
+                  <td class="td-actions">
+                    <button
+                      mat-raised-button
+                      type="button"
+                      matTooltip="Remove"
+                      class="btn btn-outline-danger btn-link btn-sm btn-just-icon"
+                    >
+                    
+                      <i
+                       class="fa fa-times" aria-hidden="true"
+                        (click)="removeObject(item)"
+                        style="margin-top: 0px !important"
+                        ></i
+                      >
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot
+                class="text-center"
+                style="border-top: 1px solid #eee !important"
+              >
+                <th colspan="5"></th>
+                <th>Total :</th>
+                <th>{{ total  | indCurrencyFormat }}</th>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

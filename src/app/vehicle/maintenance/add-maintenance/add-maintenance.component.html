@@ -1,0 +1,190 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <!-- Add  Machinery -->
+    </div>
+</div>
+<div class="row d-flex justify-content-end clearfix mx-0">
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-header card-header-default">
+                <h4 class="card-title"> {{dialogTitle}}</h4>
+            </div>
+
+            <div class="body">
+                <form class="register-form m-4" [formGroup]="addMaintenance" (ngSubmit)="onRegister()">
+                    <div class="row">
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width mb-3 ">
+                                <mat-label> Vehicle </mat-label>
+                                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                <mat-icon matSuffix>commute</mat-icon>
+                                <input type="text" placeholder="Pick Vehicle " aria-label="Number"
+                                    [formControl]="vehicleControl" matInput [matAutocomplete]="vehicleDetails" />
+                                <mat-autocomplete #vehicleDetails="matAutocomplete"
+                                    (optionSelected)="onSelectVehicle($event)"
+                                    [displayWith]="displayPropertyVehicleType">
+                                    <mat-option *ngFor="let item of filteredVehicleOptions | async" [value]="item">
+                                        {{ item.vehicleType.vehicleTypeName }} ({{item.vehicleRegistrationNumber}})
+                                    </mat-option>
+                                </mat-autocomplete>
+
+                            </mat-form-field>
+                        </div>
+
+
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Service Provider</mat-label>
+                                <input matInput formControlName="serviceProvider" required>
+                                <mat-icon matSuffix>filter_1</mat-icon>
+                                <mat-error *ngIf="addMaintenance.get('serviceProvider').hasError('required')">
+                                    Service Provider is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <mat-form-field>
+                                <mat-label>Current Service </mat-label>
+                                <input matInput [matDatepicker]="picker1" [max]="today" formControlName="currentService" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                                <mat-error *ngIf="addMaintenance.get('currentService').hasError('required')">
+                                    Next Service is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                            <mat-form-field>
+                                <mat-label>Next Service </mat-label>
+                                <input matInput [matDatepicker]="picker2" [min]="addMaintenance.value.currentService"
+                                    formControlName="nextService" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-error *ngIf="addMaintenance.get('nextService').hasError('required')">
+                                    Next Service is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Notes</mat-label>
+                                <textarea matInput formControlName="notes" maxlength="230"></textarea>
+                                <mat-icon matSuffix>note_add</mat-icon>
+
+                            </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 row">
+                            <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Service Items</mat-label>
+                                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                                    <mat-icon matSuffix>settings_applications</mat-icon>
+                                    <input type="text" placeholder="Pick Service Type" aria-label="Number"
+                                        [formControl]="serviceControl" matInput [matAutocomplete]="serviceItem" />
+                                    <mat-autocomplete #serviceItem="matAutocomplete"
+                                        (optionSelected)="onSelectService($event)"
+                                        [displayWith]="displayPropertyServiceType">
+                                        <mat-option *ngFor="let item of filteredServiceOptions | async" [value]="item">
+                                            {{ item.itemName }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Service Type</mat-label>
+                                    <mat-select #unit formControlName="serviceType">
+                                        <mat-option *ngFor="let item of serviceTypes" [value]="item">
+                                            {{ item}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Cost</mat-label>
+                                    <input matInput formControlName="cost" type="number" min="1" onmousewheel="return false;">
+                                   <span matSuffix>&#8377;</span>
+                                    <mat-error *ngIf="addMaintenance.get('cost').hasError('required')">
+                                        Cost is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                                <div style="text-align-last: end">
+                                    <button class="btn btn-success" type="button"
+                                        [disabled]="!addMaintenance.value.serviceItem || !addMaintenance.value.serviceType || !addMaintenance.value.cost"
+                                        (click)="addToList()">Add Item</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <!-- <div class="d-flex gap-5 col-md-10 col-lg-10 col-sm-12 col-xs-12 justify-content-center
+                            mx-auto"> -->
+                                <div class="table_list">
+
+                                    <div class="table-users">
+                                        <div class="headers mb-0 py-1">Service Items List</div>
+                                        <table class="_list-table list">
+                                            <thead class="text-primary">
+                                                <th>Service Item</th>
+                                                <th>Service Type</th>
+                                                <th>Cost</th>
+                                                <th>Action</th>
+
+                                            </thead>
+                                            <tr id="no-results" class="mt-3" *ngIf="itemList.length < 1">
+                                                <td colspan="4">
+                                                <h4 class="my-2">No Records Added !</h4>
+                                                </td>
+                                            </tr>
+                                            <tbody>
+                                                <tr class="text-center" *ngFor="let item of itemList">
+                                                    <td>{{ item.serviceItem.itemName }}</td>
+                                                    <td>{{item.serviceType}}</td>
+                                                    <td>{{item.cost | indCurrencyFormat}}</td>
+                                                    <td class="td-actions">
+                                                        <button mat-raised-button type="button" matTooltip="Remove"
+                                                            class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+                                                            <i class="material-icons" (click)="removeObject(item)"
+                                                                style="margin-top: 0px !important">close</i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot class="text-center">
+                                                <th colspan="2"></th>
+                                                <th>Total :{{total | indCurrencyFormat}}</th>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <button type="button" class="btn btn-primary my-4"
+                                [disabled]="!addMaintenance.valid || itemList.length < 1" (click)="onRegister()">
+                                {{ buttonTitle }}
+                            </button>
+                            <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                                {{cancelButton}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Add Machinery -->

@@ -1,0 +1,103 @@
+::ng-deep .search-type .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+    font-size: 20px;
+}
+
+::ng-deep .search-type .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .search-type .mat-form-field-label {
+    color: white;
+}
+
+::ng-deep .search-type .mat-form-field-outline {
+    color: white;
+}
+
+::ng-deep .search-type .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+}
+
+::ng-deep .search-type .mat-form-field-underline {
+    display: none !important;
+}
+
+::ng-deep .search-type .mat-form-field-subscript-wrapper {
+    display: none !important;
+}
+
+.form-check {
+    max-width: 50px;
+}
+
+.od-table-container {
+    height: 45vh;
+    overflow-y: auto;
+}
+
+.od-table .mat-header-cell {
+    font-size: 12px;
+    font-weight: 700;
+    justify-content: center;
+    color: #000 !important;
+}
+
+.od-table .mat-header-row {
+    min-height: 40px !important;
+}
+
+.od-table .mat-cell {
+    font-size: 12px;
+    justify-content: center;
+}
+
+.od-table .mat-row {
+    min-height: 38px;
+}
+
+.order-detail-card {
+    position: fixed;
+    z-index: 4;
+    box-shadow: 0 0 2rem !important;
+    padding: 15px;
+    width: 75%;
+    max-height: 60%;
+    overflow-x: scroll;
+}
+
+.back-btn {
+    // position: absolute;
+    display: flex;
+    align-items: center;
+    margin-top: 45px;
+    font-size: 17px;
+    padding: 5px 15px;
+    color: #272fb0 !important;
+    border-color: #272fb0 !important;
+    background: transparent;
+}
+
+.shipment-amount {
+    border: 1px white solid;
+    padding: 5px 20px;
+    border-radius: 10px;
+    color: white;
+    margin: 0px !important;
+}
+
+::ng-deep .wallet-search-type .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+}
+
+::ng-deep .wallet-search-type .mat-form-field-infix {
+    padding: 10px;
+}
+
+::ng-deep .wallet-search-type .mat-form-field-outline{
+    color: #000;
+}

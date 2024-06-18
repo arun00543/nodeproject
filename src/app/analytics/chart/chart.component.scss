@@ -1,0 +1,44 @@
+.listed-card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 550px;
+    overflow: auto;
+}
+.listed-card-city{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    max-height: 550px;
+    overflow: auto;
+}
+.map-chart{
+    margin-bottom: 50px;
+    display: flex;
+}
+.state-list{
+    border: 2px solid deepskyblue
+}
+.state-table{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+}
+.state-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+}
+.city-label{
+    padding: 5px 8px;
+    color: white;
+    background: rgb(244, 144, 13);
+}

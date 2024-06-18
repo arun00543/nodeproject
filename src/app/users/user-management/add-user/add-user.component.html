@@ -1,0 +1,95 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+</div>
+
+<div class="container-fluid mt--14">
+  <!-- Add  User -->
+  <div class="row d-flex justify-content-end clearfix">
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default">
+          <h4 class="card-title"> {{ dialogTitle }}</h4>
+        </div>
+        <div class="card-body">
+          <form class="register-form m-4" [formGroup]="addUser" (ngSubmit)="onRegister()">
+            <div class="row">
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Role</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <mat-icon matSuffix>flag</mat-icon>
+                  <input type="text" placeholder="Pick Role" aria-label="Number" [formControl]="roleControl" matInput
+                    [readOnly]="userId ? true : false" [matAutocomplete]="role" required />
+                  <mat-autocomplete #role="matAutocomplete" (optionSelected)="onSelectRole($event.option.value)">
+                    <mat-option *ngFor="let option of filteredRoleOptions | async" [value]="option">
+                      {{ option.replace('_', " ") }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12" *ngIf="hideEmployee">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Employee</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <mat-icon matSuffix>person</mat-icon>
+                  <input type="text" placeholder="Pick Employee" aria-label="Number" [formControl]="employeeControl"
+                    [readOnly]="userId ? true : false" matInput [matAutocomplete]="employee" />
+                  <mat-autocomplete #employee="matAutocomplete" (optionSelected)="onSelectEmployee($event)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredEmployeeOptions | async" [value]="option">
+                      {{ option.name }} ({{option.phoneNumber}})
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+                <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12" *ngIf="hideCustomer">
+                <mat-form-field class="example-full-width mb-3">
+                  <mat-label>Select a Customer</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  <input type="text" placeholder="Pick Customer" aria-label="Number" [formControl]="customerControl"
+                    [readOnly]="userId ? true : false" matInput [matAutocomplete]="customer" />
+                  <mat-autocomplete #customer="matAutocomplete" (optionSelected)="onSelectCustomer($event)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let option of filteredCustomerOptions | async" [value]="option">
+                      {{ option.name }} ({{option.phoneNumber}})
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-icon matSuffix>flag</mat-icon>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group gap-5 mx-auto col-lg-6 col-md-7 col-sm-12 col-xs-12 mt-0">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>User Id</mat-label>
+                  <input matInput [readonly]="addUser?.value.userRole != 'SUPER_ADMIN'"
+                    [type]="addUser?.value.userRole != 'SUPER_ADMIN' ? 'number' : 'text'" formControlName="userName"
+                    [pattern]="addUser?.value.userRole != 'SUPER_ADMIN' ? '[6-9]{1}[0-9]{9}' : '^[a-zA-Z0-9]{4,10}$'"
+                    maxlength="10"
+                    oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                    required>
+                  <mat-icon matSuffix>perm_identity</mat-icon>
+                  <mat-error *ngIf="addUser.get('userName').hasError('required')">
+                    First Name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <button type="button" class="btn btn-primary my-4" [disabled]="!addUser.valid" (click)="onRegister()">
+                  {{ buttonTitle }}
+                </button>
+                <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                  {{ cancelButton }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #END# Add User -->
+</div>

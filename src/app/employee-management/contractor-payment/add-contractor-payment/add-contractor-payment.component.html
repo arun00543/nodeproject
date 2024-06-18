@@ -1,0 +1,111 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <!-- Add  Contract Payment -->
+  </div>
+</div>
+<div class="row d-flex justify-content-end clearfix mx-0">
+  <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="card-header card-header-default">
+        <h4 class="card-title"> {{ dialogTitle }}</h4>
+      </div>
+
+      <div class="body">
+        <form class="register-form m-4" [formGroup]="addContractorPayment" (ngSubmit)="onRegister()">
+          <div class="row">
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Contract</mat-label>
+                <input type="text" readonly placeholder="Pick Contract" [formControl]="contractControl"
+                  matInput />
+                <mat-icon matSuffix>flag</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Total Amount</mat-label>
+                <input matInput readonly="true" formControlName="totalAmount" type="number" min="1" onmousewheel="return false;"
+                  required>
+                <span matSuffix>&#8377;</span>
+                <mat-error *ngIf="addContractorPayment.get('totalAmount').hasError('required')">
+                  Amount Paid is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Balance Amount</mat-label>
+                <input matInput readonly="true" [value]="
+                (addContractorPayment.value.amountBalance - addContractorPayment.value.amountPaid < 0
+                  ? 0
+                  :addContractorPayment.value.amountBalance - addContractorPayment.value.amountPaid) | number : '1.0-2'
+              " required />
+                <i class="fas fa-rupee-sign" matSuffix></i>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Payment Date</mat-label>
+                <input matInput [max]="today" [matDatepicker]="picker" formControlName="paymentDate" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="addContractorPayment.get('paymentDate').hasError('required')">
+                  Payment Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Amount to Paid</mat-label>
+                <input matInput formControlName="amountPaid" type="number" min="1"  onkeydown="return event.keyCode !== 190"
+                  [max]="addContractorPayment.value.amountBalance" onmousewheel="return false;" required>
+                <span matSuffix>&#8377;</span>
+                <mat-error *ngIf="addContractorPayment.get('amountPaid').hasError('required')">
+                  Amount Paid is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Payment Method</mat-label>
+                <mat-select formControlName="paymentBasis">
+                  <mat-option *ngFor="let item of paymentBasis" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Notes</mat-label>
+                <textarea maxlength="230" matInput formControlName="notes" required></textarea>
+                <mat-icon matSuffix>speaker_notes</mat-icon>
+              </mat-form-field>
+            </div>
+
+
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <button type="button" class="btn btn-primary my-4" [disabled]="!addContractorPayment.valid"
+                (click)="onRegister()">
+                {{ buttonTitle }}
+              </button>
+              <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                {{cancelButton}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #END# Add Contract Payment -->

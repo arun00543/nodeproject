@@ -1,0 +1,203 @@
+<div class="header header-bg-gradient-info pb-8 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="card-body">
+        <form class="register-form m-4" [formGroup]="addEmployeePayHours" (ngSubmit)="onClick()">
+          <div class="row">
+            <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Select a Employee</mat-label>
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <mat-icon matSuffix>perm_identity</mat-icon>
+                <input type="text" placeholder="Pick Employee" aria-label="Number" [formControl]="employeeControl"
+                  matInput [matAutocomplete]="employee" required />
+                <mat-autocomplete #employee="matAutocomplete" (optionSelected)="onSelect($event)"
+                  [displayWith]="displayProperty">
+                  <mat-option *ngFor="let option of filteredEmployeeOptions | async" [value]="option">
+                    {{ option.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field>
+                <mat-label>From Date </mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="fromDate"
+                  [max]="addEmployeePayHours.value.toDate" required placeholder="From Date">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="addEmployeePayHours.get('fromDate').hasError('required')">
+                  From Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+              <mat-form-field>
+                <mat-label>to Date </mat-label>
+                <input matInput [matDatepicker]="picker2" formControlName="toDate"
+                  [min]="addEmployeePayHours.value.fromDate" placeholder="To Date" required>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error *ngIf="addEmployeePayHours.get('toDate').hasError('required')">
+                  To Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+              <button type="button" class="btn btn-primary my-3" (click)="onClick()"
+                [disabled]="!addEmployeePayHours.valid">Search</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="hideEmployeePayHours" class="d-flex gap-5 col-12 justify-content-center align-items-center mx-auto">
+      <div class="card list-card-pay">
+        <div class="d-flex justify-content-between">
+          <h4 class="text-bold">
+            Pay Hours of
+            <strong class="text-uppercase ml-2">{{ employeeName }}</strong>
+          </h4>
+          <button mat-raised-button type="button" class="btn btn-link btn-sm btn-just-icon">
+            <i class="material-icons" (click)="hideEmployeePayHours = false">close</i>
+          </button>
+        </div>
+        <div class="dateFormate">
+          <h6 class="mr-3">From: <strong class="text-uppercase ml-2">{{fromDate | date:'dd-MM-yyyy'}}</strong></h6>
+          <h6>To:<strong class="text-uppercase ml-2">{{toDate | date:'dd-MM-yyyy'}}</strong></h6>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center">
+          <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Total Hours Worked</mat-label>
+              <input matInput readonly [value]="employeePayHourList?.totalHoursWorked">
+              <mat-icon matSuffix>123</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Total Pay</mat-label>
+              <input matInput readonly [value]="employeePayHourList?.totalPay">
+              <mat-icon matSuffix>123</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="card-header card-header-default">
+            <div class="materialTableHeader">
+              <div class="d-flex flex-wrap justify-content-between">
+                <button routerLink="/employee/add-employee-pay-hours" class="table-header-btn tbl-action-btn mx-2 py-2">
+                  <i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Employee Pay Hours
+                </button>
+                <button (click)="importExport()" class="table-header-btn tbl-action-btn mx-2 py-2">
+                  <i class="fa fa-plus mr-2" aria-hidden="true"></i>Import Employee Pay Hours
+                </button>
+              </div>
+
+              <div>
+                <input class="form-control" placeholder="Search by Employee" type="text" #filter
+                  [(ngModel)]="searchTerm" (ngModelChange)="search()" class="browser-default search-field"
+                  aria-label="Search box" />
+
+                <button mat-fab color="primary" class="download-btn ml-2 mt-2" [matMenuTriggerFor]="aboveMenu">
+                  <mat-icon>download</mat-icon>
+                </button>
+                <mat-menu class="export-option px-1" #aboveMenu="matMenu" yPosition="above">
+                  <button mat-menu-item (click)="pdfExport()">
+                    <mat-icon class="text-danger">picture_as_pdf</mat-icon>
+                  </button>
+                  <button mat-menu-item (click)="exelExport()">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+
+            <div class="table-responsive">
+              <mat-table #table id="table" matTableExporter style="min-width: 800px" [dataSource]="dataSource" matSort
+                #exporter="matTableExporter" [hiddenColumns]="[4]" (matSortChange)="sortData($event)" class="mat-cell">
+                <!-- Checkbox Column -->
+                <ng-container matColumnDef="select" id="checkBox" class="form-check">
+                  <mat-header-cell *matHeaderCellDef class="thead-light" [ngClass]="'tbl-col-width-per-6'">
+                    <input type="checkbox" (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'" />
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <input type="checkbox" (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                      [ngClass]="'tbl-checkbox'" />
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="employee.name">
+                  <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                    style="justify-content: center;">Employee</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="justify-content: center;">
+                    {{row.employee.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="workDate">
+                  <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                    style="justify-content: center;">Work Date</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="justify-content: center;">
+                    {{row.workDate | date:'dd-MM-yyyy'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="hoursWorked">
+                  <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                    style="justify-content: center;">Hours Worked</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="justify-content: center;">
+                    {{row.hoursWorked}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="hourlyPay">
+                  <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                    style="justify-content: center;">Hourly Pay</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="justify-content: center;">
+                    {{row.hourlyPay | indCurrencyFormat}}</mat-cell>
+                </ng-container>
+
+                <!-- actions -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef class="thead-light"
+                    style="justify-content: center;">Actions</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0" style="justify-content: center;">
+                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteCall(row)"
+                      class="tbl-action-btn mx-2">
+                      <i class="fa fa-trash-o" aria-hidden="true" style="color: red;font-size: 22px;"></i>
+                    </button>
+
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                <mat-row *matRowDef="let row; columns: displayedColumns" (click)="editCall(row)"
+                  [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+              </mat-table>
+
+              <div *ngIf="dataSource?.length == 0" class="no-results">
+                No results
+              </div>
+              <mat-paginator #paginator [length]="data?.totalElements" [pageIndex]="0" [pageSize]="pageSize"
+                [pageSizeOptions]="[5, 10, 25, 100]" (page)="getPage($event)">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,163 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header card-header-default">
+                    <div class="materialTableHeader">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 d-flex justify-content-between">
+
+                        </div>
+
+                        <div>
+
+                            <input class="form-control" type="text" pattern="check.value ? [0-9]"
+                                placeholder="Search ID" #filter class="browser-default search-field mt-2"
+                                aria-label="Search box">
+
+                            <button  mat-fab color="primary" class="download-btn ml-2 mt-2" [matMenuTriggerFor]="aboveMenu">
+                                <mat-icon>download</mat-icon>
+                            </button>
+                            <mat-menu class="export-option px-1" #aboveMenu="matMenu" yPosition="above">
+                                <button mat-menu-item (click)="pdfExport()">
+                                    <mat-icon class="text-danger">picture_as_pdf</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="exelExport()">
+                                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                </button>
+                            </mat-menu>
+                        </div>
+                        <!-- <h4>Shipment Details</h4> -->
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <mat-table #table id="table" matTableExporter style="min-width: 800px" [dataSource]="dataSource"
+                            matSort #exporter="matTableExporter" [hiddenColumns]="[]" (matSortChange)="sortData($event)"
+                            class="mat-cell">
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select" id="checkBox" class="form-check">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    [ngClass]="'tbl-col-width-per-6'">
+                                    <input type="checkbox" (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [ngClass]="'tbl-checkbox'" />
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <input type="checkbox" (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'" />
+                                </mat-cell>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="shipmentId">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Sales Id</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;" disabled>
+                                    {{row.shipmentId.salesId}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="shipmentDate">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">shipmentDate</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;" disabled>
+                                    {{row.shipmentDate | date: 'dd-MM-yyyy' }} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="carrier">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Carrier</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;" disabled>
+                                    {{row.carrier}} </mat-cell>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="trackingNumber">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Tracking Number</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.trackingNumber}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="item">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Item</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.item}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="orderQuantity">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Order Quantity</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.orderQuantity}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="shippedQuantity">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Shipped Quantity</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.shippedQuantity}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="balanceQuantity">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Balance Quantity</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.balanceQuantity}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">status</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.status}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef class="thead-light"
+                                    style="justify-content: center;">Actions</mat-header-cell>
+                                <mat-cell *matCellDef="let row; let i=index;" class="pr-0"
+                                    style="justify-content: center;">
+                                    <button (click)="$event.stopPropagation()" (click)="viewCall(row)"
+                                        class="btn btn-outline-primary p-2 px-3">
+                                        view
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                            <mat-row *matRowDef="let row; columns: displayedColumns" (click)="editCall(row)"
+                                [style.cursor]="'pointer'" matRipple>
+                            </mat-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
+                                [style.cursor]="'pointer'" matRipple>
+                            </mat-row>
+                        </mat-table>
+
+                        <div *ngIf="!dataSource" class="no-results" [style.display]="data.length == 0 ? '' : 'none'">
+                            No results
+                        </div>
+                        <mat-paginator #paginator [length]="data.length" [pageIndex]="0" [pageSize]="10"
+                            [pageSizeOptions]="[5, 10, 25, 100]">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

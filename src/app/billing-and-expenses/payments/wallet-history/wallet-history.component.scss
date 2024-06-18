@@ -1,0 +1,52 @@
+::ng-deep .wallet-search-type .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+::ng-deep .example-full-width-date .mat-date-range-input-container {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+::ng-deep .wallet-search-type .mat-select-arrow {
+    color: rgb(255, 255, 255);
+}
+
+::ng-deep .wallet-search-type .mat-form-field-label {
+    color: rgb(255, 255, 255) !important;
+}
+
+::ng-deep .wallet-search-type .mat-form-field-outline {
+    color: rgb(255, 255, 255) !important;
+  }
+  ::ng-deep .example-full-width-date .mat-form-field-outline{
+    color: rgb(255, 255, 255) !important;
+  }
+  ::ng-deep .example-full-width-date .mat-form-field-label {
+    color: rgb(255, 255, 255) !important;
+}
+::ng-deep.example-full-width-date .mat-datepicker-toggle {
+    font-size: initial;
+    color: rgb(0, 0, 0);
+}
+::ng-deep .wallet-search-type .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .wallet-search-type .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .wallet-search-type .mat-form-field-subscript-wrapper {
+    display: none !important;
+}
+::ng-deep .wallet-search-type .mat-form-field-infix {
+    padding: 10px;
+}
+
+input:read-only{
+    color:#ffffff;
+}

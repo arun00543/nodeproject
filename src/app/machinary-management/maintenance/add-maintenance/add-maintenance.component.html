@@ -1,0 +1,140 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <!-- Add  Maintenance -->
+  </div>
+</div>
+<div class="row d-flex justify-content-end clearfix mx-0">
+  <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="card-header card-header-default">
+        <h4 class="card-title"> {{ dialogTitle }}</h4>
+      </div>
+
+      <div class="body">
+        <form class="register-form m-4" [formGroup]="addMaintenance" (ngSubmit)="onRegister()">
+          <div class="row">
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Select a Machinery</mat-label>
+                <input
+                type="text"
+                placeholder="Pick Machinery"
+                aria-label="Number" 
+                [formControl]="machineryControl"
+                matInput
+                [matAutocomplete]="machinery"
+              required/>
+              <mat-autocomplete #machinery="matAutocomplete" (optionSelected)="onSelect($event)" [displayWith]="displayProperty">
+                <mat-option
+                  *ngFor="let option of filteredMachineryOptions | async"
+                  [value]="option"
+                >
+                  {{ option.name }} ({{option.serialNumber}})
+                </mat-option>
+              </mat-autocomplete>
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <mat-icon matSuffix>settings</mat-icon>
+                <!-- <mat-error *ngIf="addMaintenance.get('machinery').hasError('required')">
+                  Machinery is required
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Description</mat-label>
+                <input matInput formControlName="description" maxlength="170">
+                <mat-icon matSuffix>description</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Current Maintenance Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="maintenanceDate" [min]="addMaintenance.value.machineryId.dateOfPurchase" [max]="addMaintenance.value.nextMaintenanceDate" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="addMaintenance.get('maintenanceDate').hasError('required')">
+                  Current Maintenance Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Next Maintenance Date</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="nextMaintenanceDate" [min]="addMaintenance.value.maintenanceDate || currentDate" required>
+                <mat-datepicker-toggle matSuffix [for]="picker1 "></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="addMaintenance.get('nextMaintenanceDate').hasError('required')">
+                  Next Maintenance Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Technician Name</mat-label>
+                <input matInput formControlName="technicianName" required>
+                <mat-icon matSuffix>accessibility</mat-icon>
+                <mat-error *ngIf="addMaintenance.get('technicianName').hasError('required')">
+                  Technician Name is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Technician Phone Number</mat-label>
+                <input matInput type="number" formControlName="technicianPhoneNo"  onmousewheel="return false;"  pattern="[6-9]{1}[0-9]{9}" maxlength="10" minlength="10"
+              oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+              required>
+                <mat-icon matSuffix>smartphone</mat-icon>
+                <mat-error *ngIf="addMaintenance.get('technicianPhoneNo').hasError('required')">
+                  Phone Number is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>First Maintenance Date</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="firstMaintenanceDate" required>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="addMaintenance.get('firstMaintenanceDate').hasError('required')">
+                  First Maintenance Date is required
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Cost</mat-label>
+                <input matInput formControlName="cost" type="number" min="1"  onmousewheel="return false;" required>
+               <span matSuffix>&#8377;</span>
+                <mat-error *ngIf="addMaintenance.get('cost').hasError('required')">
+                  Cost is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <button type="button" class="btn btn-primary my-4" [disabled]="!addMaintenance.valid"
+                (click)="onRegister()">
+                {{ buttonTitle }}
+              </button>
+              <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                {{cancelButton}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #END# Add Maintenance -->

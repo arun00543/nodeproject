@@ -1,0 +1,374 @@
+<div class="header header-bg-gradient-info">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="d-flex flex-wrap justify-content-between">
+    <button class="btn btn-outline-primary back-btn" routerLink="/shipment/update-shipment">
+      <i class="fa fa-long-arrow-left mr-1" aria-hidden="true"></i>Back
+    </button>
+      <mat-form-field class="wallet-search-type mx-4 mt-4" appearance="outline">
+        <mat-label>Wallet Amount</mat-label>
+        <input matInput readonly [value]="'Rs.'+ (wallet?.walletAmount===null ? 0 : wallet?.walletAmount)"/>
+      </mat-form-field>
+      </div>
+</div>
+
+<div
+  *ngIf="hideItemList"
+  class="d-flex gap-5 col-10 justify-content-center mx-auto"
+>
+  <div class="card order-detail-card">
+    <div class="d-flex justify-content-between">
+      <h4 class="text-bold d-flex align-items-center">
+        Item Total : 
+        <b>
+        {{ (itemDetail.orderItem.unitPrice * (itemDetail.orderItem.unitOfMeasure.unitWeight * itemDetail.shippingQuantity)) | indCurrencyFormat }}
+        </b>
+      </h4>
+      <div>
+      <button
+      mat-icon-button
+      (click)="shippingQuantity.value=0;onChange(0)"
+      class="tbl-action-btn mx-2"
+    >
+      <i class="material-icons">refresh</i>
+    </button>
+      <button mat-raised-button type="button"
+            class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+            <i class="material-icons" (click)="hideItemList = false" style="margin-top: 0px !important">close</i>
+          </button>
+    </div>
+    </div>
+
+    <form class="register-form mx-4">
+      <div class="row">
+        <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Item</mat-label>
+            <input
+              matInput
+              readonly="true"
+              [value]="itemDetail.orderItem.itemMaster.itemName + ' (' + itemDetail.orderItem.itemMaster.brand.name +')'"
+            />
+            <mat-icon matSuffix>face</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Bag Type</mat-label>
+            <input
+              matInput
+              readonly="true"
+              [value]="itemDetail.orderItem.unitPrice"
+            />
+            <mat-icon matSuffix>flag</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-xl-4 col-lg-4 col-md-6 col-sm-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Ordered Quantity</mat-label>
+            <input
+              matInput
+              readonly="true"
+              [value]="itemDetail.orderedQuantity"
+            />
+            <mat-icon matSuffix>donut_large</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Shipped Quantity</mat-label>
+            <input
+              matInput
+              readonly="true"
+              [value]="itemDetail.shippedQuantity"
+            />
+            <mat-icon matSuffix>description</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Shipping Quantity</mat-label>
+            <input
+            #shippingQuantity
+            matInput
+              type="number"
+              min="1"
+              onmousewheel="return false;"
+              pattern="[0-9]{1,8}"
+              onkeydown="return event.keyCode !== 190"
+              [max]="itemDetail.balanceQuantity"
+              [ngModel]="itemDetail.shippingQuantity"
+              (ngModelChange)="onChange($event)"
+            />
+            <mat-icon matSuffix>description</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-6">
+          <mat-form-field class="example-full-width">
+            <mat-label>Balance Quantity</mat-label>
+            <input
+              matInput
+              readonly="true"
+              [value]="
+                itemDetail.balanceQuantity - itemDetail.shippingQuantity < 0
+                  ? 0
+                  : itemDetail.balanceQuantity - itemDetail.shippingQuantity
+              "
+            />
+            <mat-icon matSuffix>description</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div
+          class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-end align-items-start"
+        >
+          <button
+            class="btn btn-success p-2 px-3 mx-2"
+            (click)="hideItemList = false"
+            [disabled]="itemDetail.shippingQuantity === 0"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card pb-3">
+        <div class="card-header card-header-default" style="padding: 10px 15px">
+          <div class="materialTableHeader">
+            <h4 class="m-2">
+              Sales Id : <strong>{{ salseId }}</strong>
+            </h4>
+            <div class="d-flex">
+              <h4 class="shipment-amount m-2">
+                Shipping Total :
+                <b>
+                  {{ total | indCurrencyFormat }}
+                </b>
+              </h4>
+              <button
+                mat-icon-button
+                (click)="refresh()"
+                class="tbl-action-btn mx-2"
+              >
+                <i class="material-icons">refresh</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body pt-0">
+          <form class="register-form mx-5" [formGroup]="shipmentLoad">
+            <div class="row d-flex">
+              <mat-form-field
+                class="example-full-width mt-4 pt-1 mb-3 col-lg-3 col-md-3 col-sm-12 col-xs-12"
+              >
+                <mat-label>Select a Carrier</mat-label>
+                <input
+                  type="text"
+                  placeholder="Pick Carrier"
+                  aria-label="Number"
+                  [formControl]="carrierControl"
+                  matInput
+                  [matAutocomplete]="carrier"
+                />
+                <mat-autocomplete
+                  #carrier="matAutocomplete"
+                  (optionSelected)="onSelect($event)"
+                  [displayWith]="displayPropertyVehicleType"
+                >
+                  <mat-option
+                    *ngFor="let option of filteredcarrierOptions | async"
+                    [value]="option.vehicleRegistrationNumber"
+                  >
+                    {{ option.vehicleRegistrationNumber }} ({{
+                      option.vehicleType.vehicleTypeName
+                    }})
+                  </mat-option>
+                  <mat-option value="Others"> Others </mat-option>
+                </mat-autocomplete>
+                <mat-icon matSuffix>local_shipping</mat-icon>
+              </mat-form-field>
+
+              <mat-form-field
+                class="example-full-width mt-1 mb-2 col-lg-6 col-md-6 col-sm-12 col-xs-12"
+              >
+                <mat-label>Remark</mat-label>
+                <textarea
+                  type="textarea"
+                  placeholder="Remark"
+                  formControlName="remark"
+                  matInput
+                ></textarea>
+                <mat-icon matSuffix>note_add</mat-icon>
+              </mat-form-field>
+
+              <div
+                class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-0 d-flex justify-content-end align-items-start mt-4 pt-1"
+              >
+                <button
+                  class="btn btn-primary p-2 px-3 mx-2"
+                  [disabled]="
+                    selection.selected.length < 1 ||
+                    (!shipmentLoad.value.carrier && !shipmentLoad.value.remark)
+                  "
+                  (click)="confirm()"
+                >
+                  Confirm
+                </button>
+                <button
+                  type="reset"
+                  (click)="refresh()"
+                  class="btn btn-warning p-2 px-3 mx-2"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="od-table-container mx-lg-5 mx-md-5 mx-0">
+            <mat-table
+              #table
+              matTableExporter
+              [dataSource]="dataSource"
+              class="mat-cell od-table"
+            >
+              <!-- Checkbox Column -->
+              <ng-container
+                matColumnDef="select"
+                id="checkBox"
+                class="form-check"
+              >
+                <mat-header-cell
+                  *matHeaderCellDef
+                  class="thead-light"
+                  [ngClass]="'tbl-col-width-per-6'"
+                >
+                  <input
+                    type="checkbox"
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [ngClass]="'tbl-checkbox'"
+                  />
+                </mat-header-cell>
+                <!-- row.shippingQuantity <= 0
+                ? (row.shippingQuantity = row.balanceQuantity)
+                : (row.shippingQuantity = row.shippingQuantity) -->
+                <mat-cell *matCellDef="let row">
+                  <input
+                    *ngIf="row.shipmentStatus != 'SHIPPED'"
+                    type="checkbox"
+                    (click)="$event.stopPropagation()"
+                    (change)="
+                      $event ? selection.toggle(row) : null; valueToggle(row)
+                    "
+                    [checked]="selection.isSelected(row)"
+                    [ngClass]="'tbl-checkbox'"
+                  />
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="itemMaster">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Item</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row" disabled>
+                  {{ row.orderItem.itemMaster.itemName }} ({{ row.orderItem.itemMaster.brand.name }})</mat-cell
+                >
+              </ng-container>
+              <ng-container matColumnDef="unitPrice">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Bag Type</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row" disabled>
+                  {{ row.orderItem.unitPrice }} Kg
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="quantity">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Ordered Qty</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row" disabled>
+                  {{ row.orderedQuantity }}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="shippedQuantity">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Shipped Qty</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row">
+                  {{ row.shippedQuantity }}</mat-cell
+                >
+              </ng-container>
+
+              <ng-container matColumnDef="shippingQuantity">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Shipping Qty</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row">
+                  {{ row.shippingQuantity }}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="balanceQuantity">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Balance Qty</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row">
+                  {{
+                    row.balanceQuantity - row.shippingQuantity < 0
+                      ? 0
+                      : row.balanceQuantity - row.shippingQuantity
+                  }}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  >Item Status</mat-header-cell
+                >
+                <mat-cell *matCellDef="let row" disabled>
+                  {{ row.shipmentStatus }}
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></mat-header-row>
+
+              <mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                (click)="row.shipmentStatus != 'SHIPPED' ? viewListCall(row) : ''"
+                [style.cursor]="'pointer'"
+                matRipple
+              >
+              </mat-row>
+              <mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                matRipple
+              >
+              </mat-row>
+            </mat-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

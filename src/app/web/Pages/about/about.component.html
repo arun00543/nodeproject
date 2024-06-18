@@ -1,0 +1,93 @@
+    <div class="container-fluide">
+        <div class="icon-section-body">
+            <div class="content">
+                <div class="icon-sec-header">
+                      <h1>WHY WE ARE BEST</h1>
+                      <p>Food Revolution Business</p>
+                </div>
+                <div class="main">
+                    <div class="icon-section">
+                        <div class="icon">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                            <h1>BEST WORKERS</h1>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                            <h1>QUALIFY FOOD ENGINEERS</h1>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-headphones" aria-hidden="true"></i>
+                            <h1>CUSTOMER SUPPORT</h1>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            <h1>100% QUALITY</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section-body">
+            <div class="about-header">
+                <h1>ABOUT OUR INDUSTRY</h1>
+                <p>Food Revolution Business</p>
+            </div>
+            <div class="main">
+                <div class="about-text">
+                    <h1>History Of Our Company</h1>
+                    <h2>Greetings From KPR.!</h2>
+                    <p>We take immense pleasure in introducing ourselves as one of the leading organizations in India engaged in
+                        the manufacturing and marketing of quality Food-based products under the esteemed brand name "KPR".
+                        "KPR" has emerged as a trusted name among millions of customers in India, renowned for its top-notch
+                        product quality, timely delivery, and competitive pricing.
+        
+                        Our journey began with a single production unit with a capacity of producing 300 tons. Presently, we
+                        boast three state-of-the-art manufacturing units with a combined capacity of 720 tons. Our expansive
+                        product line, which now focuses on Rice, Wheat, and Rice Flours, serves a diverse range of markets.
+                        These markets encompass Agriculture, Nutrition, Culinary, and various other applications including
+                        Bakery, Confectionery, and Food Processing.
+        
+                        Our commitment to quality is evident in our meticulous Quality Control practices. Our Quality Control
+                        Laboratory has received training and recognition from esteemed institutions such as the Central
+                        Institute of Plastic Engineering and Technology in Chennai, and the Bureau of Indian Standards in Delhi
+                        and Coimbatore.</p>
+                </div>
+                <div class="count-bar">
+                    <div class="numbers">
+                        <h1>{{ unitCount }}</h1>
+                        <h2>Units</h2>
+                    </div>
+                    <div class="numbers">
+                        <h1>{{ workerCount }}</h1>
+                        <h2>WORKERS</h2>
+                    </div>
+                    <div class="numbers">
+                        <h1>{{ tonCount }}</h1>
+                        <h2>Tons</h2>
+                    </div>
+                </div>
+                
+                <div class="image-container">
+                    <img [src]="factoryImg"  class="image" alt="Factory Img">
+                </div>
+            </div>
+        </div>
+        <div class="prod">
+            <div class="gallery-container">
+                <div *ngFor="let item of galleryItems" class="gallery-item" [ngClass]="{'item-left': item.isLeft, 'item-right': !item.isLeft}">
+                  <div class="image-container">
+                    <img [src]="item.image.url" alt="Gallery Image">
+                  </div>
+                  <div class="paragraph-container">
+                    <h1>{{ item.head }}</h1>
+                    <p>{{ item.paragraph }}</p>
+                    <ul>
+                      <li *ngFor="let point of item.points">{{ point }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <app-recipes></app-recipes>
+        </div>
+    </div>

@@ -1,0 +1,183 @@
+<div class="main-content mt-0 pt-1">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Order and Sales count block -->
+      <div class="col-lg-12 col-md-12 col-sm-12 mt-4 pt-2">
+        <div class="count-container counts row p-3 pb-0 justify-content-between">
+
+          <div class="custom-col">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">Today</h5>
+            </div>
+            <div
+              class="card das-card p-2 py-3 mt-1 mb-3"
+            >
+            <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+              <div class="das-card-label">Orders</div>
+              <hr class="das-card-label-line"/>
+              <span class="das-card-count-primary_s">.</span>
+              <div class="das-card-count">
+                {{ daily?.ordercount }}
+              </div>
+            </div> 
+            <div class="d-flex flex-row justify-content-between align-items-center">          
+            <div class="das-card-label">Sales</div>
+            <hr class="das-card-label-line"/>
+              <span class=" das-card-count-success_s">.</span>
+              <div class="das-card-count">
+              {{ daily?.salescount }}
+            </div>
+          </div>
+          </div>
+          </div>
+
+          <div class="custom-col">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">Weekly</h5>
+            </div>
+            <div
+            class="card das-card p-2 py-3 mt-1 mb-3"
+          >
+          <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+            <div class="das-card-label">Orders</div>
+            <hr class="das-card-label-line"/>
+              <span class="das-card-count-primary_s">.</span>
+              <div class="das-card-count">
+              {{ weekly?.ordercount }}
+            </div>
+          </div> 
+          <div class="d-flex flex-row justify-content-between align-items-center">          
+          <div class="das-card-label">Sales</div>
+          <hr class="das-card-label-line"/>
+              <span class=" das-card-count-success_s">.</span>
+              <div class="das-card-count">
+            {{ weekly?.salescount }}
+          </div>
+        </div>
+        </div>
+          </div>
+          <div class="custom-col">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">Monthly</h5>
+            </div>
+            <div
+            class="card das-card p-2 py-3 mt-1 mb-3"
+          >
+          <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+            <div class="das-card-label">Orders</div>
+            <hr class="das-card-label-line"/>
+              <span class="das-card-count-primary_s">.</span>
+              <div class="das-card-count">
+              {{ monthly?.ordercount }}
+            </div>
+          </div> 
+          <div class="d-flex flex-row justify-content-between align-items-center">          
+          <div class="das-card-label">Sales</div>
+          <hr class="das-card-label-line"/>
+              <span class=" das-card-count-success_s">.</span>
+              <div class="das-card-count">
+            {{ monthly?.salescount }}
+          </div>
+        </div>
+        </div>
+          </div>
+
+
+
+          <div class="custom-col">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">View Payment Statistics</h5>
+            </div>
+            <div
+            class="card das-card p-2 py-3 mt-1 mb-3"
+          >
+          <div class="chart-container d-flex justify-content-end">
+            <canvas id="MyChart" height="70" width="100"></canvas>
+          </div>
+        </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Order, Sales and Payment table block -->
+      <div
+        class="col-md-12 col-lg-12 col-sm-12 col-xs-12"
+      >
+        <div class="card" style="overflow: auto">
+          <div class="table-users">
+            <div class="header d-flex justify-content-between px-3 pl-5 mb-0">
+              Customer Sales and Orders
+              <input
+                class="form-control"
+                placeholder="Search by Customer Name"
+                type="text"
+                #filter
+                [(ngModel)]="searchTerm"
+                (ngModelChange)="search()"
+                aria-label="Search box"
+              />
+            </div>
+            <table>
+              <tr>
+                <th>Customer Name</th>
+                <th>Wallet Amount</th>
+                <th>Orders</th>
+                <th>Sales</th>
+                <!-- <th>Rejected</th> -->
+                <th>Total Amount</th>
+                <th>Paid Amount</th>
+                <th>Balance Amount</th>
+              </tr>
+              <tr id="no-results" class="mt-3" *ngIf="dashTableData.length < 1">
+                <td colspan="7">
+                <h4 class="my-2"> No results</h4>
+                </td>
+            </tr>
+              <tr
+                *ngFor="let item of dashTableData"
+                style="border-bottom: 1px solid #eee"
+              >
+                <td>{{ item.clientName }}</td>
+                <td>{{ item.walletAmount }}</td>
+                <td>{{ item.orderCount ? item.orderCount : 0 }}</td>
+                <td>{{ item.salesCount ? item.salesCount : 0 }}</td>
+                <!-- <td>{{ item.rejected }}</td> -->
+                <td>
+                  {{
+                    item.totalPaymentAmount
+                      ? (item.totalPaymentAmount | indCurrencyFormat)
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    item.totalPaidAmount
+                      ? (item.totalPaidAmount | indCurrencyFormat)
+                      : 0
+                  }}
+                </td>
+                <td>
+                  {{
+                    item.totalBalanceAmount
+                      ? (item.totalBalanceAmount | indCurrencyFormat)
+                      : 0
+                  }}
+                </td>
+              </tr>
+            </table>
+            <mat-paginator
+              #paginator
+              [length]="data?.totalElements"
+              [pageIndex]="0"
+              pageSize="5"
+              showFirstLastButtons="true"
+              (page)="getPage($event)"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

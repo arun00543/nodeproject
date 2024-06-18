@@ -1,0 +1,104 @@
+<div class="main-content mt-0">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="card card-chart">
+                <div *ngIf="hideChart" class="d-flex gap-5 col-10 justify-content-center mx-auto">
+                    <div class="card list-card" style="max-height: 70%">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="text-bold mt-3">
+                                    Employee
+                                </h4>
+                            </div>
+                            <button mat-raised-button type="button" class="btn btn-link btn-md btn-just-icon">
+                                <i class="material-icons" (click)="reset()">close</i>
+                            </button>
+                        </div>
+                        <div class="chart2-area row justify-content-center">
+                            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+                                <canvas id="unitChart" style="position: relative;height:60vh; width:100%"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header mb-0 d-flex flex-wrap justify-content-between">
+                    <div>
+                        <h4 class="card-title">EXPENSE CHART</h4>
+                    </div>
+
+                    <div class="row">
+
+                        <mat-form-field *ngIf="selectType === 'duration' && duration === 'custom'"
+                            class="example-full-width-daterange mx-2" appearance="outline">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate [(ngModel)]="fromDate" placeholder="Start date">
+                                <input matEndDate [(ngModel)]="toDate" placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker>
+                                <mat-date-range-picker-actions>
+                                    <button mat-raised-button matDateRangePickerCancel>Cancel</button>
+                                    <button mat-raised-button color="primary" (click)="dateFilter()" matDateRangePickerApply>Apply</button>
+                                </mat-date-range-picker-actions>
+                            </mat-date-range-picker>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="selectType === 'employee'" class="chart-filter text-white mx-2" appearance="outline">
+                            <mat-label>Select Employee </mat-label>
+                            <mat-select value="All" class="chart-filter text-white">
+                                <mat-option (click)="onSelectUnit()" value="All">
+                                    All Employee
+                                </mat-option>
+                                <mat-option *ngFor="let option of unit" (click)="onSelectUnit(option)"
+                                    [value]="option">
+                                    {{ option.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field *ngIf="selectType === 'category'" class="chart-filter text-white"
+                            appearance="outline">
+                            <mat-label>Select Category </mat-label>
+                            <mat-select value="All" class="chart-filter text-white">
+                                <mat-option (click)="onSelect()" value="All">
+                                    All Category
+                                </mat-option>
+                                <mat-option *ngFor="let item of brands" (click)="onSelect(item)" [value]="item">
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field *ngIf="selectType === 'duration'" class="chart-filter text-white"
+                            appearance="outline">
+                            <mat-label>Select Duration</mat-label>
+                            <mat-select #due [(ngModel)]="duration" class="chart-filter text-white">
+                                <mat-option *ngFor="let item of durations" (click)="onSelect()" [value]="item.value">
+                                    {{item.key}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="chart-filter text-white mx-2" appearance="outline">
+                            <mat-label>Select</mat-label>
+                            <mat-select [(ngModel)]="selectType" class="chart-filter text-white">
+                                <mat-option *ngFor="let item of selectedType" (click)="onSelect()" [value]="item.value">
+                                    {{ item.key }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="chart2-area row justify-content-center">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <canvas id="expenseChart" style="position: relative;height:60vh; width:100%"></canvas>
+                    </div>
+                    <!-- <div *ngIf="!brandId || brandId" class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <canvas id="unitChart" style="position: relative;height:60vh; width:100%"></canvas>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

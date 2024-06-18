@@ -1,0 +1,69 @@
+::ng-deep .search-type-box .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+}
+
+::ng-deep .search-type-box .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .search-type-box .mat-form-field-label {
+    color: rgb(0, 0, 0) !important;
+}
+
+::ng-deep .search-type-box .mat-form-field-outline {
+    color: rgb(0, 0, 0) !important;
+  }
+  ::ng-deep .example-wallet-outline .mat-form-field-outline{
+    color: rgb(0, 0, 0) !important;
+  }
+  ::ng-deep .example-wallet-outline .mat-form-field-label {
+    color: rgb(0, 0, 0) !important;
+}
+
+::ng-deep .search-type-box .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .search-type-box .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .search-type-box .mat-form-field-subscript-wrapper {
+    display: none !important;
+}
+::ng-deep .search-type-box .mat-form-field-infix {
+    padding: 10px;
+}
+
+input.wallet-search-field {
+    font-weight: 500;
+    color: #0000008a;
+    border-radius: 10px;
+    border: 0;
+    height: 45px;
+    padding: 8px 8px 8px 25px;
+    width: 240px;
+    margin-top: 3px;
+    background: #00000026;
+    transition: .2s,width .2s;
+}
+
+// .payment-history-table-body{
+//     height: 60vh;
+//     overflow: auto;
+// }
+
+.payment-history-list-card{
+    position: fixed;
+    z-index: 4;
+    box-shadow: 0 0 2rem!important;
+    padding: 15px;
+    width: 75%;
+    height: 60vh;
+    overflow: auto;
+}

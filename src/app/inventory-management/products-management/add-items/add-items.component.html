@@ -1,0 +1,153 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <!-- Add  Item -->
+
+  </div>
+</div>
+<div class="row d-flex justify-content-end clearfix mx-0">
+  <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="card-header card-header-default">
+        <h4 class="card-title"> {{ dialogTitle }}</h4>
+      </div>
+      <div class="card-body">
+        <form class="register-form m-4" [formGroup]="addItem" (ngSubmit)="onRegister()">
+          <div class="row">
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Item Name</mat-label>
+                <input matInput formControlName="itemName" pattern="^[a-zA-Z0-9 .-]*$" required>
+                <mat-icon matSuffix>add_shopping_cart</mat-icon>
+                <mat-error *ngIf="addItem.get('itemName').hasError('required')">
+                  Item Name is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Select a Category</mat-label>
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <input type="text" placeholder="Pick Category" aria-label="Number" [formControl]="categoriesControl"
+                  matInput [matAutocomplete]="categories" (input)="onCategoryControlChange($event)" />
+                <mat-autocomplete #categories="matAutocomplete" (optionSelected)="onSelectCategory($event)"
+                  [displayWith]="displayPropertyCategory">
+                  <mat-option *ngFor="let option of filteredCategoriesOptions" [value]="option">
+                    {{ option.categoryName }}
+                  </mat-option>
+                  <mat-option class="text-primary" (click)="onSelectNew('category')">
+                    Add New Category__<mat-icon matSuffix>link</mat-icon>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-icon matSuffix>category</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Select a Brand</mat-label>
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <input type="text" placeholder="Pick Brand" aria-label="Number" [formControl]="brandControl" matInput
+                  [matAutocomplete]="brands" (input)="onBrandControlChange($event)" />
+                <mat-autocomplete #brands="matAutocomplete" (optionSelected)="onSelectBrand($event)"
+                [displayWith]="displayPropertybrand">
+                  <mat-option *ngFor="let option of filteredBrandOptions" [value]="option">
+                    {{ option.name }}
+                  </mat-option>
+                  <mat-option class="text-primary" (click)="onSelectNew('brand')">
+                    Add New Brand__<mat-icon matSuffix>link</mat-icon>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-icon matSuffix>branding_watermark</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Today's Price</mat-label>              
+                <input type="number" matInput formControlName="fixedPrice" onmousewheel="return false;" min="1" maxlength="7" 
+                oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                pattern="^[-+]?[0-9]*\.?[0-9]{0,2}([eE][-+]?[0-9]+)?$" required>
+               <span matSuffix>&#8377;</span>
+                <mat-error *ngIf="addItem.get('fixedPrice').hasError('required')">
+                  Fixed Price is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="example-chip-list">
+                <mat-label>Select Unit of Measure</mat-label>
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <mat-chip-list #chipGrid aria-label="Units selection" multiple>
+                  <mat-chip *ngFor="let item of selectedUnits" (removed)="remove(item)">
+                    {{item?.unitName}}
+                    <button matChipRemove [attr.aria-label]="'remove ' + item">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip>
+                </mat-chip-list>
+                <input placeholder="Pick Units"  [formControl]="unitControl" #searchInput
+                  [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (input)="onUnitControlChange($event)"
+                  />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectUnit($event,searchInput)">
+                  <mat-option *ngFor="let option of filteredUnitOptions" [value]="option">
+                    {{option?.unitName}}
+                  </mat-option>
+                  <mat-option class="text-primary new" (click)="onSelectNew('units')">
+                    Add New Unit__<mat-icon matSuffix>link</mat-icon>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12">
+              <div draggable="true" class="upload-file">
+                <h6 class="mx-2 mt-1">Insert Image</h6>
+                <button class="file-btn" type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/png, image/jpeg"/>
+                <span  class="file-name"><img [src]="addItem.value.itemImage ? addItem.value.itemImage : noImg" alt=""
+                    class="img-box" /></span>
+              </div>
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div class="text-editor">
+              <h4>Description</h4>
+              <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                <ngx-editor 
+                  [editor]="editor"
+                  [spellcheck]="true"
+                  [disabled]="false"
+                  [placeholder]="'Type description here...'"
+                  formControlName="itemDescription"
+                ></ngx-editor>
+              </div>
+            </div>
+
+            <!-- <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div draggable="true" class="upload-file">
+                <h4 class="mx-3 mt-1">Insert Image</h4>
+                <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/png, image/jpeg">
+                <span class="file-name">{{selectedFile?.name}} <img [src]="addItem.value.itemImage" alt=""
+                    style="height: 50px;margin-left: 50px;" /></span>
+              </div>
+            </div> -->
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <button type="button" class="btn btn-primary my-4" [disabled]="!addItem.valid" (click)="onRegister()">
+                {{ buttonTitle }}
+              </button>
+              <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                {{ cancelButton }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #END# Add Item -->

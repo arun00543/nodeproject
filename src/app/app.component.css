@@ -1,0 +1,147 @@
+::ng-deep .mat-sort-header-arrow{
+    opacity: 1 !important;
+    transform: none !important;
+
+}
+
+::ng-deep .date .mat-form-field-infix {
+    padding: 0.8em 0;
+}
+
+::ng-deep .date .mat-form-field-wrapper {
+      padding-bottom: 0em !important; 
+}
+
+
+::ng-deep .date .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #243baa;
+    font-size: 20px;
+  }
+  
+  ::ng-deep .date .mat-button-wrapper {
+    color: rgb(0 0 0);
+  }
+  
+  ::ng-deep .date .mat-form-field-label {
+    color: #243baa !important;
+  }
+  
+  ::ng-deep .date .mat-form-field-outline {
+    color: #243baa !important;
+  }
+  
+  ::ng-deep .date .mat-form-field-wrapper {
+  padding-bottom: 0px !important;
+  }
+  
+  ::ng-deep .date .mat-form-field-underline{
+    display: none !important;
+  }
+  
+  ::ng-deep .date .mat-form-field-subscript-wrapper {
+    display: none !important;
+  }
+
+
+  ::ng-deep .chart-filter .mat-form-field-infix {
+    padding: 0.8em 0;
+}
+
+::ng-deep .chart-filter .mat-form-field-wrapper {
+      padding-bottom: 0em !important; 
+      width: 170px;
+}
+
+
+::ng-deep .chart-filter .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #243baa;
+    font-size: 20px;
+  }
+  
+  ::ng-deep .chart-filter .mat-button-wrapper {
+    color: rgb(0 0 0);
+  }
+  
+  ::ng-deep .chart-filter .mat-form-field-label {
+    color: #243baa !important;
+  }
+  
+  ::ng-deep .chart-filter .mat-form-field-outline {
+    color: #243baa !important;
+  }
+  
+  ::ng-deep .chart-filter .mat-form-field-wrapper {
+  padding-bottom: 0px !important;
+  }
+  
+  ::ng-deep .chart-filter .mat-form-field-underline{
+    display: none !important;
+  }
+  
+  ::ng-deep .chart-filter .mat-form-field-subscript-wrapper {
+    display: none !important;
+  }
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.btn-resize{
+    display: none;
+}
+
+::ng-deep .mat-datepicker-toggle{
+  font-size: x-large;
+  color: blue;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-datepicker-toggle{
+  font-size: inherit;
+  color: blue;
+}
+
+::ng-deep .header-dropdown .mat-select-value {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+}
+
+::ng-deep .header-dropdown .mat-select-arrow {
+  color: rgb(0 0 0);
+}
+
+::ng-deep .header-dropdown .mat-form-field-label {
+  color: white !important;
+}
+
+::ng-deep .header-dropdown .mat-form-field-outline {
+  color: white !important;
+}
+
+::ng-deep .header-dropdown .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .header-dropdown .mat-form-field-underline{
+  display: none !important;
+}
+
+::ng-deep .header-dropdown .mat-form-field-subscript-wrapper {
+  display: none !important;
+}

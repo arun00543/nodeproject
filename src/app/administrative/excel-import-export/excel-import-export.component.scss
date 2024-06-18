@@ -1,0 +1,80 @@
+  .card h3 {
+      font-size: 20px;
+      font-weight: 600;
+  }
+
+  .drop_box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 3px dotted #a3a3a3;
+      border-radius: 5px;
+  }
+
+  .drop_box h4 {
+      font-size: 16px;
+      font-weight: 400;
+      color: #2e2e2e;
+  }
+
+  .drop_box p {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: #a3a3a3;
+  }
+
+  .form input {
+      margin: 10px 0;
+      width: 100%;
+      background-color: #e2e2e2;
+      border: none;
+      outline: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+  }
+
+  .container {
+      height: 70%;
+      width: 100%;
+      align-items: center;
+      align-content: center;
+      display: flex;
+      justify-content: center;
+      background-color: #fcfcfc;
+  }
+
+  .result-card-area {
+      position: fixed;
+      z-index: 43;
+      top: 90px;
+  }
+
+  .result-card {
+      background: #c6c6c6;
+      color: black;
+  }
+
+  .excel_align {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .selected-file {
+      padding-left: 61px;
+  }
+
+  .upload-file{
+    border: 1px black solid;
+    height: 50px !important;
+    border-radius: 5px;
+    background: #dfdfdf;
+    color: black;
+  }
+
+  .download-file-card{
+    font-weight: bold; 
+    font-size: 15px;
+  }

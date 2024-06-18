@@ -1,0 +1,274 @@
+/* Reset default margin and padding */
+.about-section-body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a background color to the body */
+.about-section-body {
+    background-color: #f0f0f0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.about-section-body{
+    margin: 5%
+}
+
+/* Center header text and set background color */
+.about-header {
+    text-align: center;
+    color: rgb(29, 29, 29);
+    padding: 20px 0;
+}
+
+/* Style main section */
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+/* Style about text container */
+.about-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.about-text h1, .about-text h2 {
+    color: #333;
+    margin: 15px 0;
+}
+
+/* Style count bar */
+.count-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin-left: 5%;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.numbers {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.numbers h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+.numbers h2 {
+    font-size: 18px;
+    color: #666;
+}
+
+.about-text p {
+    font-size: 12px;
+    text-align: justify;
+}
+
+/* Style image container */
+.main .image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 954px){
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .about-text  h1,h2 {
+      text-align: center;
+    }
+   
+    .count-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f5f5f5;
+        padding: 20px;
+        margin-left: 5%;
+        height: 100px;
+        width: -webkit-fill-available;
+        margin: 10% 0%;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+}
+
+
+/* Apply a background to the body */
+.icon-section-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to bottom, rgba(59, 59, 59, 0.8), rgba(36, 36, 36, 0.8)), url("assets/img/icon-section.jpg");
+    background-size: cover; /* Adjust background size as needed */
+    background-position: center; /* Center the background image */
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    height: 400px;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+.content {
+    padding: 20px; /* Add some padding to the content */
+   
+}
+
+/* Styling for header */
+.icon-sec-header {
+    text-align: center;
+    margin: 50px 0 20px 0;
+}
+
+/* Styling for icons */
+.icon-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.icon {
+    text-align: center;
+    padding: 20px;
+}
+
+.icon i {
+    font-size: 40px;
+    color: #ffffff;
+}
+
+.icon h1 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+/* Adjust icon and heading styles as needed */
+@media (max-width: 954px){
+    .icon-section-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(to bottom, rgba(59, 59, 59, 0.8), rgba(36, 36, 36, 0.8)), url("assets/img/icon-section.jpg");
+        background-size: cover; /* Adjust background size as needed */
+        background-position: center; /* Center the background image */
+        margin: 0;
+        padding: 0;
+        color: #ffffff;
+        height: 650px;
+        font-family: 'Poppins', sans-serif;
+    }
+    .icon-section {
+        display: flex;
+        flex-direction:column;
+        justify-content: space-between;
+    }
+    
+}
+
+
+.prod{
+    .gallery-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+        padding: 20px;
+        margin: 5%;
+      
+      }
+      
+      .gallery-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+      
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      }
+      
+      .item-left {
+        flex-direction: row-reverse;
+      }
+      
+      .item-right {
+        flex-direction: row;
+      }
+      
+      .image-container img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 10px 0 0 10px;
+      }
+      
+      .paragraph-container {
+        flex: 1;
+        padding: 20px;
+        margin: 2%;
+      }
+      
+      .paragraph-container p {
+        font-size: 16px;
+        color: #333;
+        line-height: 1.5;
+        text-align: justify;
+        
+      }
+      .paragraph-container h1 {
+        font-size:24px;
+        font-weight: bold;
+        color: #333;
+        line-height: 1.5;
+        text-align: justify;
+        
+      }
+      
+      .paragraph-container ul li{
+        font-size:14px;
+      }
+      
+      @media (max-width: 768px){
+        .gallery-item {
+          flex-direction: column;
+        }
+      }
+}

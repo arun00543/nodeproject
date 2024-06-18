@@ -1,0 +1,229 @@
+<div class="main-content mt-5">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-default">
+            <h4 class="card-title">Edit Profile</h4>
+            <p class="card-category">Complete your profile</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="updateProfile">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput [readonly]="true" placeholder="Role" [value]="userRole" disabled />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput [readonly]="true" placeholder="Username" formControlName="userName" disabled />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Email address" formControlName="email" type="email"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$" (input)="updateProfile.patchValue({email: $event.target.value.toLowerCase()})" />
+                      <mat-error *ngIf="updateProfile.get('email').hasError('pattern')">
+                        Email should like (e.g. abcd@gmail.com)
+                      </mat-error>
+                  </mat-form-field>                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Name" formControlName="name" type="text" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input type="number" matInput [readonly]="!check.checked" placeholder="Phone" maxlength="10"  pattern="[6-9]{1}[0-9]{9}"
+                      onmousewheel="return false;"
+                      oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                      formControlName="phoneNumber"/>
+                      <mat-error *ngIf="updateProfile.get('phoneNumber').hasError('required')">
+                        Phone Number is required
+                      </mat-error>
+                      <mat-error *ngIf="updateProfile.get('phoneNumber').hasError('pattern')">
+                        Phone Number should like (e.g. 6012238791)
+                      </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <section class="example-section my-3">
+                    <mat-checkbox #check class="example-margin mt-1" formControlName="changeUserName" (change)="checkValue(check.checked)">Change
+                      Number</mat-checkbox>
+                    <p *ngIf="check.checked">Note : This Number Will be your Username</p>
+                  </section>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Date Of Birth" formControlName="dateOfBirth" type="date" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <input type="number" matInput placeholder="Aadhaar Number" minlength="12" maxlength="12"
+                      onmousewheel="return false;"
+                      oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                      formControlName="aadhaarNumber"/>
+                      <mat-error *ngIf="updateProfile.get('aadhaarNumber').hasError('required')">
+                        AADHAAR Number is required
+                      </mat-error>
+                      <mat-error *ngIf="updateProfile.get('aadhaarNumber').hasError('pattern')">
+                        AADHAAR Number should contain 12 digits
+                      </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="PAN Number" formControlName="panNumber" maxlength="10" minlength="10"
+                      (input)="onPanInput($event)"
+                      (input)="updateProfile.patchValue({panNumber: $event.target.value.toUpperCase()})"
+                      />
+                      <mat-error *ngIf="updateProfile.get('panNumber').hasError('pattern')">
+                        PAN Number required format (e.g. ABCDE1234F)
+                      </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Pf Number" maxlength="22" onmousewheel="return false;"
+                     formControlName="pfNumber" type="text" 
+                     (input)="onPfInput($event)"
+                     (input)="updateProfile.patchValue({pfNumber: $event.target.value.toUpperCase()})"
+                     />
+                      <mat-error *ngIf="updateProfile.get('pfNumber').hasError('pattern')">
+                        PF Number required format :  (TNMAS12071991231234567)
+                      </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" matInput placeholder="ESI Number" maxlength="17" onmousewheel="return false;"
+                      pattern="^[0-9]*$" (input)="regexTest()"
+                      oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                      formControlName="esiNumber" />
+                      <mat-error *ngIf="updateProfile.get('esiNumber').hasError('pattern')">
+                        ESI Number  should contain 17 digits
+                      </mat-error>
+                  </mat-form-field>
+                </div>
+              </div><br>
+              <div class="row col-lg-12">
+                <h4>Address Details</h4>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <input
+                      matInput
+                      placeholder="Door No / Street"
+                      formControlName="addressLine1"
+                      type="text"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <input
+                      matInput
+                      placeholder="Locality"
+                      formControlName="addressLine2"
+                      type="text"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Select a Country</mat-label>
+                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                    <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="countryControl"
+                      matInput [matAutocomplete]="country" />
+                    <mat-autocomplete #country="matAutocomplete" (optionSelected)="onSelectCountry($event.option.value)"
+                      [displayWith]="displayProperty">
+                      <mat-option *ngFor="let option of filteredCountryOptions | async" [value]="option">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Select a State</mat-label>
+                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                    <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="stateControl" matInput
+                      [matAutocomplete]="state" />
+                    <mat-autocomplete #state="matAutocomplete" (optionSelected)="onSelectState($event.option.value)"
+                      [displayWith]="displayProperty">
+                      <mat-option *ngFor="let option of filteredStateOptions | async" [value]="option">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                    <mat-label>Select a City</mat-label>
+                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                    <input type="text" placeholder="Pick State" aria-label="Number" [formControl]="cityControl" matInput
+                      [matAutocomplete]="city" />
+                    <mat-autocomplete #city="matAutocomplete" (optionSelected)="onSelectCity($event.option.value)"
+                      [displayWith]="displayProperty">
+                      <mat-option *ngFor="let option of filteredCityOptions | async" [value]="option">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Pincode</mat-label>
+                    <input type="number" matInput formControlName="pincode" onmousewheel="return false;"
+                      pattern="[0-9]{6}" maxlength="6"
+                      oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                      required required>
+                    <mat-icon matSuffix>description</mat-icon>
+                    <mat-error *ngIf="updateProfile.get('pincode').hasError('required')">
+                      pincode is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                [disabled]="!updateProfile.valid || !detectChange" (click)="updateCall(); check.checked = false">
+                Update Profile
+              </button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="javascript:void(0)">
+              <img class="img" src="./assets/img/profile.png" />
+            </a>
+          </div>
+          <div class="card-body">
+            <h6 class="card-category text-gray">{{userDetail?.employeeDepartment.departmentName}}</h6>
+            <h4 class="card-title">{{userDetail?.name}}</h4>
+            <div class="card-description text-left pl-5">
+              <strong *ngIf="userDetail?.email">Email :</strong> {{userDetail?.email}} <br />
+              <strong>Phone :</strong> {{userDetail?.phoneNumber}} <br />
+              <strong>Address :</strong> {{ userDetail?.addressLine1 }},{{ userDetail?.addressLine2 }},
+              {{ userDetail?.city.name }},{{ userDetail?.city.state.name }}-{{ userDetail?.pincode }} <br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

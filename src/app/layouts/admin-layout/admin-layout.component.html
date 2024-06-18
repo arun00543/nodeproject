@@ -1,0 +1,45 @@
+<div class="wrapper">
+  <mat-drawer-container class="example-container" autosize style="overflow: hidden !important">
+    <mat-drawer #drawer class="example-sidenav sidebar" data-background-color="white" opened="{{ sidebarOpen }}"
+      mode="{{ sidebarMode }}" style="max-width: 250px">
+      <div class="bg-white pb-5" *ngIf="sidebarMode === 'over'" style="
+          position: absolute;
+          z-index: 1030;
+          background: #eaedf1 !important;
+        ">
+        <button mat-raised-button type="button" class="btn btn-link btn-sm btn-just-icon">
+          <i class="material-icons" (click)="drawer.toggle()">close</i>
+        </button>
+      </div>
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+    <div class="example-sidenav-content main-panel">
+      <a class="navbar-brand mt-3 ml-2" (click)="drawer.toggle()" style="z-index: 1030; position: relative">
+        <mat-icon class="menu-list">menu</mat-icon>
+      </a>
+      <app-navbar></app-navbar>
+      <div class="container-fluid" *ngIf="
+          hideBack().slice(0,4) === 'add '
+            ? true
+            : hideBack().slice(0,4) === 'edit'
+            ? true
+            : hideBack().slice(0,4) === 'crea'
+            ? true
+            : hideBack().slice(0,4) === 'exce'
+            ? true
+            : false
+        ">
+        <button mat-icon-button class="btn btn-outline-primary back-btn" (click)="back()">
+          <i class="fa fa-long-arrow-left mr-1" aria-hidden="true"></i>Back
+        </button>
+      </div>
+      <router-outlet></router-outlet>
+      <ngx-spinner bdColor="rgba(0, 0, 0, 0.60)" size="medium" color="#fff" type="ball-clip-rotate-pulse" [fullScreen]="true">
+        <p style="color: white"> {{message}} </p>
+      </ngx-spinner>
+      <!-- <div *ngIf="isMaps('maps')"> -->
+        <app-footer></app-footer>
+      <!-- </div> -->
+    </div>
+  </mat-drawer-container>
+</div>

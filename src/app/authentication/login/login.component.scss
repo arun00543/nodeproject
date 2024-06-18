@@ -1,0 +1,78 @@
+.btn-primary {
+  color: #fff;
+  border-color: #5e72e4;
+  background-color: #0b219d !important;
+}
+
+.login-body {
+  position: fixed;
+  top: 0px; /* Header Height */
+  bottom: 0px; /* Footer Height */
+  width: 100%;
+  background: black; //linear-gradient(45deg, #d50707, #050cb4);
+}
+
+.login-card {
+  background: #6c757d8a; // rgb(137 145 153 / 54%)
+  margin-top: 20%;
+}
+
+.navbar-brand-img1 {
+  height: 130px;
+  margin-top: -70px;
+}
+
+.login-title {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+/* ANIMATIONS */
+/* Simple CSS3 Fade-in-down Animation */
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+::ng-deep .particles-js-canvas-el {
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    background: #4259b3; //#196e8f
+}
+
+@media screen and (min-width: 990px) {
+  .login-container{
+    height: 0px;
+  }
+}

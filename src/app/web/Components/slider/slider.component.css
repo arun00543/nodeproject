@@ -1,0 +1,73 @@
+.container {
+    justify-content: center;
+    align-items: center;
+  }
+  .body {
+    width: 81%;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  }
+  
+  ::ng-deep .slider-body .ng-image-slider {
+    height: 500px !important;
+  }
+  
+  ::ng-deep .slider-body .ng-image-slider .ng-image-slider-container .main {
+    height: 500px !important;
+  }
+  
+  ::ng-deep
+    .slider-body
+    .ng-image-slider
+    .ng-image-slider-container
+    .main
+    .main-inner
+    .img-div
+    img {
+      object-fit: inherit;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 19, 61, 0.7)
+    );
+  }
+  
+  .overlaytext {
+    position: absolute;
+    top: 40%;
+  }
+  
+  .overlaytext h3,
+  p {
+    color: rgb(255, 255, 255);
+  }
+  @media screen and (max-width: 768px){
+  
+    .body{
+      width: 100%;
+  
+    }
+    ::ng-deep .slider-body .ng-image-slider {
+      
+      height: 200px !important;
+    }
+    
+    ::ng-deep .slider-body .ng-image-slider .ng-image-slider-container .main {
+     
+      height: 200px !important;
+  
+    }
+  }
+  
+  ::ng-deep .ng-image-slider .ng-image-slider-container .main .next,
+  ::ng-deep .ng-image-slider .ng-image-slider-container .main .prev {
+    background-color: transparent !important;
+  }

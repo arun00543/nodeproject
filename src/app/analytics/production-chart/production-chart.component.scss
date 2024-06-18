@@ -1,0 +1,40 @@
+.chart2-area {
+    overflow-y: scroll;
+    position: relative;
+    height: 60vh;
+    width: 100%
+  }
+  
+  .production-count {
+    border: 2px blue solid;
+  }
+  
+  .stock-count {
+    border: 2px #13d913 solid;
+  }
+  
+  .h3 {
+    text-align: center;
+  }
+  
+  ::ng-deep .example-full-width-daterange .mat-date-range-input-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    color: #243baa;
+  }
+  
+  ::ng-deep .example-full-width-daterange .mat-form-field-outline {
+    color: #243baa !important;
+    ;
+  }
+  
+  ::ng-deep .example-full-width-daterange .mat-form-field-label {
+    color: #243baa !important;
+    ;
+  }
+  
+  ::ng-deep.example-full-width-daterange .mat-datepicker-toggle {
+    font-size: initial;
+    color: #243baa !important;
+  }

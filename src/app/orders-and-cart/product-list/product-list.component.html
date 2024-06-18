@@ -1,0 +1,150 @@
+<div class="main-content mt-1">
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-end pt-5 p-md-0 p-lg-0">
+      <input class="form-control" type="text" placeholder="Search Items" #filter
+        class="browser-default search-field mt-1" [(ngModel)]="searchTerm" (ngModelChange)="onSearch()"
+        aria-label="Search box" style="border: 1px #232d9d solid; color: black; width: 350px" />
+
+      <button class="btn btn-primary mx-5 example-box" (click)="hideList = !hideList" cdkDragLockAxis="y" cdkDrag>
+        View List
+      </button>
+    </div>
+
+    <div *ngIf="hideList" class="card-container gap-5 col-10 mx-auto">
+      <div class="card item-card">
+        <div class="d-flex justify-content-between mb-2">
+          <h4 class="text-bold">Item List</h4>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-success px-3 mx-3" [disabled]="itemList.length < 1" (click)="placeOrder()">
+              Place Order
+            </button>
+            <button mat-raised-button type="button" class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+              <i class="material-icons" (click)="hideList = false" style="margin-top: 0px !important">close</i>
+            </button>
+          </div>
+        </div>
+        <div class="overflow-auto">
+          <table class="order-list-table list" style="min-width: 400px; text-align: center">
+            <thead class="text-primary" style="border-bottom: 1px solid #eee !important">
+              <th>Brand</th>
+              <th>Item</th>
+              <th>Pack Quantity</th>
+              <th>No. of Packs</th>
+              <th>Net Quantity</th>
+              <th>Rate/Kg</th>
+              <th>Amount (Rs)</th>
+            </thead>
+            <tr id="no-results" class="mt-3" *ngIf="itemList.length < 1">
+              <td colspan="7">
+                <h4 class="my-2">No Records Added !</h4>
+              </td>
+            </tr>
+            <tbody>
+              <tr class="text-center" *ngFor="let item of itemList">
+                <td>{{ item.itemMaster.brand.name }}</td>
+                <td>{{ item.itemMaster.itemName }}</td>
+                <td>{{ item.unitOfMeasure.unitName }}Kg</td>
+                <td>{{ item.orderedQuantity }}</td>
+                <td>{{ item.unitOfMeasure.unitWeight * item.orderedQuantity }}Kg</td>
+                <td>{{ item.itemMaster.fixedPrice }}</td>
+                <td>
+                  {{
+                  item.itemMaster.fixedPrice *
+                  (item.unitOfMeasure.unitWeight * item.orderedQuantity) | indCurrencyFormat
+                  }}
+                </td>
+                <td class="td-actions">
+                  <button mat-raised-button type="button" matTooltip="Remove"
+                    class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+                    <i class="material-icons" (click)="removeObject(item)" style="margin-top: 0px !important">close</i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="text-center" style="border-top: 1px solid #eee !important">
+              <th colspan="5"></th>
+              <th>Total :</th>
+              <th>Rs.{{ total | indCurrencyFormat }}</th>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="productList?.length === 0 " class="text-uppercase no-results-card">
+      {{loadString}}
+    </div>
+    <div class="row product-list-area cust-scroll" (scroll)="scrollEvent($event)">
+      <div class="col-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12" *ngFor="let item of productList; index as index">
+        <div class="card card-products" style="height: inherit">
+          <div class="card-header card-header-success">
+            <div class="row">
+              <div class="col-5">
+                <img [src]="
+                    item?.itemImageString?.substring(0, 4) === 'data'
+                      ? item?.itemImageString
+                      : noImg
+                  " alt="No Image" style="height: 130px; width: 110px" />
+              </div>
+              <div class="col-7 cart-item-details">
+                <h6 class="card-title" style="font-weight: 600">
+                  {{ item?.brand.name }}
+                </h6>
+                <h4 class="card-title-item fw-bold" [matTooltip]="item?.itemName">
+                  {{ item?.itemName }}
+                </h4>
+                <div class="card-category item-description cust-scroll ml-3" (scroll)="preventScroll($event)">
+                  <span class="text-white" [innerHTML]="
+                      item?.itemDescription ? item?.itemDescription : '<p>-</p>'
+                    "></span>
+                  <br />
+                </div>
+
+                <h5 class="text-white cart-item-price mb-0">
+                  Rs.{{ item?.fixedPrice }}
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="card-body py-0">
+            <form (submit)="unit.value = '';orderedQuantity.value = ''">
+              <div class="row">
+                <div class="form-group col-6 mt-2 py-0">
+                  <mat-form-field class="example-full-width mb-3">
+                    <mat-label>Select a Unit</mat-label>
+                    <mat-select #unit>
+                      <mat-option *ngFor="let unit of item?.unitOfMeasures" [value]="unit">
+                        {{ unit.unitName }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-6 py-0">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>No of Items</mat-label>
+                    <input matInput pattern="[0-9]+" min="1" type="number" maxlength="7"
+                      onkeydown="return event.keyCode !== 190" #orderedQuantity
+                      oninput="this.value.length > this.maxLength ? this.value = this.value.slice(0, this.maxLength): this.value"
+                      required />
+
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="card-footer justify-content-end">
+                <div class="stats">
+                  <button class="btn btn-warning px-3 mx-2" [disabled]="
+                     
+                    !(unit.value && (orderedQuantity.value > 0))
+                       
+                    " (click)="addToList(item, unit.value, orderedQuantity.value)">
+                    <i class="material-icons">shopping_cart</i>Add to List
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

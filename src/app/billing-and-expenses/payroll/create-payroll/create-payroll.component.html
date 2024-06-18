@@ -1,0 +1,158 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+</div>
+
+<div class="container-fluid mt--14">
+    <!-- Add  User -->
+    <div class="row d-flex justify-content-end clearfix">
+        <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header card-header-default">
+                    <h4 class="card-title"> {{ dialogTitle }}</h4>
+                </div>
+                <div class="card-body">
+                    <form class="register-form m-4" [formGroup]="createPayroll" (ngSubmit)="onRegister()">
+                        <div class="row">
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Employee</mat-label>
+                                    <input
+                      type="text"
+                      placeholder="Pick Employee"
+                      aria-label="Number"
+                      [readonly]="payrollId ? true : false"
+                      [formControl]="employeeControl"
+                      matInput
+                      [matAutocomplete]="role"
+                    required />
+                    <mat-autocomplete #role="matAutocomplete">
+                      <mat-option
+                        *ngFor="let option of filteredEmployeeOptions | async"
+                        [value]="option.name" 
+                        (click)="onSelectEmployee(option)"
+                      >
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                      <mat-icon matSuffix>perm_identity</mat-icon>
+                                    <mat-error *ngIf="createPayroll.get('employee').hasError('required')">
+                                        Employee is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label> Basic Pay </mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="basicPay" (input)="onChange()" >
+                                    <mat-error *ngIf="createPayroll.get('basicPay').hasError('required')">
+                                        Basic Pay is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>HRA</mat-label>
+                                    <input type="number" min="0" onmousewheel="return false;" step ="0.01" matInput formControlName="hra" (input)="onChange()">
+                                   <span matSuffix>&#8377;</span>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>DA</mat-label>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="da" (input)="onChange()" >
+                                   <span matSuffix>&#8377;</span>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Conveyance Allowance</mat-label>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="conveyanceAllowance" (input)="onChange()">
+                                   <span matSuffix>&#8377;</span>                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Medical Allowance</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="medicalAllowance" (input)="onChange()">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Special Allowance</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="specialAllowance" (input)="onChange()">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Bonus</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="bonus" (input)="onChange()">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>ESI</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="esi" (input)="onChange()">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>EPF</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="epf" (input)="onChange()">
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>ITA</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="ita" (input)="onChange()">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Earnings</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="earnings" (input)="onChange()" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width mb-3">
+                                    <mat-label>Deductions</mat-label>
+                                   <span matSuffix>&#8377;</span>
+                                    <input type="number" min="0" onmousewheel="return false;" matInput formControlName="deductions"  (input)="onChange()" readonly>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>NetPay</mat-label>
+                                    <input type="number" onmousewheel="return false;" matInput formControlName="netPay" readonly>
+                                   <span matSuffix>&#8377;</span>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <button type="button" class="btn btn-primary my-4" [disabled]="!createPayroll.valid"
+                                    (click)="onRegister()">
+                                    {{ buttonTitle }}
+                                </button>
+                                <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                                    {{cancelButton}}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Add User -->
+</div>

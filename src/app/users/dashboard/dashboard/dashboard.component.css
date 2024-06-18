@@ -1,0 +1,151 @@
+.das-card {
+  height: 100px;
+  box-shadow: 4px 4px 4px 6px #00000024;
+}
+
+.custom-col{
+  min-width: 23%;
+  width: fit-content;
+}
+
+.custom-col-large{
+  min-width: 30%;
+  width: auto;
+}
+
+.das-card-count-success_s {
+  color: #11921ccf;
+  font-size: 38px;
+  font-weight: bold;
+  font-family: monospace;
+
+}
+
+.das-card-count-primary_s {
+  color: rgb(28, 28, 255);
+  font-size: 38px;
+  font-weight: bold;
+  font-family: monospace;
+  padding-bottom: 0px;
+
+}
+
+.das-card-count-warning_s {
+  background: #ff0000cf;
+}
+
+.das-card-label {
+  font-weight: 500;
+  font-size: medium;
+}
+.das-card-label-line{
+  width: 100%;
+  margin: 0 2%;
+}
+
+.das-card-label-line-danger {
+  background: rgb(255, 31, 31);
+  width: 100%;
+  margin: 0 2%;
+}
+.das-card-label-line-primary {
+  background: rgb(0, 235, 39);
+  width: 100%;
+  margin: 0 2%;
+}
+
+/* .das-card-count-walletamount{
+  font-weight: bold;
+  font-size: x-large;
+  color: #000000;
+  padding: 2px 9px;
+  border-radius: 10px;
+}
+.das-card-count-outstandamount{
+  font-weight: bold;
+  font-size: x-large;
+  color: #ca0606ed;
+  padding: 2px 9px;
+  border-radius: 10px;
+} */
+.das-card-count {
+  font-weight: bold;
+  font-size: x-large;
+  color: rgb(0, 0, 0);
+  padding: 2px 9px;
+  border-radius: 10px;
+}
+
+.das-card-header {
+  font-weight: 600;
+}
+
+.count-container {
+  border: 1px #0b2fb5 solid;
+  border-radius: 9px;
+}
+
+.card-footer h4 {
+  font-weight: 600;
+}
+
+.order-list-table-dashboard {
+  width: 100%;
+  text-align: center;
+  font-size: larger;
+}
+
+.order-list-table-dashboard tr {
+  padding: 10px;
+}
+
+.order-list-table-dashboard .border-bottom {
+  border-bottom-style: double;
+}
+
+::ng-deep .mat-tooltip-show {
+  animation: mat-tooltip-show 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  background: aqua;
+  font-size: small;
+  font-weight: 700;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+::ng-deep .dashboard .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+.header {
+  background-color: #2e5da1;
+  color: white;
+  font-size: 1.5em;
+  padding: 5px;
+  align-items: center;
+  text-transform: uppercase;
+  border-radius: 10px 10px 0 0;
+
+  input {
+    font-size: medium;
+    font-weight: 500;
+    color: #0000008a;
+    border-radius: 10px;
+    border: 0;
+    padding: 8px 8px 8px 25px;
+    width: 230px;
+    margin-top: 5px;
+    background: #ffffff;
+    transition: 0.2s, width 0.2s;
+  }
+}
+.card-category{
+  font-size: 17px; 
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  text-align: end;
+}

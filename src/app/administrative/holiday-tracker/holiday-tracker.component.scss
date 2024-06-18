@@ -1,0 +1,22 @@
+.demo-inline-calendar-card {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-calendar-body-cell.selected
+  {
+    background-color:#ff8f8f!important;
+    border-radius: 50%
+  }
+
+  .event-label{
+    border: 1px green solid;
+    padding: 5px;
+    text-align: center;
+    border-radius: 20px;
+    background: #21b421;
+    color: white;
+  }
+
+  .holiday{
+    background: #ca3838 !important;
+  }

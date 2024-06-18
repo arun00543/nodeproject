@@ -1,0 +1,13 @@
+.dateFormate{
+    display: flex!important;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.list-card-pay{
+    position: fixed;
+    z-index: 4;
+    box-shadow: 0 0 2rem!important;
+    padding: 15px;
+    width: 50%;
+    top: 141px;
+}

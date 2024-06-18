@@ -1,0 +1,37 @@
+.drop{
+    // margin-left: -600px;
+    // transition: 2s;
+}
+
+.rise{
+    // margin-left: 0px !important;
+}
+
+.order-list-button{
+    z-index: 1;
+    display: -webkit-box;
+}
+
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+    margin-left: 16px;
+  }
+
+.border-bottom{
+    border-bottom: 1px solid #eee !important;
+}
+
+.bold{
+    font-weight: bold;
+    font-size: initial;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.sales-header{
+    font-weight: 600;
+}

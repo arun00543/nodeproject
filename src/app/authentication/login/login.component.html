@@ -1,0 +1,48 @@
+  <div id="particles-js" class="login-container">
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-4 col-md-5 col-sm-12 col-xs-12">
+      <div class="card login-card fadeInDown shadow p-2">
+      <div class="card m-0">
+            <div class="card-header bg-transparent py-0">
+              <div class="navbar-brands d-flex justify-content-center pt-0">
+                <img src="/assets/img/logo.png" class="navbar-brand-img1" alt="...">
+              </div>
+            </div>
+            <hr class="mx-2"/>
+            <div class="card-body px-lg-5 pb-lg-5">
+              <div class="text-center mb-4">
+                <small class="login-title">Login</small>
+              </div>
+              <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+                <mat-form-field class="example-full-width mb-4" appearance="outline">
+                  <mat-label>User Name</mat-label>
+                  <input matInput formControlName="username" required>
+                  <mat-icon matSuffix>face</mat-icon>
+                  <mat-error *ngIf="authForm.get('username').hasError('required')">
+                    User Name is required
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width mb-4" appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input matInput [type]=" toogle ? 'password' : 'text'" formControlName="password" required>
+                  <mat-icon matSuffix [hidden]="toogle ? true : false" (click)="toogle = !toogle">password</mat-icon>
+                  <mat-icon matSuffix [hidden]="!toogle ? true : false" (click)="toogle = !toogle">remove_red_eye</mat-icon>
+                  <mat-error *ngIf="authForm.get('password').hasError('required')">
+                    Password is required
+                  </mat-error>
+                </mat-form-field>
+
+               <h6 class="text-danger"> {{error}} </h6>
+               <div class="col-12 justify-content-start">
+                <a routerLink="/authentication/forget-password" class="text-primary"><small>Forgot password?</small></a>
+              </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-success my-2" [disabled]="!authForm.valid ">Sign in</button>
+                </div>
+              </form>
+            </div>
+      </div>
+      </div>
+    </div>
+  </div>
+

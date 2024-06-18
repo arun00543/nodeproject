@@ -1,0 +1,39 @@
+<div class="body">
+    <div class="header">
+      <h1>KPR TEAM</h1>
+      <p>Food Revolution Business</p>
+    </div>
+    <div class="team-container">
+      <div class="card">
+        <div class="team-card" [@cardHover]="isHovered[0] ? 'hovered' : 'notHovered'" (mouseenter)="toggleHover(0)"
+          (mouseleave)="toggleHover(0)">
+          <img src="https://www.nautec.com/wp-content/uploads/2018/04/placeholder-person.png" alt="Team Member 1">
+          <div class="team-card-footer">
+            <h1>Mr. xxxxxxxxx</h1>
+            <h2>Position</h2>
+           </div>
+        </div>
+        <div class="social-icons">
+          <a href="https://m.facebook.com/100063988994879"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://instagram.com/kpr_kannandhal?igshid=OGQ5ZDc2ODk2ZA=="><i class="fa fa-instagram" aria-hidden="true"></i></a>
+          <!-- <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a> -->
+        </div>
+      </div>
+      <div class="card">
+        <div class="team-card" [@cardHover]="isHovered[1] ? 'hovered' : 'notHovered'" (mouseenter)="toggleHover(1)"
+          (mouseleave)="toggleHover(1)">
+          <img src="https://www.nautec.com/wp-content/uploads/2018/04/placeholder-person.png" alt="Team Member 2">
+          <div class="team-card-footer">
+            <h1>Mr. xxxxxxxxx</h1>
+            <h2>Position</h2>
+           </div>
+        </div>
+        <div class="social-icons">
+          <a href="https://m.facebook.com/100063988994879"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://instagram.com/kpr_kannandhal?igshid=OGQ5ZDc2ODk2ZA=="><i class="fa fa-instagram" aria-hidden="true"></i></a>
+          <!-- <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  

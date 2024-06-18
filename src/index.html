@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <base href="/" />
+
+  <meta charset="utf-8" />
+
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png" />
+
+  <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+ <script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en' ,includedLanguages:'af,sq,am,ar,hy,as,az,eu,be,bn,bs,bg,ca,ceb,ny,zh-CN,zh-CW,co,hr,cs,da,dv,doi,nl,en,eo,et,tl,fi,fr,fy,gl,ka,de,el,gu,ht,ha,haw,iw,hi,hmn,hu,is,ig,ilo,id,ga,it,ja,jw,kn,kk,km,rw,gom,ko,ku,ckb,ky,lo,la,lv,lt,lb,mk,mai,mg,ms,ml,mt,mi,mr,mn,my,ne,no,or,ps,fa,pl,pt,pa,ro,ru,sm,sa,gd,sr,st,sn,sd,si,sk,sl,so,es,su,sw,sv,tg,ta,tt,te,th,ti,tr,tk,uk,ur,ug,uz,vi,cy,xh,yi,yo,zu'},'google_translate_element');
+  }
+</script>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> -->
+  <!-- <meta name="google-translate-customization" content="9f841e7780177523-3214ceb76f765f38-gc38c6fe6f9d06436-c"></meta> -->
+
+  <title>KPR</title>
+
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+
+  <meta name="viewport" content="width=device-width" />
+
+  <!-- Fonts and icons -->
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" />
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons" rel="stylesheet"
+    type="text/css" />
+
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR-KEY-HERE"></script>
+
+  <script>
+    window.global = window;
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+</head>
+
+<body>
+  <!-- <div class="hidden" id="google_translate_element"></div> -->
+  <app-root>
+    <div class="loader">
+      <svg class="circular" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+      </svg>
+    </div>
+  </app-root>
+</body>
+
+<script>
+  var ALERT_TITLE = "Copy credentials";
+  var ALERT_BUTTON1 = "Copy and Close";
+
+  if (document.getElementById) {
+    window.alert = function (txt) {
+      createCustomAlert(txt);
+    };
+  }
+
+  function createCustomAlert(txt) {
+    d = document;
+    if (d.getElementById("modalContainer")) return;
+    mObj = d
+      .getElementsByTagName("body")[0]
+      .appendChild(d.createElement("div"));
+    mObj.id = "modalContainer";
+    mObj.style.height = d.documentElement.scrollHeight + "px";
+    alertObj = mObj.appendChild(d.createElement("div"));
+    alertObj.id = "alertBox";
+    if (d.all && !window.opera)
+      alertObj.style.top = document.documentElement.scrollTop + "px";
+    alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth) / 2 + "px";
+    alertObj.style.visiblity = "visible";
+    // head = alertObj.appendChild(d.createElement("head"));
+    // img=d.createElement("i");
+    // img.setAttribute("class", "fa fa-info-circle");
+    // img.appendChild(img);
+    h1 = alertObj.appendChild(d.createElement("h1"));
+    img = d.createElement("i");
+    img.setAttribute("class", "fa fa-exclamation-circle");
+    h1.appendChild(img);
+    br = d.createElement("br");
+    h1.appendChild(d.createTextNode(ALERT_TITLE));
+    label = alertObj.appendChild(d.createElement("label"));
+    //label.appendChild(d.createTextNode(txt));
+    label.innerHTML = "Username :";
+    msg = alertObj.appendChild(d.createElement("p"));
+    //msg.appendChild(d.createTextNode(txt));
+    msg.innerHTML = txt.username;
+    label1 = alertObj.appendChild(d.createElement("label"));
+    //label1.appendChild(d.createTextNode(txt));
+    label1.innerHTML = "Password :";
+    msg1 = alertObj.appendChild(d.createElement("p"));
+    //msg1.appendChild(d.createTextNode(txt));
+    msg1.innerHTML = txt.password;
+    btn = alertObj.appendChild(d.createElement("button1"));
+    btn.id = "proceedBtn";
+    btn.appendChild(d.createTextNode(ALERT_BUTTON1));
+    btn.setAttribute("type", "button");
+    btn.href = "#";
+    btn.focus();
+    btn.onclick = function () {
+      // createFile(txt);
+      confirm(txt);
+      return;
+    };
+  }
+
+  function createFile(txt) {
+    //create or obtain the file's content
+    var username = "Username : " + txt.username;
+    var password = "Password : " + txt.password;
+    //create a file and put the content, name and type
+    var file = new File(["\ufeff" + username + ";" + '\r' + password], "user-credential.txt", {
+      type: "text/plain:charset=UTF-8",
+    });
+    //create a ObjectURL in order to download the created file
+    url = window.URL.createObjectURL(file);
+
+    //create a hidden link and set the href and click it
+    var a = document.createElement("a");
+    a.style = "display: none";
+    a.href = url;
+    a.download = file.name;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  function confirm(txt) {
+    // Get the text field
+    var copyText = "Username: " + txt.username + "\r" + "Password: " + txt.password;
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText);
+
+    document
+      .getElementsByTagName("body")[0]
+      .removeChild(document.getElementById("modalContainer"));
+  }
+</script>
+
+<style>
+  #modalContainer {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 10000;
+    background-image: url(tp.png);
+  }
+
+  #alertBox {
+    display: flex;
+    min-height: 100px;
+    margin-top: 50px;
+    border: 1px solid #666;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: 20px 30px;
+    box-shadow: 0 0 2rem 0 !important;
+    width: 367px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #alertBox btn {
+    display: flex;
+  }
+
+  #modalContainer>#alertBox {
+    position: fixed;
+  }
+
+  #alertBox h1 {
+    margin: 12px;
+    font: bold 0.9em verdana, arial;
+    background-color: #ffffff;
+    border-bottom: 0px solid #000;
+    padding: 13px 0 5px 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #alertBox p {
+    margin-bottom: 10px;
+    font-size: 22px;
+    color: blue;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #alertBox .fa {
+    display: inline-block;
+    font: 33px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    margin-bottom: 10px;
+  }
+
+  #alertBox label {
+    color: rgb(0, 0, 0);
+    margin-bottom: 0;
+    font-weight: 600;
+  }
+
+  #alertBox button1 {
+    margin: 5px;
+    padding: 4px;
+    text-align: center;
+    color: #fff;
+    background-color: #4bb543;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #mContainer {
+    position: relative;
+    width: 600px;
+    margin: auto;
+    padding: 5px;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    font: 0.7em verdana, arial;
+  }
+
+  #credits {
+    position: relative;
+    margin: 25px auto 0px auto;
+    width: 350px;
+    font: 0.7em verdana;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    height: 90px;
+    padding-top: 4px;
+  }
+
+  #credits img {
+    float: left;
+    margin: 5px 10px 5px 0px;
+    border: 1px solid #000000;
+    width: 80px;
+    height: 79px;
+  }
+
+  body {
+    top: 0px !important;
+  }
+
+  body>.skiptranslate>iframe.skiptranslate {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .goog-te-gadget {
+    font-family: arial;
+    font-size: 11px;
+    color: transparent;
+    white-space: nowrap;
+    margin-bottom: -25px;
+    /* border-radius: 3px; */
+  }
+
+  .goog-te-gadget .goog-te-combo {
+    margin: 4px 0;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+  }
+
+  .VIpgJd-ZVi9od-l4eHX-hSRGPd,
+  .VIpgJd-ZVi9od-l4eHX-hSRGPd:link,
+  .VIpgJd-ZVi9od-l4eHX-hSRGPd:visited,
+  .VIpgJd-ZVi9od-l4eHX-hSRGPd:hover,
+  .VIpgJd-ZVi9od-l4eHX-hSRGPd:active {
+    display: none;
+  }
+</style>
+
+</html>

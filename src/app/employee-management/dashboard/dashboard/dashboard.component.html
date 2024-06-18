@@ -1,0 +1,59 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="dashboard-header d-flex justify-content-between mb-3">
+      <span
+        class="btn btn-outline-success"
+        style="cursor: auto; color: #066c32"
+        ><b style="font-size: 17px; font-weight: 600">TODAY'S PRICE</b></span
+      >
+      <span
+        class="btn btn-outline-success"
+        style="cursor: auto; color: #066c32"
+        ><b style="font-size: 17px; font-weight: 600">{{
+          currentDateTime | date : "longDate"
+        }}</b></span
+      >
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of dashData">
+        <div
+          class="card card-stats"
+        >
+          <div class="card-header card-header-default card-header-icon">
+            <div class="card-icon">
+              
+              <img [src]="item.imageString?.substring(0,4) === 'data' ? item.imageString : noImg" />
+
+            </div>
+            <p
+              class="card-category text-dark" [matTooltip]="item.itemName"
+            >
+              {{ item.itemName }}
+            </p>
+            <h3 class="card-title" style="font-size: 17px; font-weight: 600">
+              <small style="font-size: 17px; font-weight: 600">₹</small>
+              {{ item.fixedPrice }}
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-success">book</i>
+              <h5
+                class="mb-0"
+                style="font-weight: 800; color: #000000b5; font-family: emoji"
+              >
+                {{ item.brand.name }}
+              </h5>
+              <span
+                class="ml-1 text-danger"
+                style="font-weight: 800; padding-top: 0.15rem"
+                >Brand</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+.nav-user-id {
+    font-size: medium !important;
+    font-weight: 600 !important;
+}
+
+.notify-border {
+    border-bottom: 1px rgb(0, 0, 0) solid;
+}
+
+.nav-user-notification {
+    font-family: 'Roboto';
+    font-size: medium !important;
+    font-weight: 600 !important;
+}
+
+.notify-icon {
+    position: absolute;
+    margin: 2px 8px;
+    font-size: small;
+}

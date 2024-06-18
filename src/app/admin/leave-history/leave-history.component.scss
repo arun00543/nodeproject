@@ -1,0 +1,88 @@
+::ng-deep .request-details .mat-select-value {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+    font-size: 20px;
+}
+.modal.modal-vcenter {
+    padding: 15px !important;
+}
+.modal.modal-vcenter .modal-dialog {
+    /* overwrites bootstrap4 properties */
+    position: relative;
+    margin: auto;
+    max-width: 100%;
+
+    /* added properties */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (min-width: 576px){
+.modal.modal-vcenter .modal-dialog {
+    min-width: 546px; /* or whatever min-width you want */
+    max-width: 50%; /* width for most tablets and desktops */
+}
+}
+
+.modal .modal-body {
+  max-height: 40vh;
+overflow-y: auto;
+}
+@media screen and (min-height:460px){
+.modal .modal-body {
+    max-height: 65vh;
+}
+}
+::ng-deep .request-details .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .request-details .mat-form-field-label {
+    color: white !important; 
+}
+
+::ng-deep .request-details .mat-form-field-outline {
+    color: white !important;
+}
+
+::ng-deep .request-details .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .request-details .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .request-details .mat-form-field-subscript-wrapper {
+    display: none !important;
+}
+.text-bold{
+    font-weight: 600;
+}
+::ng-deep .leave-date .mat-select-arrow {
+    color: rgb(0 0 0);
+}
+
+::ng-deep .leave-date .mat-form-field-label {
+    color: white !important; 
+}
+
+::ng-deep .leave-date .mat-form-field-outline {
+    color: white !important;
+}
+
+::ng-deep .leave-date .mat-form-field-wrapper {
+padding-bottom: 0px !important;
+}
+
+::ng-deep .leave-date .mat-form-field-underline{
+    display: none !important;
+}
+
+::ng-deep .leave-date .mat-form-field-subscript-wrapper {
+    display: none !important;
+}

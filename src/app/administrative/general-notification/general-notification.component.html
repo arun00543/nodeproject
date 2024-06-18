@@ -1,0 +1,82 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header card-header-default d-flex justify-content-between">
+        <h3 class="card-title">Notifications</h3>
+        <button mat-icon-button (click)="refresh()" class="tbl-action-btn mx-2">
+          <i class="fa fa-refresh" style="font-size:large" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="rotate mt-1">
+        <div class="card-body notification-card-body">
+          <div class="general-notification-grid"
+            [ngClass]="spareNotificationEnable ? 'general-notification-grid-enable' : ''">
+            <mat-accordion [ngClass]="spareNotificationEnable ? '' : 'general-notification-grid-disable'">
+              <mat-expansion-panel [expanded]="spareNotification.length > 0" (closed)="close('spare')"
+                (opened)="open('spare')">
+                <mat-expansion-panel-header #panelSN (click)="spareNotification.length > 0 ? '' : panelSN._toggle()">
+                  <mat-panel-title>
+                    <h4 class="bold"> Spare Notification </h4>
+                    <span class="notification-count notification-count-danger">{{spareNotification.length}}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let notification of spareNotification" class="alert general-alert general-alert-info"
+                  (click)="action(notification,'spare')">
+                  <span>The spare item <strong>"{{notification.spareItem}}"</strong> of id:
+                    <strong>{{notification.machinerySpareId}}</strong> has crossed
+                    due date over <strong> {{notification.days?.replace("-",'')}}.</strong>
+                  </span>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+
+          <div class="general-notification-grid"
+            [ngClass]="leadNotificationEnable ? 'general-notification-grid-enable' : ''">
+            <mat-accordion [ngClass]="leadNotificationEnable ? '' : 'general-notification-grid-disable'">
+              <mat-expansion-panel [expanded]="leadNotification.length > 0" (closed)="close('lead')"
+                (opened)="open('lead')">
+                <mat-expansion-panel-header #panelLN (click)="leadNotification.length > 0 ? '' : panelLN._toggle()">
+                  <mat-panel-title>
+                    <h4 class="bold"> Lead Notification </h4>
+                    <span class="notification-count notification-count-warning">{{leadNotification.length}}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let notification of leadNotification" class="alert general-alert general-alert-info"
+                  (click)="action(notification,'lead')">
+                  <span>The follow-up for your lead, <strong>"{{notification.name}}"</strong> has exceeded <strong>
+                      {{notification.days?.replace("-",'')}}</strong>.Urgent action is recommended for timely
+                    engagement.
+                  </span>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+
+          <div class="general-notification-grid"
+            [ngClass]="paymentNotificationEnable ? 'general-notification-grid-enable' : ''">
+            <mat-accordion [ngClass]="paymentNotificationEnable ? '' : 'general-notification-grid-disable'">
+              <mat-expansion-panel [expanded]="paymentNotification.length > 0" (closed)="close('payment')"
+                (opened)="open('payment')">
+                <mat-expansion-panel-header #panelPN (click)="paymentNotification.length > 0 ? '' : panelPN._toggle()">
+                  <mat-panel-title>
+                    <h4 class="bold"> Payment Notification </h4>
+                    <span class="notification-count notification-count-primary">{{paymentNotification.length}}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let notification of paymentNotification" class="alert general-alert general-alert-info"
+                  (click)="action(notification,'payment')">
+                  <span>The Payment of <strong>"{{notification.name}}"</strong> for the sales id:
+                    <strong>{{notification.salesId}}</strong> has crossed
+                    due date over <strong> {{notification.days?.replace("-",'')}}.</strong>
+                  </span>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

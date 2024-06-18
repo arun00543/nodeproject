@@ -1,0 +1,40 @@
+.dashboard-header{
+    display: flex;
+    justify-content: space-between;
+}
+.card-category{
+    font-size: 17px; 
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    text-align: end;
+  }
+  .header {
+    background-color: #2e5da1;
+    color: white;
+    font-size: 1.5em;
+    padding: 5px;
+    align-items: center;
+    text-transform: uppercase;
+    border-radius: 10px 10px 0 0;
+  
+    input {
+      font-size: medium;
+      font-weight: 500;
+      color: #0000008a;
+      border-radius: 10px;
+      border: 0;
+      padding: 8px 8px 8px 25px;
+      width: 230px;
+      margin-top: 5px;
+      background: #ffffff;
+      transition: 0.2s, width 0.2s;
+    }
+  }
+  ::ng-deep .mat-tooltip-show {
+    animation: mat-tooltip-show 200ms cubic-bezier(0, 0, 0.1, 1) forwards;
+    background: aqua;
+    font-size: small;
+    font-weight: 700;
+  }

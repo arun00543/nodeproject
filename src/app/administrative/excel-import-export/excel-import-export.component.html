@@ -1,0 +1,47 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8" style="padding-top: 7rem !important;"></div>
+<div class="container">
+    <div *ngIf="hide" class="result-card-area row d-flex col-lg-4 justify-content-center mx-auto">
+        <div class="card result-card shadow p-3">
+            <div class="download-file-card">Success count :<b>{{importRes?.successCount}}</b></div>
+            <div class="download-file-card">Failed count :<b>{{importRes?.failureCount}}</b></div>
+            <div *ngIf="hideMessage" class="download-file-card">Download failed datas :<span
+                    class="mx-3">
+                    <button class="btn btn-outline-primary py-2" (click)="downloadErrList()">
+                        <mat-icon>download</mat-icon>
+                    </button>
+                </span>
+            </div>
+            <div class="d-grid d-flex justify-content-end">
+                <button class="btn btn-primary d-block" type="reset" (click)="reset()">Okay</button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="d-flex justify-content-between card-header-default p-2 flex-wrap">
+                <h3 class="card-title">IMPORT {{dialogueTitle}}</h3>
+                <button class="btn btn-success btn-sm float-right" (click)="download()">Download sample
+                    template <mat-icon>download</mat-icon></button>
+            </div><br>
+            <div class="drop_box p-3 justify-content-between">
+                <header>
+                    <h4 class="pr-4">Select a file here</h4>
+                </header><br>
+                <div class="excel_align">
+                    <form [formGroup]="importForm">
+                       <div class="d-flex flex-wrap justify-content-center">
+                        <input type="file" class="selected-file" name="uploadfile" id="img"
+                        (change)="onFileSelect($event)" (click)="onFileSelectClick($event)" style="display:none;"/>
+                        <label for="img" class="upload-file px-3">Select Excel File</label> <span class="m-3">{{importForm.value.file?.name}}</span>
+                       </div> <br> 
+                       <div class="d-flex justify-content-center pr-3"> 
+                        <button class="btn btn-primary" [disabled]="!importForm.valid"
+                            (click)="uploadContractEmployeeExcel()">UPLOAD</button>
+                        </div>
+                    </form>
+                </div>
+                <p> <b>Files Supported: EXCEL</b></p>
+            </div>
+        </div>
+    </div>
+</div>

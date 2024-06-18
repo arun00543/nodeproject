@@ -1,0 +1,12 @@
+<div *ngIf="imageObject" class="container review-container">
+    <h1>Clients & Reviews</h1>
+    <ng-image-slider
+    #nav
+    [images]="imageObject"
+    [imagePopup]="false"
+    [infinite]="true"
+    [autoSlide]="{interval: 3, stopOnHover: true}"
+    [imageSize]="{width: '100%', height: 200}"
+    slideImage="1"
+  ></ng-image-slider>
+</div>

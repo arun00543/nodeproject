@@ -1,0 +1,19 @@
+.rows {
+    display: flex;
+    margin-right: -20px;
+    margin-left: 2px;
+    flex-wrap: wrap;
+}
+
+.chart1-area {
+    overflow-y: scroll;
+    position: relative;
+    height: 60vh;
+    width: 100%
+}
+
+.chart2-area {
+    position: relative;
+    height: 60vh;
+    width: 100%
+}

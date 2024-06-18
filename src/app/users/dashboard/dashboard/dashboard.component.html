@@ -1,0 +1,124 @@
+<div class="main-content mt-0">
+  <div class="container-fluid">
+    <div class="dashboard-header d-flex justify-content-end flex-wrap mb-3">
+      <div class="col-lg-12 col-md-12 col-sm-12 mt-4 pt-2">
+        <div class="count-container counts row p-3 pb-0 justify-content-between">
+          <div class="custom-col">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">Total Counts</h5>
+            </div>
+            <div class="card das-card p-2 py-2 mt-1 mb-3">
+              <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+                <div class="das-card-label">Orders</div>
+                <hr class="das-card-label-line" />
+                <span class="das-card-count-primary_s mb-3">.</span>
+                <div class="das-card-count">
+                  {{ customerDetails ? customerDetails.orderCount : 0 }}
+                </div>
+              </div>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <div class="das-card-label">Sales</div>
+                <hr class="das-card-label-line" />
+                <span class="das-card-count-success_s mb-3">.</span>
+                <div class="das-card-count">
+                  {{ customerDetails? customerDetails.salesCount : 0 }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="custom-col-large">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">Payments</h5>
+            </div>
+            <div class="card das-card p-2 py-2 mt-1 mb-3">
+              <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+                <div class="das-card-label">Wallet</div>
+                <hr class="das-card-label-line-primary" />
+                <span class="das-card-count-primary_s mb-3">.</span>
+                <div class="das-card-count">
+                  {{ customerDetails?.walletAmount ? (customerDetails?.walletAmount | indCurrencyFormat) : 0 | indCurrencyFormat }}
+                </div>
+              </div>
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <div class="das-card-label">OutStanding</div>
+                <hr class="das-card-label-line-danger" />
+                <span class="das-card-count-success_s mb-3">.</span>
+                <div class="das-card-count">
+                  {{ customerDetails?.totalBalanceAmount ? (customerDetails?.totalBalanceAmount | indCurrencyFormat) : 0 | indCurrencyFormat}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="custom-col pt-3">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">Wallet Amount</h5>
+            </div>
+            <div class="card das-card p-2 mt-1 mb-3">
+              <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+                <div class="das-card-count">
+                  {{ customerDetails?.walletAmount ? (customerDetails?.walletAmount | currency:'INR') : 0 | currency:'INR' }}
+                </div>
+                <hr class="das-card-label-line-primary" />
+              </div>
+            </div>
+          </div>
+          <div class="custom-col pt-3">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">OutStanding Amount</h5>
+            </div>
+            <div class="card das-card p-2 mt-1 mb-3">
+              <div class="d-flex flex-row justify-content-between align-items-center mb-1">
+                <div class="das-card-count">
+                  {{ customerDetails?.totalBalanceAmount ? (customerDetails?.totalBalanceAmount | currency:'INR') : 0 | currency:'INR'}}
+                </div>
+                <hr class="das-card-label-line-danger" />
+              </div>
+            </div>
+          </div> -->
+
+          <div class="custom-col">
+            <div class="col-12">
+              <h5 class="das-card-header mb-1">View Payment Statistics</h5>
+            </div>
+            <div class="card das-card p-2 py-3 mt-1 mb-3">
+              <div class="chart-container d-flex justify-content-end">
+                <canvas id="MyChart" height="70" width="100"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let item of dashData">
+        <div class="card card-stats" (click)="onClick()" style="width: 100%; cursor: pointer">
+          <div class="card-header card-header-default card-header-icon">
+            <div class="card-icon">
+
+
+              <img [src]="item.imageString?.substring(0,4) === 'data' ? item.imageString : noImg" />
+            </div>
+            <p class="card-category text-dark" [matTooltip]="item.itemName">
+              {{ item.itemName }}
+            </p>
+            <h3 class="card-title" style="font-size: 17px; font-weight: 600">
+              <!-- <small style="font-size: 17px; font-weight: 600">₹</small> -->
+              {{ item.fixedPrice | indCurrencyFormat }}
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-success">book</i>
+              <h5 class="mb-0" style="font-weight: 800; color: #000000b5; font-family: emoji">
+                {{ item.brand.name }}
+              </h5>
+              <span class="ml-1 text-danger" style="font-weight: 800; padding-top: 0.15rem">Brand</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,313 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+
+    <div *ngIf="hideItemList" class="d-flex gap-5 col-10 justify-content-center mx-auto">
+      <div class="card list-card">
+        <div class="d-flex justify-content-between">
+          <h4 class="text-bold" style="-webkit-text-fill-color:blue;">
+            <strong>Item List of </strong>
+            <b><strong class="text-uppercase ml-2">{{ customerName }}</strong></b>
+            ({{ itemList[0]?.order.orderId }})
+          </h4>
+          <button mat-raised-button type="button"
+            class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+            <i class="material-icons" (click)="reset()" style="margin-top: 0px !important">close</i>
+          </button>
+        </div>
+
+        <div class="row px-3 d-flex justify-content-between">
+          <h4 class="text-bold mt-2">
+            <b><strong class="text-uppercase ml-2">Outstanding Payment : </strong></b>
+            <td class="btn btn-lg btn-warning px-2 font-weight-bold py-2" (click)="viewOutstandingCall()">
+              Rs.{{ outstandingPayment ? (outstandingPayment | indCurrencyFormat) : 0 }}
+            </td>
+          </h4>
+          <div class="d-flex flex-wrap">
+            <div class="mx-3" [ngClass]="rise ? 'rise' : ''">
+              <div *ngIf="reject">
+                <form class="d-flex justify-content-end" [formGroup]="deleteReason">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Reason for Rejection</mat-label>
+                    <mat-icon matSuffix>note</mat-icon>
+                    <mat-select matInput formControlName="reason">
+                      <mat-option *ngFor="let item of rejectReason" (click)="onSelectRole(item)" [value]="item">
+                        {{ item.rejectReason }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>
+              </div>
+            </div>
+            <div class="bg-white order-list-button">
+              <div *ngIf="reject">
+                <button class="btn btn-danger px-3" [disabled]="!deleteReason.valid" (click)="rejectOrder()">
+                  Reject
+                </button>
+
+                <button class="btn btn-primary px-3" (click)="reject = !reject; rejectBtn = !rejectBtn">
+                  Cancel
+                </button>
+              </div>
+              <div *ngIf="rejectBtn">
+                <button [disabled]="backupList.length === 0" class="btn btn-success px-3"
+                  (click)="actionCall('accept')">
+                  Approve
+                </button>
+
+                <button class="btn btn-danger px-3" (click)="actionCall('reject')">
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="overflow-auto">
+          <table class="order-list-table" style="min-width: 400px; text-align: center">
+            <thead class="text-primary border-bottom">
+              <th>Brand</th>
+              <th>Item</th>
+              <th>Bag Type</th>
+              <th>Quantity</th>
+              <th>Net Quantity</th>
+              <th>Order Rate/Kg</th>
+              <th>Current Rate/Kg</th>
+              <th>Approve Price/Kg (Editable)</th>
+              <th>Amount (Rs)</th>
+            </thead>
+            <tbody>
+              <tr class="text-center border-bottom" *ngFor="let item of backupList; index as index">
+                <td>{{ item.itemMaster.brand.name }}</td>
+                <td>{{ item.itemMaster.itemName }}</td>
+                <td>{{ item.unitOfMeasure.unitName }}</td>
+                <td>{{ item.orderedQuantity }}</td>
+                <td>{{ item.unitOfMeasure.unitWeight * item.orderedQuantity }}Kg</td>
+                <td>
+                  {{ item.unitPrice | indCurrencyFormat }}
+                </td>
+                <td>
+                  {{ item.itemMaster.fixedPrice | indCurrencyFormat }}
+                </td>
+                <td style="width: 13%">
+                  <input type="text" onmousewheel="return false;" pattern="[0-9].[0-9]{0,2}"
+                    (input)="onChangeInput($event, index,item.itemMaster.fixedPrice)" [value]="itemList[index].unitPrice"
+                    style="width: 60%; text-align: center; border-radius: 10px; border: 2px green solid;" />
+                </td>
+                <td>
+                  {{
+                  itemList[index].unitPrice *
+                  (item.unitOfMeasure.unitWeight * item.orderedQuantity) | indCurrencyFormat
+                  }}
+                </td>
+                <td class="td-actions">
+                  <button mat-raised-button type="button" matTooltip="Remove"
+                    class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+                    <i class="material-icons" (click)="removeObject(index, item)"
+                      style="margin-top: 0px !important">close</i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="text-center" style="border-top: 1px solid #eee !important">
+              <th colspan="7"></th>
+              <th>Total :</th>
+              <th>{{ total | indCurrencyFormat}}</th>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="hidePayHistory" class="d-flex gap-5 col-10 justify-content-center mx-auto">
+      <div class="card list-card" style="max-height: 70%">
+        <div class="d-flex justify-content-between">
+          <h4 class="text-bold" style="-webkit-text-fill-color:blue;">
+            Payment History of
+            <b><strong class="text-uppercase ml-2">{{ customerName }}</strong></b>
+          </h4>
+          <button mat-raised-button type="button" class="btn btn-link btn-sm btn-just-icon">
+            <i class="material-icons" (click)="hidePayHistory = false">close</i>
+          </button>
+        </div>
+        <div class="overflow-auto">
+          <table class="order-list-table" style="min-width: 400px; text-align: center">
+            <thead class="text-primary border-bottom">
+              <th>Sales Id</th>
+              <th>Payment Date</th>
+              <th>Total Amount</th>
+              <!-- <th>Payment Type</th> -->
+              <th>Paid Amount</th>
+              <th>Balance Amount</th>
+              <th>Payment Status</th>
+            </thead>
+            <th colspan="6" *ngIf="paymentList.length < 1">
+              <h4 class="mt-3">No Previous Payments !</h4>
+            </th>
+            <tbody>
+              <tr class="text-center border-bottom" *ngFor="let item of paymentList">
+                <td>{{ item.payment.salesId }}</td>
+                <td>{{ item.paymentDateTime.split("T", 1) | date:'dd-MM-yyyy' }}</td>
+                <td>{{ item.payment.totalOrderAmount | indCurrencyFormat }}</td>
+                <!-- <td >{{item.modeOfPayment}}</td> -->
+                <td>{{ item.paidAmount | indCurrencyFormat}}</td>
+                <td>
+                  {{ item.payment.balanceAmount === null ? 0 : (item.payment.balanceAmount | indCurrencyFormat) }}
+                </td>
+                <td [ngClass]="
+                    item.paymentStatus === 'PAID'
+                      ? 'btn btn-success px-3'
+                      : item.paymentStatus === 'PARTIAL'
+                      ? 'btn btn-warning px-2'
+                      : 'btn btn-danger px-1'
+                  " style="font-weight: 600; padding: 5px">
+                  {{ item.paymentStatus }}
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="text-center" style="border-top: 1px solid #eee !important"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="hideOutstandingPayment" class="d-flex gap-5 col-10 justify-content-center mx-auto">
+      <div class="card list-card" style="max-height: 70%">
+        <div class="d-flex justify-content-between">
+          <h4 class="text-bold">
+            OutStanding Payment History of
+            <strong class="text-uppercase ml-2">{{ customerName }}</strong>
+          </h4>
+          <button mat-raised-button type="button" class="btn btn-link btn-sm btn-just-icon">
+            <i class="material-icons" (click)="hideOutstandingPayment = false">close</i>
+          </button>
+        </div>
+        <div class="overflow-auto">
+          <table class="order-list-table" style="min-width: 400px; text-align: center">
+            <thead class="text-primary border-bottom">
+              <th>Order Id</th>
+              <th>Order Date</th>
+              <th>Total Amount</th>
+              <th>Paid Amount</th>
+              <th>Balance Amount</th>
+            </thead>
+            <th colspan="6" *ngIf="outStandingPaymentList.length < 1">
+              <h4 class="mt-3">No Previous Payments !</h4>
+            </th>
+            <tbody>
+              <tr class="text-center border-bottom" *ngFor="let option of outStandingPaymentList">
+                <td>{{ option.orderId }}</td>
+                <td>{{ option.dateTime.split("T", 1)}}</td>
+                <td>{{ option.paymentAmount | indCurrencyFormat }}</td>
+                <td>{{ option.paidAmount | indCurrencyFormat }}</td>
+                <td>
+                  {{ option.balanceAmount === null ? 0.00 : (option.balanceAmount | indCurrencyFormat) }}
+                </td>
+              </tr>
+            </tbody>
+            <tfoot class="text-center" style="border-top: 1px solid #eee !important"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--14">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="card-header card-header-default">
+          <div class="materialTableHeader">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 d-flex justify-content-between">
+              <div class="d-flex flex-wrap align-content-center card-title p-2">
+                <h4 class="sales-header">Sale Orders</h4>
+              </div>
+            </div>
+            <div>
+              <input class="form-control" placeholder="Search by Customer" type="text" #filter [(ngModel)]="searchTerm"
+                (ngModelChange)="search()" class="browser-default search-field" aria-label="Search box" />
+
+              <button mat-fab color="primary" class="download-btn ml-2 mt-2" [matMenuTriggerFor]="aboveMenu">
+                <mat-icon>download</mat-icon>
+              </button>
+              <mat-menu class="export-option px-1" #aboveMenu="matMenu" yPosition="above">
+                <button mat-menu-item (click)="pdfExport()">
+                  <mat-icon class="text-danger">picture_as_pdf</mat-icon>
+                </button>
+                <button mat-menu-item (click)="exelExport()">
+                  <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <mat-table #table id="table" matTableExporter style="min-width: 800px" [dataSource]="dataSource" matSort
+              #exporter="matTableExporter" [hiddenColumns]="[3]" (matSortChange)="sortData($event)" class="mat-cell">
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select" id="checkBox" class="form-check">
+                <mat-header-cell *matHeaderCellDef class="thead-light" [ngClass]="'tbl-col-width-per-6'">
+                  <input type="checkbox" (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'" />
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <input type="checkbox" (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                    [ngClass]="'tbl-checkbox'" />
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="orderId">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center">Order Id</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center">
+                  {{ row.orderId }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="customer">
+                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                  style="justify-content: center">Customer</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center">
+                  {{ row.customer }} ({{row.phoneNumber}})</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="orderStatus">
+                <mat-header-cell *matHeaderCellDef class="thead-light" style="justify-content: center">Order
+                  Status</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="justify-content: center">
+                  {{ row.orderStatus }}</mat-cell>
+              </ng-container>
+
+              <!-- actions -->
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef class="thead-light"
+                  style="justify-content: center">Action</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index" class="pr-0" style="justify-content: center">
+                  <button (click)="$event.stopPropagation()" (click)="viewHistoryCall(row)"
+                    class="btn btn-outline-success p-2">
+                    pay history
+                  </button>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+              <mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewListCall(row)"
+                [style.cursor]="'pointer'" matRipple>
+              </mat-row>
+            </mat-table>
+
+            <div *ngIf="dataSource?.length == 0" class="no-results">
+              No results
+            </div>
+            <mat-paginator #paginator [length]="data?.totalElements" [pageIndex]="0" [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]" (page)="getPage($event)">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

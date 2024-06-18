@@ -1,0 +1,48 @@
+<div class="body">
+  <h1 class="title">Explore</h1>
+  <div class="container">
+    <div class="video-container" (click)="playVideo($event, true)" (mouseenter)="playVideo($event)"
+      (mouseleave)="pauseVideo($event)">
+      <video width="300px" [muted]="true">
+        <source  src="assets/Sliders/Videos/Recipe-Bonda.mp4">
+      </video>
+    </div>
+    <div class="video-container" (click)="playVideo($event, true)" (mouseenter)="playVideo($event)"
+      (mouseleave)="pauseVideo($event)">
+      <video width="300px" [muted]="true">
+        <source src="assets/Sliders/Videos/Recipe-Dosa.mp4">
+      </video>
+    </div>
+    <div class="video-container" (click)="playVideo($event, true)" (mouseenter)="playVideo($event)"
+      (mouseleave)="pauseVideo($event)">
+      <video width="300px" [muted]="true">
+        <source  src="assets/Sliders/Videos/Recipe-Payasam.mp4">
+      </video>
+    </div>
+    <div class="video-container" (click)="playVideo($event, true)" (mouseenter)="playVideo($event)"
+      (mouseleave)="pauseVideo($event)">
+      <video width="300px" [muted]="true">
+        <source src="assets/Sliders/Videos/Facts-GramFlour.mp4">
+      </video>
+    </div>
+    <div class="video-container" (click)="playVideo($event, true)" (mouseenter)="playVideo($event)"
+      (mouseleave)="pauseVideo($event)">
+      <video width="300px" [muted]="true">
+        <source src="assets/Sliders/Videos/Facts-UrithDal.mp4">
+      </video>
+    </div>
+  </div>
+  <div *ngIf="ispopup" id="video-popup" class="video-popup">
+    <div class="popup-container">
+      <button mat-raised-button type="button" matTooltip="Remove"
+      class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+      <i class="material-icons" style="margin-top: 0px !important" (click)="togglePopup()">close</i>
+    </button>
+      <video class="sourse-vedio" autoplay loop controls>
+       <source [src]="currentSrc" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <h1 class="bottom">Hover & Play</h1>
+</div>

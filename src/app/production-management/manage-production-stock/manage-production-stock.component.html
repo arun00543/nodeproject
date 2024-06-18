@@ -1,0 +1,93 @@
+<div class="header header-bg-gradient-info pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header card-header-default">
+                    <div class="materialTableHeader">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="d-flex flex-wrap align-content-center card-title">Stock</h4>
+                        </div>
+                        <div>
+                            <input class="form-control" placeholder="Search by Item Name" type="text" #filter
+                                [(ngModel)]="searchTerm" (ngModelChange)="search()"
+                                class="browser-default search-field" aria-label="Search box" />
+
+                            <button mat-fab color="primary" class="download-btn ml-2 mt-2"
+                                [matMenuTriggerFor]="aboveMenu">
+                                <mat-icon>download</mat-icon>
+                            </button>
+                            <mat-menu class="export-option px-1" #aboveMenu="matMenu" yPosition="above">
+                                <button mat-menu-item (click)="pdfExport()">
+                                    <mat-icon class="text-danger">picture_as_pdf</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="exelExport()">
+                                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <mat-table #table id="table" matTableExporter style="min-width: 800px" [dataSource]="dataSource"
+                            matSort #exporter="matTableExporter" [hiddenColumns]="[4]"
+                            (matSortChange)="sortData($event)" class="mat-cell">
+
+                            <ng-container matColumnDef="itemMaster.brand.name">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Brand</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.itemMaster?.brand?.name}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="itemMaster.itemName">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Item Name</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    {{row.itemMaster?.itemName}}</mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="unitOfMeasure.unitName">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">Unit Of Measure</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    <div class="status-label1">
+                                        {{row.unitOfMeasure.unitName}}
+                                    </div>
+                                    </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="inStock">
+                                <mat-header-cell *matHeaderCellDef class="thead-light" mat-sort-header
+                                    style="justify-content: center;">In Stock</mat-header-cell>
+                                <mat-cell *matCellDef="let row" style="justify-content: center;">
+                                    <div class="status-label2">
+                                        {{row.inStock}}</div>
+                                    </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                            <mat-row *matRowDef="let row; columns: displayedColumns">
+                            </mat-row>
+                        </mat-table>
+
+                        <div *ngIf="dataSource?.length == 0" class="no-results">
+                            No results
+                        </div>
+                        <mat-paginator #paginator [length]="data?.totalElements" [pageIndex]="0" [pageSize]="pageSize"
+                            [pageSizeOptions]="[5, 10, 25, 100]" (page)="getPage($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

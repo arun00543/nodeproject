@@ -1,0 +1,139 @@
+.das-card {
+  height: 100px;
+  box-shadow: 4px 4px 4px 6px #00000024;
+}
+
+.custom-col{
+  min-width: 23%;
+  width: fit-content;
+}
+
+.das-card-count-success_s {
+  height: 8px;
+  padding: 2px;
+  border-radius: 50px;
+  color: white;
+  background: #11921ccf;
+}
+
+.das-card-count-primary_s {
+  height: 8px;
+  padding: 2px;
+  border-radius: 50px;
+  color: white;
+  background: rgba(23,15,175,.8117647059);
+}
+
+.das-card-count-warning_s {
+  background: #ff0000cf;
+}
+
+.das-card-label {
+  font-weight: 500;
+  font-size: medium;
+}
+
+.das-card-label-line{
+  width: 100%;
+  margin: 0 2%;
+}
+
+.das-card-count {
+  font-weight: 700;
+  font-size: x-large;
+  // color: white;
+  padding: 2px 5px;
+  border-radius: 10px;
+}
+
+.das-card-header {
+  font-weight: 600;
+}
+
+.count-container {
+  border: 1px #0b2fb5 solid;
+  border-radius: 9px;
+}
+
+.card-footer h4 {
+  font-weight: 600;
+}
+
+.order-list-table-dashboard {
+  width: 100%;
+  text-align: center;
+  font-size: larger;
+}
+
+.order-list-table-dashboard tr {
+  padding: 10px;
+}
+
+.order-list-table-dashboard .border-bottom {
+  border-bottom-style: double;
+}
+
+// table styles
+
+$baseColor: #3468b5;
+$borderRadius: 10px;
+$imageBig: 100px;
+$imageSmall: 60px;
+$padding: 10px;
+
+body {
+  background-color: lighten($baseColor, 30%);
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.header {
+  background-color: darken($baseColor, 5%);
+  color: white;
+  font-size: 1.5em;
+  padding: 5px;
+  align-items: center;
+  text-transform: uppercase;
+  border-radius: 10px 10px 0 0;
+  input {
+    font-size: medium;
+    font-weight: 500;
+    color: #0000008a;
+    border-radius: 10px;
+    border: 0;
+    padding: 8px 8px 8px 25px;
+    width: 230px;
+    margin-top: 5px;
+    background: #ffffff;
+    transition: 0.2s, width 0.2s;
+  }
+}
+
+  table {
+  width: 100%;
+  text-align: center;
+  td,
+  th {
+    color: darken($baseColor, 10%);
+    padding: $padding;
+  }
+
+  td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  th {
+    background-color: lighten($baseColor, 50%);
+  }
+
+  tr {
+    &:nth-child(2n) {
+      background-color: white;
+    }
+    &:nth-child(2n + 1) {
+      background-color: lighten($baseColor, 55%);
+    }
+  }
+}

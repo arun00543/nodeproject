@@ -1,0 +1,173 @@
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <!-- Add  Expense -->
+  </div>
+</div>
+<div class="row d-flex justify-content-end clearfix mx-0">
+  <div class="d-flex gap-5 justify-content-center mx-auto col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="card-header card-header-default">
+        <h4 class="card-title"> {{ dialogTitle }}</h4>
+      </div>
+
+      <div class="body">
+        <form class="register-form m-4" [formGroup]="addExpenseType" (ngSubmit)="onRegister()">
+          <div class="row">
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Select a Employee</mat-label>
+                <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                <mat-icon matSuffix>person</mat-icon>
+                <input type="text" placeholder="Pick Employee" [formControl]="employeeControl"
+                  matInput [matAutocomplete]="employee" required />
+                <mat-autocomplete #employee="matAutocomplete" (optionSelected)="onSelectEmployee($event)"
+                  [displayWith]="displayPropertyEmployee">
+                  <mat-option *ngFor="let option of filteredEmployeeOptions | async" [value]="option">
+                    {{ option.name }} ({{option.phoneNumber}})
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-4 col-lg-4 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" [max]="today" formControlName="date" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="addExpenseType.get('date').hasError('required')">
+                  Date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+              <mat-form-field class="example-full-width mb-3">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" aria-required="true">
+                  <mat-option *ngFor="let option of status" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <mat-form-field class="example-full-width">
+                <mat-label>Notes</mat-label>
+                <textarea maxlength="230" matInput formControlName="notes" required></textarea>
+                <mat-icon matSuffix>note_add</mat-icon>
+                <mat-error *ngIf="addExpenseType.get('notes').hasError('required')">
+                  Notes is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 row">
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Expense Category</mat-label>
+                  <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                  
+                  <input type="text" placeholder="Pick expenseCategory" aria-label="Number"
+                    [formControl]="categoryControl" matInput [matAutocomplete]="expenseCategory" />
+                  <mat-autocomplete #expenseCategory="matAutocomplete" (optionSelected)="onSelect($event)"
+                    [displayWith]="displayProperty">
+                    <mat-option *ngFor="let item of filteredOptions | async" [value]="item">
+                      {{ item.categoryName }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Amount</mat-label>
+                  <input matInput formControlName="amount" onmousewheel="return false;" type="number" min="1">
+                 <span matSuffix>&#8377;</span>
+                  <mat-error *ngIf="addExpenseType.get('amount').hasError('required')">
+                    Amount is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Receipt No</mat-label>
+                  <input matInput formControlName="receiptFile">
+                  <mat-icon matSuffix>receipt</mat-icon>
+                  <mat-error *ngIf="addExpenseType.get('receiptFile').hasError('required')">
+                    Receipt is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                <div style="text-align-last: end">
+                  <button class="btn btn-success" type="button"
+                    [disabled]="!addExpenseType.value.expenseCategory || !addExpenseType.value.amount || !addExpenseType.value.receiptFile"
+                    (click)="addToList()">Add Expenses</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div class="table_list">
+
+                <div class="table-users">
+                  <div class="headers mb-0 py-1">Expenses Items List</div>
+                  <table class="_list-table list">
+                    <thead class="text-primary">
+                      <th>Expenses Category</th>
+                      <th>Amount</th>
+                      <th>Receipt No</th>
+                      <th>Action</th>
+
+                    </thead>
+                    <tr id="no-results" class="mt-3" *ngIf="itemList.length < 1">
+                      <td colspan="4">
+                      <h4 class="my-2">No Records Added !</h4>
+                      </td>
+                  </tr>
+                    <tbody>
+                      <tr class="text-center" *ngFor="let item of itemList">
+                        <td>{{ item.expenseCategory.categoryName }}</td>
+                        <td>{{item.amount | indCurrencyFormat}}</td>
+                        <td>{{item.receiptFile}}</td>
+                        <td class="td-actions">
+                          <button mat-raised-button type="button" matTooltip="Remove"
+                            class="btn btn-outline-danger btn-link btn-sm btn-just-icon">
+                            <i class="material-icons" (click)="removeObject(item)"
+                              style="margin-top: 0px !important">close</i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <!-- <tfoot class="text-center" style="border-top: 1px solid #eee !important">
+                        <th colspan="2"></th>
+                        <th>Total :{{total}}</th>                                
+                    </tfoot> -->
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <button type="button" class="btn btn-primary my-4"
+                [disabled]="!addExpenseType.valid || itemList.length < 1" (click)="onRegister()">
+                {{ buttonTitle }}
+              </button>
+              <button class="btn btn-danger my-4" type="reset" color="warn" (click)="onNoClick()">
+                {{cancelButton}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- #END# Add Machinery -->

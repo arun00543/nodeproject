@@ -1,0 +1,186 @@
+<div class="mb-3">
+  <div class="logo p-0">
+    <a [routerLink]="routeRole" class="simple-text p-0">
+      <img src="/assets/img/logo.png" id="logo-img" alt="logo-img" />
+    </a>
+  </div>
+  <aside class="sidebar-wrapper sidebar-area">
+    <div *ngIf="isMobileMenu()">
+      <ul class="nav navbar-nav nav-mobile-menu">
+        <div class="d-flex flex-wrap justify-content-center" id="google_translate_element"
+          (click)="trans.select($event)"></div>
+        <li *ngIf="userRole === 'ADMIN' || userRole === 'SUPER_ADMIN'" class="nav-item dropdown">
+          <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" routerLink="/administrative/failed-notification">
+            <i class="fa fa-bell d-flex text-primary" aria-hidden="true">
+              <i class="fa fa-exclamation" style="position: absolute;margin: 1px -3px;font-size: small;color:#ffffff;"
+                aria-hidden="true">
+              </i>
+            </i>
+            <span class="notification"
+              *ngIf="notification_important.length > 0">{{notification_important.length}}</span>
+            <p>
+              <span class="d-lg-none d-md-block">Failed Notifications</span>
+            </p>
+          </a>
+
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-bell" style="color:#162e94;" aria-hidden="true"></i>
+            <span class="notification" *ngIf="notification.length > 0">{{notification.length}}</span>
+            <p>
+              <span class="d-lg-none d-md-block">Notifications</span>
+            </p>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" id="notification" aria-labelledby="navbarDropdownMenuLink">
+            <div class="notify-border mx-3  d-flex justify-content-end">
+              <h6 class="text-bold m-2 d-flex nav-user-notification">Notifications</h6>
+              <button mat-raised-button type="button" class="btn btn-link btn-sm btn-just-icon mr-3">
+                <i class="material-icons" (click)="$event.stopPropagation()" (click)="getData()">refresh</i>
+              </button>
+            </div>
+            <h6 class="text-bold m-2 d-flex justify-content-center" *ngIf="notification.length === 0">No Notifications
+            </h6>
+            <a class="dropdown-item" *ngFor="let item of notification" (click)="showDetails(item)">
+              {{item.customer ? item.customer.name : ""}} ({{item.orderId}}) {{item.customer ? "" : item.dateTime}}
+            </a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)" id="navbarDropdownProfileMenu" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user ml-2" aria-hidden="true"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Account</span>
+            </p>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfileMenu">
+            <a *ngIf="userRole === 'CUSTOMER'" class="dropdown-item" routerLink="/user/user-profile">My profile</a>
+            <a *ngIf="userRole === 'CUSTOMER'" class="dropdown-item" routerLink="/order&cart/my-orders">My Orders</a>
+            <!-- <a class="dropdown-item" href="javascript:void(0)">Support</a> -->
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <mat-nav-list #menu1 *ngIf="!trans.lang === true" class="nav">
+      <mat-list-item [routerLink]="routeRole" [ngClass]="routeRole != activeRoute ? '' : 'isActive'"
+        (click)="clear(routeRole)">
+        <i class="fa fa-braille" aria-hidden="true"></i> <span class="button-title text-uppercase">Dashboard</span>
+      </mat-list-item>
+      <mat-list-item *ngIf="userRole === 'CUSTOMER'" routerLink="/order&cart/products-list"
+        [ngClass]="'/order&cart/products-list' != activeRoute ? '' : 'isActive'"
+        (click)="clear('/order&cart/products-list')">
+        <i class="fa fa-shopping-bag" aria-hidden="true"></i> <span class="button-title text-uppercase">Place
+          Order</span>
+      </mat-list-item>
+      <mat-list-item *ngIf="userRole != 'CUSTOMER'" routerLink="/order&cart/admin-cart"
+        [ngClass]="'/order&cart/admin-cart' != activeRoute ? '' : 'isActive'" (click)="clear('/order&cart/admin-cart')">
+        <i class="fa fa-shopping-bag" aria-hidden="true"></i> <span class="button-title text-uppercase">Place
+          Order</span>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="userRole != 'CUSTOMER' && userRole != 'EMPLOYEE'" routerLink="/administrative/notification"
+        [ngClass]="'/administrative/notification' != activeRoute ? '' : 'isActive'"
+        (click)="clear('/administrative/notification')">
+        <i class="fa fa-bell" aria-hidden="true"></i> <span class="button-title text-uppercase">Notification</span>
+      </mat-list-item>
+    </mat-nav-list>
+
+
+
+
+    <mat-nav-list #menu1 *ngIf="trans.lang === true" class="nav">
+      <mat-list-item [routerLink]="routeRole" [ngClass]="routeRole != activeRoute ? '' : 'isActive'"
+        (click)="clear(routeRole)">
+        <i class="fa fa-braille" aria-hidden="true"></i> <span class="button-title text-uppercase" style="display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;">
+          &#x202e;Dashboard</span>
+      </mat-list-item>
+      <mat-list-item *ngIf="userRole === 'CUSTOMER'" routerLink="/order&cart/products-list"
+        [ngClass]="'/order&cart/products-list' != activeRoute ? '' : 'isActive'"
+        (click)="clear('/order&cart/products-list')">
+        <i class="fa fa-shopping-bag" aria-hidden="true"></i> <span class="button-title text-uppercase" style="display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;">&#x202e;Place
+          Order</span>
+      </mat-list-item>
+      <mat-list-item *ngIf="userRole != 'CUSTOMER'" routerLink="/order&cart/admin-cart"
+        [ngClass]="'/order&cart/admin-cart' != activeRoute ? '' : 'isActive'" (click)="clear('/order&cart/admin-cart')">
+        <i class="fa fa-shopping-bag" aria-hidden="true"></i> <span class="button-title text-uppercase" style="display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;">&#x202e;Place
+          Order</span>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="userRole != 'CUSTOMER' && userRole != 'EMPLOYEE'"
+        routerLink="/administrative/notification"
+        [ngClass]="'/administrative/notification' != activeRoute ? '' : 'isActive'"
+        (click)="clear('/administrative/notification')">
+        <i class="fa fa-bell" aria-hidden="true"></i> <span
+          class="button-title text-uppercase" style="display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;">&#x202e;Notification</span>
+      </mat-list-item>
+    </mat-nav-list>
+
+
+
+    <mat-accordion class="nav mt-0 sidebar-accordion">
+      <!-- Top Most level menu   [routerLinkActive]="sidebarItem.submenu.length != 0 ? 'active' : ''" -->
+      <mat-expansion-panel #menu2 [class.mat-elevation-z0]="true" *ngFor="let sidebarItem of sidebarItems"
+        [routerLinkActive]="sidebarItem.submenu.length != 0 ? 'active' : ''"
+        [class.active]="menu2?.id === activeRouteContainer1">
+        <div class="header" *ngIf="sidebarItem.groupTitle === true && trans.lang === false">{{sidebarItem.title}}
+        </div>
+        <div class="header " style="margin-right: 8px;display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;overflow: hidden;" *ngIf="sidebarItem.groupTitle === true && trans.lang === true">
+         {{sidebarItem.title}}</div>
+        <mat-expansion-panel-header *ngIf="!sidebarItem.groupTitle;" [ngClass]="[sidebarItem.class]"
+          routerLinkActive="active">
+          <i class={{sidebarItem.icon}} aria-hidden="true"></i>
+          <span *ngIf="trans.lang === false" class="hide-menu text-uppercase mt-1">{{sidebarItem.title}}</span>
+          <span *ngIf="trans.lang === true"
+            class="hide-menu  text-uppercase mt-1" style="margin-right: 8px;display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;overflow: hidden;">{{sidebarItem.title}}</span>
+        </mat-expansion-panel-header>
+        <!-- First level menu -->
+        <mat-nav-list *ngIf="sidebarItem.submenu.length > 0"
+          >
+          <div *ngFor="let sidebarSubItem1 of sidebarItem.submenu">
+            <a *ngIf="sidebarSubItem1.submenu.length === 0" mat-list-item
+              [routerLink]="sidebarSubItem1.submenu.length > 0 ? null : [sidebarSubItem1.path]"
+              [ngClass]="[sidebarSubItem1.class]+ sidebarSubItem1.path === activeRoute || getActive(sidebarSubItem1, menu2) ? 'isActive' : ''"
+              class="submenus" [style]="sidebarSubItem1.hide ? 'display: none;' : ''">
+              <span class="mt-1" *ngIf="trans.lang === false">{{sidebarSubItem1.title}}</span>
+              <span clas="mt-1" style="margin-right: 8px;display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;overflow: hidden;" *ngIf="trans.lang === true">{{sidebarSubItem1.title}}</span>
+            </a>
+
+            <div *ngIf="sidebarSubItem1.submenu.length > 0">
+              <mat-expansion-panel #menu3 [class.mat-elevation-z0]="true"
+                [routerLinkActive]="sidebarSubItem1.submenu.length !=0 ? 'active' : ''"
+                [class.active]="menu3?.id === activeRouteContainer2">
+                <div class="header" *ngIf="sidebarSubItem1.groupTitle === true && trans.lang === false">
+                  {{sidebarSubItem1.title}}</div>
+                <div class="header " style="margin-right: 8px;display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;overflow: hidden;" *ngIf="sidebarSubItem1.groupTitle === true && trans.lang === true">
+                 {{sidebarSubItem1.title}}</div>
+                <mat-expansion-panel-header *ngIf="!sidebarSubItem1.groupTitle;" [ngClass]="[sidebarSubItem1.class]"
+                  routerLinkActive="active">
+                  <span *ngIf="trans.lang === false"
+                    class="hide-menu text-dark text-uppercase px-0 mt-1">{{sidebarSubItem1.title}}</span>
+                  <span *ngIf="trans.lang === true" style="margin-right: 8px;display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;overflow: hidden;"
+                    class="hide-menu  text-dark text-uppercase px-0 mt-1">{{sidebarSubItem1.title}}</span>
+                </mat-expansion-panel-header>
+                <!-- Second level menu -->
+                <mat-nav-list *ngIf="sidebarSubItem1.submenu.length > 0" >
+                  <div *ngFor="let sidebarSubItem2 of sidebarSubItem1.submenu">
+                    <a *ngIf="sidebarSubItem2.submenu.length === 0" mat-list-item
+                      [routerLink]="sidebarSubItem2.submenu.length > 0 ? null : [sidebarSubItem2.path]"
+                      [ngClass]="[sidebarSubItem2.class]+ sidebarSubItem2.path === activeRoute || getActive(sidebarSubItem2, menu2, menu3) ? 'isActive' : ''"
+                      class="submenus">
+                      <span class="mt-1" *ngIf="trans.lang === false">{{sidebarSubItem2.title}}</span>
+                      <span class="mt-1" style="margin-right: 8px;display: flex;flex: 1;flex-direction: row-reverse !important;direction:ltr;overflow: hidden;" *ngIf="trans.lang === true">{{sidebarSubItem2.title}}</span>
+                    </a>
+                  </div>
+                </mat-nav-list>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </aside>
+</div>
