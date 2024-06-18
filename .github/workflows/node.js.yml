@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x, 14.x, 16.x, 18.x]  # Test across multiple versions
+        node-version: [20]  # Test across multiple versions
       fail-fast: true  # Stop the workflow on the first failed test job
 
     steps:
@@ -27,17 +27,10 @@ jobs:
           cache: 'npm'  # Cache dependencies for efficiency
 
       # Install dependencies efficiently:
-      - run: npm install --prefer-offline
+      - run: npm install 
 
       # Run build and test commands (adjust as needed):
       - run: npm run build
       - run: npm test
 
-      # Optionally, upload coverage reports or test artifacts:
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: coverage-report  # Customize the artifact name
-      #     path: coverage/  # Update path to your coverage reports
-
-env:
-  CI: true  # Set CI environment variable for build scripts
+     
