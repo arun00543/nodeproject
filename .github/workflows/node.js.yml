@@ -1,6 +1,5 @@
 # This workflow efficiently builds and tests your Node.js code across multiple versions.
 # For more information on GitHub Actions for Node.js: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Build and Test
 
 on:
@@ -25,7 +24,11 @@ jobs:
           cache: 'npm'  # Cache dependencies for efficiency
 
       # Install dependencies efficiently:
-      - run: npm install 
+      - name:
+         run:|
+             npm cache clean
+             npm install
+      
 
       # Run build and test commands (adjust as needed):
       - run: npm run build
