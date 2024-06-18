@@ -12,26 +12,11 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20]  # Test across multiple versions
+     
     steps:
       - uses: actions/checkout@v3  # Fetch code from repository (using recommended v3)
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3  # Install the specific Node.js version (using recommended v3)
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'  # Cache dependencies for efficiency
-
-      # Install dependencies efficiently:
-      - name:
-         run:|
-             npm cache clean
-             npm install
-      
-
-      # Run build and test commands (adjust as needed):
+          node-version: 20
+      - run: npm install
       - run: npm run build
-   
-
-     
